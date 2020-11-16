@@ -1,3 +1,4 @@
+import { motion } from "framer-motion";
 import * as React from "react";
 import { useQuery } from "react-query";
 import { getRecentTracks } from "../libs/queries";
@@ -9,6 +10,15 @@ import { Text } from "../libs/ui/Text";
 import { defaultTheme } from "../libs/ui/theme";
 import { Track } from "../libs/ui/Track";
 import { VerticalStack } from "../libs/ui/VerticalStack";
+
+const variants = {
+  hidden: {
+    opacity: 0,
+  },
+  shown: {
+    opacity: 1,
+  },
+};
 
 const MusicPage: React.FC = () => {
   const [limit, setLimit] = React.useState(10);
@@ -42,7 +52,23 @@ const MusicPage: React.FC = () => {
           >
             {recentTracks.items.map((item, idx) => {
               const { track } = item;
-              return <Track key={`${idx}-${track.id}`} {...item} />;
+              return (
+                <motion.div
+                  key={`${idx}-${track.id}`}
+                  initial="hidden"
+                  animate="shown"
+                  variants={variants}
+                  transition={{
+                    delay: idx * 0.2,
+                  }}
+                >
+                  <Track
+                    index={idx}
+                    totalTracks={recentTracks.items.length}
+                    {...item}
+                  />
+                </motion.div>
+              );
             })}
           </Grid>
         )}

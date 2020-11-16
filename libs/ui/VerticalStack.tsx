@@ -1,4 +1,9 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
+import { defaultTheme } from "./theme";
+
+interface Props {
+  space: number;
+}
 
 export const VerticalStack = styled.div<Props>`
   display: flex;
@@ -9,6 +14,8 @@ export const VerticalStack = styled.div<Props>`
   }
 `;
 
-interface Props {
-  space: number;
-}
+export const verticalStack = (space: number) => css`
+  & > * + * {
+    margin-left: ${defaultTheme.spacing[space]};
+  }
+`;
