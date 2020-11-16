@@ -1,6 +1,7 @@
 import App from "next/app";
 import * as React from "react";
 import { createGlobalStyle, ThemeProvider } from "styled-components";
+import { PlayPreviewProvider } from "../libs/context/PlayPreviewContext";
 import { defaultTheme } from "../libs/ui/theme";
 
 const GlobalStyle = createGlobalStyle`
@@ -76,7 +77,9 @@ class MyApp extends App {
       <>
         <ThemeProvider theme={defaultTheme}>
           <GlobalStyle />
-          <Component {...pageProps} />
+          <PlayPreviewProvider>
+            <Component {...pageProps} />
+          </PlayPreviewProvider>
         </ThemeProvider>
       </>
     );

@@ -1,7 +1,9 @@
 import * as React from "react";
+import { usePlayPreview } from "../context/PlayPreviewContext";
 import { Record } from "./Record";
 import { Text } from "./Text";
 import { defaultTheme } from "./theme";
+import useAudio from "./useAudio";
 
 interface Props extends SpotifyApi.PlayHistoryObject {
   index: number;
@@ -9,10 +11,16 @@ interface Props extends SpotifyApi.PlayHistoryObject {
 }
 
 export const Track: React.FC<Props> = (props) => {
+  const { track } = props;
+
   const ref = React.useRef<HTMLAnchorElement | null>(null);
   const [hovered, setHover] = React.useState(false);
+  const [audio, , controls] = useAudio({
+    src: track.preview_url ?? "",
+    autoPlay: false,
+  });
 
-  const { track } = props;
+  const { preview } = usePlayPreview();
 
   const { album, external_urls } = track as SpotifyApi.TrackObjectFull;
   const [artist] = track.artists;
@@ -30,8 +38,14 @@ export const Track: React.FC<Props> = (props) => {
       style={{
         position: "relative",
       }}
-      onMouseEnter={() => setHover(true)}
-      onMouseLeave={() => setHover(false)}
+      onMouseEnter={() => {
+        setHover(true);
+        !!preview && controls.play();
+      }}
+      onMouseLeave={() => {
+        setHover(false);
+        !!preview && controls.pause();
+      }}
     >
       <Record
         loading="lazy"
@@ -40,7 +54,7 @@ export const Track: React.FC<Props> = (props) => {
         width={125}
         alt={`${artist.name} - ${song} album image`}
       />
-
+      {audio}
       {!!hovered && rect && (
         <div
           css={`

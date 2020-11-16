@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import * as React from "react";
 import { useQuery } from "react-query";
+import { usePlayPreview } from "../libs/context/PlayPreviewContext";
 import { getRecentTracks } from "../libs/queries";
 import { Grid } from "../libs/ui/Grid";
 import { HorizontalStack } from "../libs/ui/HorizontalStack";
@@ -23,6 +24,8 @@ const variants = {
 const MusicPage: React.FC = () => {
   const [limit, setLimit] = React.useState(10);
 
+  const { preview, toggle } = usePlayPreview();
+
   const { data: recentTracks, status } = useQuery(
     ["recent", limit],
     getRecentTracks
@@ -31,17 +34,31 @@ const MusicPage: React.FC = () => {
   return (
     <StandardLayout title="Dai - Music">
       <VerticalStack space={3}>
-        <HorizontalStack space={1} style={{ alignSelf: "flex-end" }}>
-          <Text color="muted">Limit: </Text>
-          <button onClick={() => setLimit(10)}>
-            <Text>10</Text>
-          </button>
-          <button onClick={() => setLimit(25)}>
-            <Text>25</Text>
-          </button>
-          <button onClick={() => setLimit(50)}>
-            <Text>50</Text>
-          </button>
+        <HorizontalStack space={3} style={{ alignSelf: "flex-end" }}>
+          <HorizontalStack space={1} style={{ alignItems: "center" }}>
+            <label htmlFor="enableTrackPreview">
+              <Text color="muted">Track preview</Text>
+            </label>
+            <input
+              id="enableTrackPreview"
+              name="enableTrackPreview"
+              type="checkbox"
+              checked={!!preview}
+              onChange={toggle}
+            />
+          </HorizontalStack>
+          <HorizontalStack space={1} style={{ alignItems: "center" }}>
+            <Text color="muted">Limit: </Text>
+            <button onClick={() => setLimit(10)}>
+              <Text>10</Text>
+            </button>
+            <button onClick={() => setLimit(25)}>
+              <Text>25</Text>
+            </button>
+            <button onClick={() => setLimit(50)}>
+              <Text>50</Text>
+            </button>
+          </HorizontalStack>
         </HorizontalStack>
         {status === "success" && recentTracks && (
           <Grid
