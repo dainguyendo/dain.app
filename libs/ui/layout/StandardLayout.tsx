@@ -2,6 +2,7 @@ import Head from "next/head";
 import Link from "next/link";
 import * as React from "react";
 import styled from "styled-components";
+import { horizontalStack } from "../HorizontalStack";
 
 interface Props {
   title?: string;
@@ -33,7 +34,11 @@ export const StandardLayout: React.FC<Props> = ({ children, title = "" }) => {
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
       <header>
-        <nav>
+        <nav
+          css={`
+            ${horizontalStack(2)}
+          `}
+        >
           <Link href="/">
             <a>Home</a>
           </Link>

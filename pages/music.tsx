@@ -35,21 +35,11 @@ const MusicPage: React.FC = () => {
         </HorizontalStack>
         {status === "success" && recentTracks && (
           <Grid
+            id="tracksGrid"
+            gap={defaultTheme.spacing[3]}
             gridTemplateColumns="repeat(3, 1fr)"
-            gap={defaultTheme.spacing[2]}
+            placeItems="center"
           >
-            <Text
-              fontSize={2}
-              lineHeight="heading"
-              fontWeight="bold"
-              style={{
-                gridColumn: "1 / 3",
-                gridRow: "1 / 3",
-                placeSelf: "center",
-              }}
-            >
-              Recent tracks on Spotify:
-            </Text>
             {recentTracks.items.map((item, idx) => {
               const { track } = item;
               return <Track key={`${idx}-${track.id}`} {...item} />;
