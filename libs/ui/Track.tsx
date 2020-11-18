@@ -5,6 +5,7 @@ import { Record } from "./Record";
 import { Text } from "./Text";
 import { defaultTheme } from "./theme";
 import useAudio from "./useAudio";
+import { VisuallyHidden } from "./VisuallyHidden";
 
 interface Props extends SpotifyApi.PlayHistoryObject {
   index: number;
@@ -44,6 +45,7 @@ export const Track: React.FC<Props> = (props) => {
         !!preview && controls.pause();
       }}
     >
+      <VisuallyHidden>{`${song} by ${artist.name}`}</VisuallyHidden>
       <Record
         loading="lazy"
         src={medAlbumImage.url}
@@ -68,6 +70,7 @@ export const Track: React.FC<Props> = (props) => {
             border-radius: 0 0 25% 25%;
             overflow: hidden;
             padding: ${defaultTheme.spacing[1]};
+            pointer-events: none;
             position: absolute;
 
             top: 55%;
