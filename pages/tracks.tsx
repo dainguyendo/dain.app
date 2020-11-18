@@ -10,7 +10,6 @@ import { Grid } from "../libs/ui/Grid";
 import { HorizontalStack } from "../libs/ui/HorizontalStack";
 import { StandardLayout } from "../libs/ui/layout/StandardLayout";
 import { LoadingSphere } from "../libs/ui/LoadingSphere";
-import { Pulse } from "../libs/ui/Pulse";
 import { Text } from "../libs/ui/Text";
 import { defaultTheme } from "../libs/ui/theme";
 import { Track } from "../libs/ui/Track";
