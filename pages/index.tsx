@@ -1,7 +1,8 @@
 import Image from "next/image";
 import styled from "styled-components";
+import { Grid } from "../libs/ui/Grid";
 import { StandardLayout } from "../libs/ui/layout/StandardLayout";
-import { Row } from "../libs/ui/Row";
+import { Text } from "../libs/ui/Text";
 import { VerticalStack } from "../libs/ui/VerticalStack";
 
 const ProfileImage = styled(Image)`
@@ -10,19 +11,20 @@ const ProfileImage = styled(Image)`
 
 const IndexPage = () => {
   return (
-    <StandardLayout title="Home | Next.js + TypeScript Example">
-      <Row alignItems="center" justifyContent="center">
+    <StandardLayout title="Dai - Home">
+      <Grid gridTemplateColumns="1fr 2fr">
         <ProfileImage
           src="/me.png"
           alt="Dai Nguyendo"
-          width={300}
-          height={200}
+          width={225}
+          height={150}
         />
-        <VerticalStack space={3}>
-          <h1>Hi, I'm Dai N.</h1>
-          <p>Currently residing in Queens, New York City.</p>
+        <VerticalStack space={1} style={{ justifyContent: "center" }}>
+          <Text fontSize={2} fontWeight="bold">
+            ¯\_(ツ)_/¯
+          </Text>
         </VerticalStack>
-      </Row>
+      </Grid>
     </StandardLayout>
   );
 };

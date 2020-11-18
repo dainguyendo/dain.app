@@ -1,8 +1,8 @@
 import Head from "next/head";
-import Link from "next/link";
 import * as React from "react";
 import styled from "styled-components";
-import { horizontalStack } from "../HorizontalStack";
+import { Footer } from "./Footer";
+import { Header } from "./Header";
 
 interface Props {
   title?: string;
@@ -10,6 +10,8 @@ interface Props {
 
 const Grid = styled.main`
   display: grid;
+  padding: 0 ${(props) => props.theme.spacing[2]};
+
   grid-template-columns:
     1fr
     min(65ch, 100%)
@@ -23,6 +25,10 @@ const Grid = styled.main`
     width: 100%;
     grid-column: 1 / 4;
   }
+
+  @media (min-width: ${(props) => props.theme.breakpoints[0]}) {
+    padding: 0;
+  }
 `;
 
 export const StandardLayout: React.FC<Props> = ({ children, title = "" }) => {
@@ -33,25 +39,9 @@ export const StandardLayout: React.FC<Props> = ({ children, title = "" }) => {
         <meta charSet="utf-8" />
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
-      <header>
-        <nav
-          css={`
-            ${horizontalStack(2)}
-          `}
-        >
-          <Link href="/">
-            <a>Home</a>
-          </Link>
-          <Link href="/music">
-            <a>Music</a>
-          </Link>
-        </nav>
-      </header>
+      <Header />
       {children}
-      <footer>
-        <hr />
-        <span>I'm here to stay (Footer)</span>
-      </footer>
+      <Footer />
     </Grid>
   );
 };

@@ -11,7 +11,10 @@ interface Props {
 export const Text = styled.span<Props>`
   color: ${(props) =>
     props.color ? props.theme.colors[props.color] : props.theme.colors.text};
-  font-family: ${(props) => props.fontFamily ?? props.theme.fonts.body};
+  font-family: ${(props) =>
+    props.fontFamily
+      ? props.theme.fonts[props.fontFamily]
+      : props.theme.fonts.body};
   font-size: ${(props) =>
     props.fontSize
       ? props.theme.fontSizes[props.fontSize]

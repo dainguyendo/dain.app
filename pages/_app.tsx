@@ -2,6 +2,7 @@ import App from "next/app";
 import * as React from "react";
 import { createGlobalStyle, ThemeProvider } from "styled-components";
 import { PlayPreviewProvider } from "../libs/context/PlayPreviewContext";
+import { SelectedTrackProvider } from "../libs/context/SelectedTrackContext";
 import { defaultTheme } from "../libs/ui/theme";
 
 const GlobalStyle = createGlobalStyle`
@@ -10,9 +11,6 @@ const GlobalStyle = createGlobalStyle`
     padding: 0;
     color: ${(props) => props.theme.colors.text};
     font-family: ${(props) => props.theme.fonts.body};
-    line-height: ${(props) => props.theme.lineHeights.body};
-    font-weight: ${(props) => props.theme.fontWeights.body};
-    font-size: ${(props) => props.theme.fontSizes[0]};
   }
   h1 {
     color: ${(props) => props.theme.colors.text};
@@ -68,6 +66,9 @@ const GlobalStyle = createGlobalStyle`
     font-family: ${(props) => props.theme.fonts.body};
     font-weight: ${(props) => props.theme.fontWeights.body};
   }
+  pre {
+    font-family: ${(props) => props.theme.fonts.monospace};
+  }
 `;
 
 class MyApp extends App {
@@ -78,7 +79,9 @@ class MyApp extends App {
         <ThemeProvider theme={defaultTheme}>
           <GlobalStyle />
           <PlayPreviewProvider>
-            <Component {...pageProps} />
+            <SelectedTrackProvider>
+              <Component {...pageProps} />
+            </SelectedTrackProvider>
           </PlayPreviewProvider>
         </ThemeProvider>
       </>

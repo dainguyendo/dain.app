@@ -1,3 +1,4 @@
+import { motion } from "framer-motion";
 import * as React from "react";
 import { usePlayPreview } from "../context/PlayPreviewContext";
 import { Record } from "./Record";
@@ -27,7 +28,6 @@ export const Track: React.FC<Props> = (props) => {
   const song = track.name;
 
   const medAlbumImage = album.images[album.images.length - 2];
-
   const rect = ref.current?.getBoundingClientRect();
 
   return (
@@ -35,9 +35,6 @@ export const Track: React.FC<Props> = (props) => {
       ref={ref}
       href={external_urls.spotify}
       target="_blank"
-      style={{
-        position: "relative",
-      }}
       onMouseEnter={() => {
         setHover(true);
         !!preview && controls.play();
@@ -55,55 +52,56 @@ export const Track: React.FC<Props> = (props) => {
         alt={`${artist.name} - ${song} album image`}
       />
       {audio}
-      {!!hovered && rect && (
-        <div
+      {hovered && rect && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ when: "afterChildren" }}
           css={`
-            align-items: center;
-            background-color: rgba(255, 255, 255, 0.65);
-            backdrop-filter: blur(1.5rem);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            padding: ${defaultTheme.spacing[2]} ${defaultTheme.spacing[3]};
+            background: linear-gradient(
+              0deg,
+              rgba(255, 255, 255, 0) 0%,
+              rgba(255, 255, 255, 0.75) 100%
+            );
+
+            backdrop-filter: blur(4px);
+            border-radius: 0 0 25% 25%;
+            overflow: hidden;
+            padding: ${defaultTheme.spacing[1]};
             position: absolute;
 
-            ${deriveYPOsition(rect, props.index, props.totalTracks)};
-            ${deriveXPosition(rect, props.index)}
+            top: 55%;
+            left: 0;
 
-            height: ${rect.height - 16}px;
-            width: ${rect.width * 2 + 36}px;
-            z-index: 2;
+            height: ${rect.height / 2}px;
+            width: ${rect.width - 8}px;
+            z-index: 1;
           `}
         >
-          <Text fontSize={1} fontWeight="bold">
-            {song}
-          </Text>
-          <Text>{artist.name}</Text>
-        </div>
+          <motion.div
+            css={`
+              display: flex;
+              flex-direction: column;
+              text-overflow: ellipsis;
+              white-space: nowrap;
+            `}
+            initial={{
+              x: "100%",
+            }}
+            animate={{
+              x: "-100%",
+            }}
+            transition={{
+              duration: 5,
+              ease: "linear",
+              repeat: Infinity,
+            }}
+          >
+            <Text fontWeight="bold">{song}</Text>
+            <Text>{artist.name}</Text>
+          </motion.div>
+        </motion.div>
       )}
     </a>
   );
 };
-
-function deriveYPOsition(rect: DOMRect, index: number, length: number): string {
-  if (index % 3 === 1) {
-    if (index >= length - 3) {
-      return `bottom: ${16}px`;
-    }
-    return `top: ${rect.height + 16}px`;
-  }
-
-  return `top: 0;`;
-}
-
-function deriveXPosition(rect: DOMRect, index: number): string {
-  switch (index % 3) {
-    case 0:
-      return `left: ${rect.width + 56}px;`;
-    case 1:
-      return `left: 0;`;
-    case 2:
-    default:
-      return `right: ${56}px;`;
-  }
-}

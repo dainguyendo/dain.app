@@ -1,6 +1,7 @@
 import { DefaultTheme } from "styled-components";
 
 export const defaultTheme: DefaultTheme = {
+  breakpoints: ["650px"],
   colors: {
     text: "hsl(0,0%,15.69%)",
     background: "hsl(0,0%,93.33%)",
@@ -11,7 +12,7 @@ export const defaultTheme: DefaultTheme = {
   fonts: {
     body: "'Lato', sans-serif",
     heading: "'Roboto', sans-serif",
-    monospace: "",
+    monospace: "'Roboto Mono', monospace",
   },
   fontSizes: [
     "14px",

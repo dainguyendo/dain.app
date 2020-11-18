@@ -28,22 +28,3 @@ export const PlayPreviewProvider: React.FC = ({ children }) => {
 };
 
 export const usePlayPreview = () => React.useContext(PlayPreviewContext);
-
-// export const UserContext = createContext();
-// const UserContextProvider = (props) => {
-//   const [ user, setUser ] = useState({});
-//   const storeUser = user => {
-//       setUser({
-//         userName: user.userName,
-//       })
-//   }
-//   const logout = () => {
-//     setUser({});
-//   }
-//   return (
-//     <UserContext.Provider value={{ user,  storeUser }}>
-//       {props.children}
-//     </UserContext.Provider>
-//   )
-// }
-// export default UserContextProvider;
