@@ -1,8 +1,8 @@
+import { AnimateSharedLayout } from "framer-motion";
 import App from "next/app";
 import * as React from "react";
 import { createGlobalStyle, ThemeProvider } from "styled-components";
 import { PlayPreviewProvider } from "../providers/PlayPreviewContext";
-import { SelectedTrackProvider } from "../providers/SelectedTrackContext";
 import { defaultTheme } from "../theme";
 
 const GlobalStyle = createGlobalStyle`
@@ -79,9 +79,9 @@ class MyApp extends App {
         <ThemeProvider theme={defaultTheme}>
           <GlobalStyle />
           <PlayPreviewProvider>
-            <SelectedTrackProvider>
+            <AnimateSharedLayout>
               <Component {...pageProps} />
-            </SelectedTrackProvider>
+            </AnimateSharedLayout>
           </PlayPreviewProvider>
         </ThemeProvider>
       </>

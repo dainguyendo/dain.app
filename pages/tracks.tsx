@@ -1,9 +1,8 @@
-import { AnimateSharedLayout, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import * as React from "react";
 import { useQuery } from "react-query";
 import { StandardLayout } from "../layout/StandardLayout";
 import { usePlayPreview } from "../providers/PlayPreviewContext";
-import { useSelectedTrack } from "../providers/SelectedTrackContext";
 import { getRecentTracksQuery } from "../spotify/getRecentTracksQuery";
 import { defaultTheme } from "../theme";
 import { Button } from "../ui/Button";
@@ -29,7 +28,6 @@ export default function Tracks() {
   const [limit, setLimit] = React.useState(10);
   const { isAbove650 } = useResponsiveScreen();
   const { preview, toggle } = usePlayPreview();
-  const { select } = useSelectedTrack();
 
   const { data: recentTracks, status } = useQuery(
     ["recent", limit],
@@ -79,47 +77,39 @@ export default function Tracks() {
         </HorizontalStack>
 
         {status === "success" && recentTracks && (
-          <AnimateSharedLayout>
-            <Grid
-              id="tracksGrid"
-              layout={true}
-              gap={defaultTheme.spacing[3]}
-              gridTemplateColumns={
-                isAbove650 ? "repeat(3, 1fr)" : "repeat(2, 1fr)"
-              }
-              placeItems="center"
-            >
-              {recentTracks.items.map((item, idx) => {
-                const { track } = item;
-                return (
-                  <motion.div
-                    key={`${idx}-${track.id}`}
-                    initial="hidden"
-                    animate="shown"
-                    variants={variants}
-                    transition={{
-                      delay: idx * 0.2,
-                    }}
-                    onMouseEnter={() => {
-                      select(idx);
-                    }}
-                    onMouseLeave={() => {
-                      select(null);
-                    }}
-                    style={{
-                      position: "relative",
-                    }}
-                  >
-                    <Track
-                      index={idx}
-                      totalTracks={recentTracks.items.length}
-                      {...item}
-                    />
-                  </motion.div>
-                );
-              })}
-            </Grid>
-          </AnimateSharedLayout>
+          <Grid
+            id="tracksGrid"
+            layout={true}
+            gap={defaultTheme.spacing[3]}
+            gridTemplateColumns={
+              isAbove650 ? "repeat(3, 1fr)" : "repeat(2, 1fr)"
+            }
+            placeItems="center"
+          >
+            {recentTracks.items.map((item, idx) => {
+              const { track } = item;
+              return (
+                <motion.div
+                  key={`${idx}-${track.id}`}
+                  initial="hidden"
+                  animate="shown"
+                  variants={variants}
+                  transition={{
+                    delay: idx * 0.2,
+                  }}
+                  style={{
+                    position: "relative",
+                  }}
+                >
+                  <Track
+                    index={idx}
+                    totalTracks={recentTracks.items.length}
+                    {...item}
+                  />
+                </motion.div>
+              );
+            })}
+          </Grid>
         )}
         {status === "loading" && <LoadingSphere />}
         {status === "error" && <Error />}
