@@ -1,8 +1,8 @@
 import { motion } from "framer-motion";
 import * as React from "react";
-import { StandardLayout } from "../libs/ui/layout/StandardLayout";
-import { Text } from "../libs/ui/Text";
-import { VerticalStack } from "../libs/ui/VerticalStack";
+import { StandardLayout } from "../layout/StandardLayout";
+import { Text } from "../ui/Text";
+import { VerticalStack } from "../ui/VerticalStack";
 
 const Custom404: React.FC = () => {
   return (

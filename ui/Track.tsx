@@ -1,9 +1,9 @@
 import { motion } from "framer-motion";
 import * as React from "react";
-import { usePlayPreview } from "../context/PlayPreviewContext";
+import { usePlayPreview } from "../providers/PlayPreviewContext";
 import { Record } from "./Record";
 import { Text } from "./Text";
-import { defaultTheme } from "./theme";
+import { defaultTheme } from "../theme";
 import useAudio from "./useAudio";
 import { VisuallyHidden } from "./VisuallyHidden";
 

@@ -1,8 +1,8 @@
 import Link from "next/link";
 import * as React from "react";
 import styled from "styled-components";
-import { horizontalStack } from "../HorizontalStack";
-import { Text } from "../Text";
+import { horizontalStack } from "../ui/HorizontalStack";
+import { Text } from "../ui/Text";
 
 const HeaderContainer = styled.header`
   display: flex;

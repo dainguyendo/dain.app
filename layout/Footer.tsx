@@ -1,8 +1,8 @@
+import { CameraIcon, GitHubLogoIcon, ReaderIcon } from "@modulz/radix-icons";
 import * as React from "react";
 import styled from "styled-components";
-import { GitHubLogoIcon, ReaderIcon, CameraIcon } from "@modulz/radix-icons";
-import { Text } from "../Text";
-import { HorizontalStack } from "../HorizontalStack";
+import { HorizontalStack } from "../ui/HorizontalStack";
+import { Text } from "../ui/Text";
 
 const FooterContainer = styled.footer`
   margin: ${(props) => props.theme.spacing[4]} 0;

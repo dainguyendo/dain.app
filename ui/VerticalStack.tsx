@@ -1,5 +1,5 @@
 import styled, { css } from "styled-components";
-import { defaultTheme } from "./theme";
+import { defaultTheme } from "../theme";
 
 interface Props {
   space: number;

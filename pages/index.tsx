@@ -1,15 +1,15 @@
 import Image from "next/image";
 import styled from "styled-components";
-import { Grid } from "../libs/ui/Grid";
-import { StandardLayout } from "../libs/ui/layout/StandardLayout";
-import { Text } from "../libs/ui/Text";
-import { VerticalStack } from "../libs/ui/VerticalStack";
+import { StandardLayout } from "../layout/StandardLayout";
+import { Grid } from "../ui/Grid";
+import { Text } from "../ui/Text";
+import { VerticalStack } from "../ui/VerticalStack";
 
 const ProfileImage = styled(Image)`
   clip-path: circle(35%);
 `;
 
-const IndexPage = () => {
+export default function Home() {
   return (
     <StandardLayout title="Dai - Home">
       <Grid gridTemplateColumns="1fr 2fr">
@@ -27,6 +27,4 @@ const IndexPage = () => {
       </Grid>
     </StandardLayout>
   );
-};
-
-export default IndexPage;
+}

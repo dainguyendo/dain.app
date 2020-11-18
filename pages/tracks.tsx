@@ -1,20 +1,20 @@
 import { AnimateSharedLayout, motion } from "framer-motion";
 import * as React from "react";
 import { useQuery } from "react-query";
-import { usePlayPreview } from "../libs/context/PlayPreviewContext";
-import { useSelectedTrack } from "../libs/context/SelectedTrackContext";
-import { getRecentTracks } from "../libs/queries";
-import { Button } from "../libs/ui/Button";
-import { Error } from "../libs/ui/Error";
-import { Grid } from "../libs/ui/Grid";
-import { HorizontalStack } from "../libs/ui/HorizontalStack";
-import { StandardLayout } from "../libs/ui/layout/StandardLayout";
-import { LoadingSphere } from "../libs/ui/LoadingSphere";
-import { Text } from "../libs/ui/Text";
-import { defaultTheme } from "../libs/ui/theme";
-import { Track } from "../libs/ui/Track";
-import { useResponsiveScreen } from "../libs/ui/useResponsiveScreen";
-import { VerticalStack } from "../libs/ui/VerticalStack";
+import { StandardLayout } from "../layout/StandardLayout";
+import { usePlayPreview } from "../providers/PlayPreviewContext";
+import { useSelectedTrack } from "../providers/SelectedTrackContext";
+import { getRecentTracksQuery } from "../spotify/getRecentTracksQuery";
+import { defaultTheme } from "../theme";
+import { Button } from "../ui/Button";
+import { Error } from "../ui/Error";
+import { Grid } from "../ui/Grid";
+import { HorizontalStack } from "../ui/HorizontalStack";
+import { LoadingSphere } from "../ui/LoadingSphere";
+import { Text } from "../ui/Text";
+import { Track } from "../ui/Track";
+import { useResponsiveScreen } from "../ui/useResponsiveScreen";
+import { VerticalStack } from "../ui/VerticalStack";
 
 const variants = {
   hidden: {
@@ -25,7 +25,7 @@ const variants = {
   },
 };
 
-const TracksPage: React.FC = () => {
+export default function Tracks() {
   const [limit, setLimit] = React.useState(10);
   const { isAbove650 } = useResponsiveScreen();
   const { preview, toggle } = usePlayPreview();
@@ -33,7 +33,7 @@ const TracksPage: React.FC = () => {
 
   const { data: recentTracks, status } = useQuery(
     ["recent", limit],
-    getRecentTracks
+    getRecentTracksQuery
   );
 
   return (
@@ -126,6 +126,4 @@ const TracksPage: React.FC = () => {
       </VerticalStack>
     </StandardLayout>
   );
-};
-
-export default TracksPage;
+}

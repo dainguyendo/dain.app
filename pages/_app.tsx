@@ -1,9 +1,9 @@
 import App from "next/app";
 import * as React from "react";
 import { createGlobalStyle, ThemeProvider } from "styled-components";
-import { PlayPreviewProvider } from "../libs/context/PlayPreviewContext";
-import { SelectedTrackProvider } from "../libs/context/SelectedTrackContext";
-import { defaultTheme } from "../libs/ui/theme";
+import { PlayPreviewProvider } from "../providers/PlayPreviewContext";
+import { SelectedTrackProvider } from "../providers/SelectedTrackContext";
+import { defaultTheme } from "../theme";
 
 const GlobalStyle = createGlobalStyle`
   * {

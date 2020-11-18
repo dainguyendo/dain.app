@@ -1,6 +1,5 @@
 import * as React from "react";
 import useSetState from "./useSetState";
-// import parseTimeRanges from './parseTimeRanges';
 
 const parseTimeRanges = (ranges: TimeRanges) => {
   const result: { start: number; end: number }[] = [];

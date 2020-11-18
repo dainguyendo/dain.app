@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { getRecentTracks } from "../../libs/spotify";
+import { getRecentTracks } from "../../spotify/getRecentTracks";
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   const { limit } = req.query;
