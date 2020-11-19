@@ -7,7 +7,6 @@ import { getRecentTracksQuery } from "../spotify/getRecentTracksQuery";
 import { defaultTheme } from "../theme";
 import { Button } from "../ui/Button";
 import { Error } from "../ui/Error";
-import { Grid } from "../ui/Grid";
 import { HorizontalStack } from "../ui/HorizontalStack";
 import { LoadingSphere } from "../ui/LoadingSphere";
 import { Text } from "../ui/Text";
@@ -75,16 +74,17 @@ export default function Tracks() {
             </Button>
           </HorizontalStack>
         </HorizontalStack>
-
         {status === "success" && recentTracks && (
-          <Grid
-            id="tracksGrid"
+          <motion.div
             layout={true}
-            gap={defaultTheme.spacing[3]}
-            gridTemplateColumns={
-              isAbove650 ? "repeat(3, 1fr)" : "repeat(2, 1fr)"
-            }
-            placeItems="center"
+            style={{
+              display: "grid",
+              gap: defaultTheme.spacing[3],
+              gridTemplateColumns: isAbove650
+                ? "repeat(3, 1fr)"
+                : "repeat(2, 1fr)",
+              placeItems: "center",
+            }}
           >
             {recentTracks.items.map((item, idx) => {
               const { track } = item;
@@ -109,7 +109,7 @@ export default function Tracks() {
                 </motion.div>
               );
             })}
-          </Grid>
+          </motion.div>
         )}
         {status === "loading" && <LoadingSphere />}
         {status === "error" && <Error />}

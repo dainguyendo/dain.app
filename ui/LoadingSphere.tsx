@@ -19,7 +19,7 @@ export const LoadingSphere = () => {
           repeat: Infinity,
           duration: 4.5,
         }}
-        css={{
+        style={{
           width: 50,
           height: 50,
         }}

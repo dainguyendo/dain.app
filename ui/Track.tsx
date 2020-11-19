@@ -3,7 +3,7 @@ import * as React from "react";
 import { usePlayPreview } from "../providers/PlayPreviewContext";
 import { Record } from "./Record";
 import { Text } from "./Text";
-import { defaultTheme } from "../theme";
+import { TrackTooltip } from "./TrackTooltip";
 import useAudio from "./useAudio";
 import { VisuallyHidden } from "./VisuallyHidden";
 
@@ -55,39 +55,13 @@ export const Track: React.FC<Props> = (props) => {
       />
       {audio}
       {hovered && rect && (
-        <motion.div
+        <TrackTooltip
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ when: "afterChildren" }}
-          css={`
-            background: linear-gradient(
-              0deg,
-              rgba(255, 255, 255, 0) 0%,
-              rgba(255, 255, 255, 0.75) 100%
-            );
-
-            backdrop-filter: blur(4px);
-            border-radius: 0 0 25% 25%;
-            overflow: hidden;
-            padding: ${defaultTheme.spacing[1]};
-            pointer-events: none;
-            position: absolute;
-
-            top: 55%;
-            left: 0;
-
-            height: ${rect.height / 2}px;
-            width: ${rect.width - 8}px;
-            z-index: 1;
-          `}
+          rect={rect}
         >
           <motion.div
-            css={`
-              display: flex;
-              flex-direction: column;
-              text-overflow: ellipsis;
-              white-space: nowrap;
-            `}
             initial={{
               x: "100%",
             }}
@@ -99,11 +73,17 @@ export const Track: React.FC<Props> = (props) => {
               ease: "linear",
               repeat: Infinity,
             }}
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              textOverflow: "ellipsis",
+              whiteSpace: "nowrap",
+            }}
           >
             <Text fontWeight="bold">{song}</Text>
             <Text>{artist.name}</Text>
           </motion.div>
-        </motion.div>
+        </TrackTooltip>
       )}
     </a>
   );
