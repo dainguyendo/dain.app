@@ -31,19 +31,25 @@ export const Track: React.FC<Props> = (props) => {
   const medAlbumImage = album.images[album.images.length - 2];
   const rect = ref.current?.getBoundingClientRect();
 
+  const enablePreviewAndPlay = () => {
+    setHover(true);
+    !!preview && controls.play();
+  };
+
+  const disablePreviewAndPause = () => {
+    setHover(false);
+    !!preview && controls.pause();
+  };
+
   return (
     <a
       ref={ref}
       href={external_urls.spotify}
       target="_blank"
-      onMouseEnter={() => {
-        setHover(true);
-        !!preview && controls.play();
-      }}
-      onMouseLeave={() => {
-        setHover(false);
-        !!preview && controls.pause();
-      }}
+      onMouseEnter={enablePreviewAndPlay}
+      onTouchStart={enablePreviewAndPlay}
+      onMouseLeave={disablePreviewAndPause}
+      onTouchEnd={disablePreviewAndPause}
     >
       <VisuallyHidden>{`${song} by ${artist.name}`}</VisuallyHidden>
       <Record

@@ -16,6 +16,14 @@ export const Record: React.FC<Props> = (props) => {
           duration: 5,
         },
       }}
+      whileTap={{
+        rotate: 360,
+        transition: {
+          ease: "linear",
+          repeat: Infinity,
+          duration: 5,
+        },
+      }}
       className="record"
       style={{
         display: "flex",
