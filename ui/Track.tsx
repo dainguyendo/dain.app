@@ -7,6 +7,22 @@ import { TrackTooltip } from "./TrackTooltip";
 import useAudio from "./useAudio";
 import { VisuallyHidden } from "./VisuallyHidden";
 
+const tooltipVariants = {
+  hidden: {
+    opacity: 0,
+  },
+  show: {
+    opacity: 1,
+  },
+};
+const variants = {
+  right: {
+    x: "100%",
+  },
+  left: {
+    x: "-100%",
+  },
+};
 interface Props extends SpotifyApi.PlayHistoryObject {
   index: number;
   totalTracks: number;
@@ -67,20 +83,18 @@ export const Track: React.FC<Props> = (props) => {
       {audio}
       {hovered && rect && (
         <TrackTooltip
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
+          initial="hidden"
+          animate="show"
+          variants={tooltipVariants}
           transition={{ when: "afterChildren" }}
           rect={rect}
         >
           <motion.div
-            initial={{
-              x: "100%",
-            }}
-            animate={{
-              x: "-100%",
-            }}
+            initial="right"
+            animate="left"
+            variants={variants}
             transition={{
-              duration: 5,
+              duration: 4.75,
               ease: "linear",
               repeat: Infinity,
             }}

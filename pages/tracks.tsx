@@ -35,7 +35,7 @@ export default function Tracks() {
   );
 
   return (
-    <StandardLayout title="Dai - Tracks">
+    <StandardLayout title="Recent tracks">
       <VerticalStack space={5}>
         <HorizontalStack space={3} style={{ alignItems: "center" }}>
           <a href="#help" style={{ flexGrow: 2 }}>
@@ -102,7 +102,7 @@ export default function Tracks() {
                   animate="shown"
                   variants={variants}
                   transition={{
-                    delay: idx * 0.2,
+                    delay: idx * 0.05,
                   }}
                   style={{
                     position: "relative",
@@ -133,7 +133,7 @@ export default function Tracks() {
             </Text>
           </a>
 
-          <motion.div
+          <div
             style={{
               display: "grid",
               gap: defaultTheme.spacing[3],
@@ -159,7 +159,7 @@ export default function Tracks() {
                 opening in Spotify.
               </Text>
             </VerticalStack>
-          </motion.div>
+          </div>
         </VerticalStack>
       </VerticalStack>
     </StandardLayout>
