@@ -3,16 +3,20 @@ import { DefaultTheme } from "styled-components";
 export const defaultTheme: DefaultTheme = {
   breakpoints: ["650px"],
   colors: {
-    text: "hsl(0,0%,15.69%)",
-    background: "hsl(0,0%,93.33%)",
-    primary: "hsl(0,0%,7.45%)",
-    secondary: "hsl(0,0%,34.9%)",
-    muted: "hsl(0,0%,75.29%)",
+    grey100: "#f3f3f3",
+    grey200: "#d9d9d9",
+    grey300: "#bfbfbf",
+    grey400: "#a6a6a6",
+    grey500: "#8d8d8d",
+    grey600: "#757575",
+    grey700: "#5f5f5f",
+    grey800: "#494949",
+    grey900: "#343434",
   },
   fonts: {
-    body: "'Lato', sans-serif",
-    heading: "'Roboto', sans-serif",
-    monospace: "'Roboto Mono', monospace",
+    body: "'Karla', sans-serif",
+    heading: "'Karla', sans-serif",
+    monospace: "'Space Mono', monospace",
   },
   fontSizes: [
     "14px",

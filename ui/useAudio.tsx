@@ -139,7 +139,7 @@ const createHTMLMediaHook = (tag: "audio" | "video") => (
       onDurationChange: wrapEvent(props.onDurationChange, onDurationChange),
       onTimeUpdate: wrapEvent(props.onTimeUpdate, onTimeUpdate),
       onProgress: wrapEvent(props.onProgress, onProgress),
-    } as any); // TODO: fix this typing.
+    });
   }
 
   // Some browsers return `Promise` on `.play()` and may throw errors

@@ -42,7 +42,7 @@ export const Error: React.FC = () => {
           <Text
             fontFamily="heading"
             fontWeight="bold"
-            color="muted"
+            color="grey600"
             fontSize={2}
           >
             Something went wrong.

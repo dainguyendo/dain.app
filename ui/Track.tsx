@@ -14,13 +14,18 @@ interface Props extends SpotifyApi.PlayHistoryObject {
 
 export const Track: React.FC<Props> = (props) => {
   const { track } = props;
-
   const ref = React.useRef<HTMLAnchorElement | null>(null);
   const [hovered, setHover] = React.useState(false);
   const [audio, , controls] = useAudio({
     src: track.preview_url ?? "",
     autoPlay: false,
   });
+
+  React.useEffect(() => {
+    if (controls) {
+      controls.volume(0.2);
+    }
+  }, []);
 
   const { preview } = usePlayPreview();
 

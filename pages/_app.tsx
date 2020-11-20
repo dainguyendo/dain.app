@@ -9,60 +9,60 @@ const GlobalStyle = createGlobalStyle`
   * {
     margin: 0;
     padding: 0;
-    color: ${(props) => props.theme.colors.text};
+    color: ${(props) => props.theme.colors.grey900};
     font-family: ${(props) => props.theme.fonts.body};
   }
   h1 {
-    color: ${(props) => props.theme.colors.text};
+    color: ${(props) => props.theme.colors.grey900};
     font-family: ${(props) => props.theme.fonts.heading};
     line-height: ${(props) => props.theme.lineHeights.heading};
     font-weight: ${(props) => props.theme.fontWeights.heading};
     font-size: ${(props) => props.theme.fontSizes[6]};
   }
   h2 {
-    color: ${(props) => props.theme.colors.text};
+    color: ${(props) => props.theme.colors.grey900};
     font-family: ${(props) => props.theme.fonts.heading};
     line-height: ${(props) => props.theme.lineHeights.heading};
     font-weight: ${(props) => props.theme.fontWeights.heading};
     font-size: ${(props) => props.theme.fontSizes[5]};
   }
   h3 {
-    color: ${(props) => props.theme.colors.text};
+    color: ${(props) => props.theme.colors.grey900};
     font-family: ${(props) => props.theme.fonts.heading};
     line-height: ${(props) => props.theme.lineHeights.heading};
     font-weight: ${(props) => props.theme.fontWeights.heading};
     font-size: ${(props) => props.theme.fontSizes[4]};
   }
   h4 {
-    color: ${(props) => props.theme.colors.text};
+    color: ${(props) => props.theme.colors.grey900};
     font-family: ${(props) => props.theme.fonts.heading};
     line-height: ${(props) => props.theme.lineHeights.heading};
     font-weight: ${(props) => props.theme.fontWeights.heading};
     font-size: ${(props) => props.theme.fontSizes[3]};
   }
   h5 {
-    color: ${(props) => props.theme.colors.text};
+    color: ${(props) => props.theme.colors.grey900};
     font-family: ${(props) => props.theme.fonts.heading};
     line-height: ${(props) => props.theme.lineHeights.heading};
     font-weight: ${(props) => props.theme.fontWeights.heading};
     font-size: ${(props) => props.theme.fontSizes[2]};
   }
   h6 {
-    color: ${(props) => props.theme.colors.text};
+    color: ${(props) => props.theme.colors.grey900};
     font-family: ${(props) => props.theme.fonts.heading};
     line-height: ${(props) => props.theme.lineHeights.heading};
     font-weight: ${(props) => props.theme.fontWeights.heading};
     font-size: ${(props) => props.theme.fontSizes[1]};
   }
   p {
-    color: ${(props) => props.theme.colors.text};
+    color: ${(props) => props.theme.colors.grey900};
     font-family: ${(props) => props.theme.fonts.body};
     line-height: ${(props) => props.theme.lineHeights.body};
     font-weight: ${(props) => props.theme.fontWeights.body};
     font-size: ${(props) => props.theme.fontSizes[1]};
   }
   a {
-    color: ${(props) => props.theme.colors.primary};
+    color: ${(props) => props.theme.colors.grey100};
     font-family: ${(props) => props.theme.fonts.body};
     font-weight: ${(props) => props.theme.fontWeights.body};
   }

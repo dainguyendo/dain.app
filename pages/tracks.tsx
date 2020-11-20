@@ -1,3 +1,4 @@
+import { QuestionMarkCircledIcon } from "@modulz/radix-icons";
 import { motion } from "framer-motion";
 import * as React from "react";
 import { useQuery } from "react-query";
@@ -36,10 +37,16 @@ export default function Tracks() {
   return (
     <StandardLayout title="Dai - Tracks">
       <VerticalStack space={5}>
-        <HorizontalStack space={3} style={{ alignSelf: "flex-end" }}>
+        <HorizontalStack space={3} style={{ alignItems: "center" }}>
+          <a href="#help" style={{ flexGrow: 2 }}>
+            <HorizontalStack space={1} style={{ alignItems: "center" }}>
+              <Text color="grey600">How to use</Text>
+              <QuestionMarkCircledIcon />
+            </HorizontalStack>
+          </a>
           <HorizontalStack space={1} style={{ alignItems: "center" }}>
             <label htmlFor="enableTrackPreview">
-              <Text color="muted">Track preview</Text>
+              <Text color="grey600">Track preview</Text>
             </label>
             <input
               id="enableTrackPreview"
@@ -50,7 +57,7 @@ export default function Tracks() {
             />
           </HorizontalStack>
           <HorizontalStack space={1} style={{ alignItems: "center" }}>
-            <Text color="muted">Limit: </Text>
+            <Text color="grey600">Limit: </Text>
             <Button
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
@@ -90,7 +97,7 @@ export default function Tracks() {
               const { track } = item;
               return (
                 <motion.div
-                  key={`${idx}-${track.id}`}
+                  key={`${track.id}${idx}`}
                   initial="hidden"
                   animate="shown"
                   variants={variants}
@@ -113,6 +120,47 @@ export default function Tracks() {
         )}
         {status === "loading" && <LoadingSphere />}
         {status === "error" && <Error />}
+
+        <VerticalStack space={1}>
+          <a id="help">
+            <Text
+              fontWeight="bold"
+              fontSize={3}
+              lineHeight="heading"
+              color="grey600"
+            >
+              Help
+            </Text>
+          </a>
+
+          <motion.div
+            style={{
+              display: "grid",
+              gap: defaultTheme.spacing[3],
+              gridTemplateColumns: isAbove650
+                ? "repeat(3, 1fr)"
+                : "repeat(2, 1fr)",
+            }}
+          >
+            <VerticalStack space={1}>
+              <Text fontWeight="bold">Desktop</Text>
+              <Text>Hover to see track info. Click to open in Spotify.</Text>
+            </VerticalStack>
+            <VerticalStack space={1}>
+              <Text fontWeight="bold">Touch device</Text>
+              <Text>
+                Tap to open in Spotify. Touch and hold to see track info.
+              </Text>
+            </VerticalStack>
+            <VerticalStack space={1}>
+              <Text fontWeight="bold">Tips for mobile</Text>
+              <Text>
+                For preview, while tapped, move away from track to prevent
+                opening in Spotify.
+              </Text>
+            </VerticalStack>
+          </motion.div>
+        </VerticalStack>
       </VerticalStack>
     </StandardLayout>
   );

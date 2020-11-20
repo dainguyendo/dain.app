@@ -6,6 +6,7 @@ import { Header } from "./Header";
 
 interface Props {
   title?: string;
+  footer?: boolean;
 }
 
 const Grid = styled.main`
@@ -31,7 +32,11 @@ const Grid = styled.main`
   }
 `;
 
-export const StandardLayout: React.FC<Props> = ({ children, title = "" }) => {
+export const StandardLayout: React.FC<Props> = ({
+  children,
+  title = "",
+  footer = true,
+}) => {
   return (
     <Grid>
       <Head>
@@ -41,7 +46,7 @@ export const StandardLayout: React.FC<Props> = ({ children, title = "" }) => {
       </Head>
       <Header />
       {children}
-      <Footer />
+      {footer && <Footer />}
     </Grid>
   );
 };

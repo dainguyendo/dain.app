@@ -10,7 +10,7 @@ interface Props {
 
 export const Text = styled.span<Props>`
   color: ${(props) =>
-    props.color ? props.theme.colors[props.color] : props.theme.colors.text};
+    props.color ? props.theme.colors[props.color] : props.theme.colors.grey900};
   font-family: ${(props) =>
     props.fontFamily
       ? props.theme.fonts[props.fontFamily]
