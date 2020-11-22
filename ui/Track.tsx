@@ -45,7 +45,7 @@ export const Track: React.FC<Props> = (props) => {
 
   const { preview } = usePlayPreview();
 
-  const { album, external_urls } = track as SpotifyApi.TrackObjectFull;
+  const { album } = track as SpotifyApi.TrackObjectFull;
   const [artist] = track.artists;
   const song = track.name;
 
@@ -65,7 +65,7 @@ export const Track: React.FC<Props> = (props) => {
   return (
     <a
       ref={ref}
-      href={external_urls.spotify}
+      href={track.uri}
       target="_blank"
       onMouseEnter={enablePreviewAndPlay}
       onTouchStart={enablePreviewAndPlay}
