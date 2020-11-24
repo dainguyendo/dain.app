@@ -1,8 +1,9 @@
-import { CameraIcon, GitHubLogoIcon, ReaderIcon } from "@modulz/radix-icons";
+import { CameraIcon, GitHubLogoIcon } from "@modulz/radix-icons";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import * as React from "react";
 import styled from "styled-components";
+import { Anchor } from "../ui/Anchor";
 import { HorizontalStack } from "../ui/HorizontalStack";
 import { Text } from "../ui/Text";
 import { VerticalStack } from "../ui/VerticalStack";
@@ -30,24 +31,18 @@ export const Footer = () => {
             dai nguyendo
           </Text>
           <HorizontalStack space={2}>
-            <a target="_blank" href="https://github.com/dainguyendo">
+            <Anchor target="_blank" href="https://github.com/dainguyendo">
               <HorizontalStack space={1} style={{ alignItems: "center" }}>
                 <GitHubLogoIcon />
                 <Text>github</Text>
               </HorizontalStack>
-            </a>
-            <a target="_blank" href="https://dainwords.io/">
-              <HorizontalStack space={1} style={{ alignItems: "center" }}>
-                <ReaderIcon />
-                <Text>blog</Text>
-              </HorizontalStack>
-            </a>
-            <a target="_blank" href="https://www.instagram.com/daisdead/">
+            </Anchor>
+            <Anchor target="_blank" href="https://www.instagram.com/daisdead/">
               <HorizontalStack space={1} style={{ alignItems: "center" }}>
                 <CameraIcon />
                 <Text>photo</Text>
               </HorizontalStack>
-            </a>
+            </Anchor>
           </HorizontalStack>
         </VerticalStack>
       </HorizontalStack>
