@@ -1,6 +1,7 @@
 import Link from "next/link";
 import * as React from "react";
 import styled from "styled-components";
+import { Anchor } from "../ui/Anchor";
 import { horizontalStack } from "../ui/HorizontalStack";
 import { Text } from "../ui/Text";
 
@@ -18,15 +19,20 @@ export const Header: React.FC = () => {
           ${horizontalStack(2)}
         `}
       >
-        <Link href="/">
-          <a>
+        <Link passHref={true} href="/">
+          <Anchor>
             <Text fontWeight="bold">home</Text>
-          </a>
+          </Anchor>
         </Link>
-        <Link href="/tracks">
-          <a>
+        <Link passHref={true} href="/tracks">
+          <Anchor>
             <Text fontWeight="bold">tracks</Text>
-          </a>
+          </Anchor>
+        </Link>
+        <Link passHref={true} href="/words">
+          <Anchor>
+            <Text fontWeight="bold">words</Text>
+          </Anchor>
         </Link>
       </nav>
     </HeaderContainer>

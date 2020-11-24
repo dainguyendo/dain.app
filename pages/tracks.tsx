@@ -6,6 +6,7 @@ import { StandardLayout } from "../layout/StandardLayout";
 import { usePlayPreview } from "../providers/PlayPreviewContext";
 import { getRecentTracksQuery } from "../spotify/getRecentTracksQuery";
 import { defaultTheme } from "../theme";
+import { Anchor } from "../ui/Anchor";
 import { Button } from "../ui/Button";
 import { Error } from "../ui/Error";
 import { HorizontalStack } from "../ui/HorizontalStack";
@@ -38,12 +39,12 @@ export default function Tracks() {
     <StandardLayout title="Recent tracks">
       <VerticalStack space={5}>
         <HorizontalStack space={3} style={{ alignItems: "center" }}>
-          <a href="#help" style={{ flexGrow: 2 }}>
+          <Anchor href="#help" style={{ flexGrow: 2 }}>
             <HorizontalStack space={1} style={{ alignItems: "center" }}>
               <Text color="grey600">How to use</Text>
               <QuestionMarkCircledIcon />
             </HorizontalStack>
-          </a>
+          </Anchor>
           <HorizontalStack space={1} style={{ alignItems: "center" }}>
             <label htmlFor="enableTrackPreview">
               <Text color="grey600">Track preview</Text>
@@ -122,7 +123,7 @@ export default function Tracks() {
         {status === "error" && <Error />}
 
         <VerticalStack space={1}>
-          <a id="help">
+          <Anchor id="help">
             <Text
               fontWeight="bold"
               fontSize={3}
@@ -131,7 +132,7 @@ export default function Tracks() {
             >
               Help
             </Text>
-          </a>
+          </Anchor>
 
           <div
             style={{

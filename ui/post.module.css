@@ -1,0 +1,8 @@
+.post * {
+  font-family: "Karla", sans-serif;
+  color: #343434;
+}
+
+.post code {
+  font-family: "Space Mono", monospace;
+}

@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import * as React from "react";
 import { usePlayPreview } from "../providers/PlayPreviewContext";
+import { Anchor } from "./Anchor";
 import { Record } from "./Record";
 import { Text } from "./Text";
 import { TrackTooltip } from "./TrackTooltip";
@@ -63,7 +64,7 @@ export const Track: React.FC<Props> = (props) => {
   };
 
   return (
-    <a
+    <Anchor
       ref={ref}
       href={track.uri}
       target="_blank"
@@ -110,6 +111,6 @@ export const Track: React.FC<Props> = (props) => {
           </motion.div>
         </TrackTooltip>
       )}
-    </a>
+    </Anchor>
   );
 };
