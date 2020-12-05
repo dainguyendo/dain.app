@@ -9,6 +9,9 @@ const GlobalStyle = createGlobalStyle`
   html {
     scroll-behavior: smooth;
   }
+  ul,ol {
+    list-style: none;
+  }
 `;
 
 class MyApp extends App {

@@ -11,19 +11,12 @@ interface Props {
 export default function Index({ allPosts }: Props) {
   return (
     <StandardLayout title="words">
-      <section>
+      <motion.section>
         <VerticalStack space={4}>
           {allPosts.length > 0 &&
-            allPosts.map((post, idx) => {
+            allPosts.map((post) => {
               return (
-                <motion.div
-                  key={post.slug}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{
-                    delay: idx * 0.05,
-                  }}
-                >
+                <motion.div key={post.title}>
                   <PostPreview
                     title={post.title}
                     slug={post.slug}
@@ -33,7 +26,7 @@ export default function Index({ allPosts }: Props) {
               );
             })}
         </VerticalStack>
-      </section>
+      </motion.section>
     </StandardLayout>
   );
 }

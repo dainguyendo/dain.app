@@ -21,6 +21,7 @@ export const Footer = () => {
     <FooterContainer layoutId="footer">
       <HorizontalStack space={2} style={{ alignItems: "center" }}>
         <ProfileImage
+          priority={true}
           src="/me.png"
           alt="Dai Nguyendo"
           width={225}

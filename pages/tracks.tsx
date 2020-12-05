@@ -14,13 +14,14 @@ import { LoadingSphere } from "../ui/LoadingSphere";
 import { Text } from "../ui/Text";
 import { Track } from "../ui/Track";
 import { useResponsiveScreen } from "../ui/useResponsiveScreen";
+import { listVariants } from "../ui/variants";
 import { VerticalStack } from "../ui/VerticalStack";
 
-const variants = {
-  hidden: {
+const trackVariants = {
+  out: {
     opacity: 0,
   },
-  shown: {
+  in: {
     opacity: 1,
   },
 };
@@ -84,7 +85,9 @@ export default function Tracks() {
         </HorizontalStack>
         {status === "success" && recentTracks && (
           <motion.div
-            layout={true}
+            initial="out"
+            animate="in"
+            variants={listVariants}
             style={{
               display: "grid",
               gap: defaultTheme.spacing[3],
@@ -99,12 +102,7 @@ export default function Tracks() {
               return (
                 <motion.div
                   key={`${track.id}${idx}`}
-                  initial="hidden"
-                  animate="shown"
-                  variants={variants}
-                  transition={{
-                    delay: idx * 0.05,
-                  }}
+                  variants={trackVariants}
                   style={{
                     position: "relative",
                   }}
@@ -121,47 +119,48 @@ export default function Tracks() {
         )}
         {status === "loading" && <LoadingSphere />}
         {status === "error" && <Error />}
+        <motion.div layoutId="help-section">
+          <VerticalStack space={1}>
+            <Anchor id="help">
+              <Text
+                fontWeight="bold"
+                fontSize={3}
+                lineHeight="heading"
+                color="grey600"
+              >
+                Help
+              </Text>
+            </Anchor>
 
-        <VerticalStack space={1}>
-          <Anchor id="help">
-            <Text
-              fontWeight="bold"
-              fontSize={3}
-              lineHeight="heading"
-              color="grey600"
+            <div
+              style={{
+                display: "grid",
+                gap: defaultTheme.spacing[3],
+                gridTemplateColumns: isAbove650
+                  ? "repeat(3, 1fr)"
+                  : "repeat(2, 1fr)",
+              }}
             >
-              Help
-            </Text>
-          </Anchor>
-
-          <div
-            style={{
-              display: "grid",
-              gap: defaultTheme.spacing[3],
-              gridTemplateColumns: isAbove650
-                ? "repeat(3, 1fr)"
-                : "repeat(2, 1fr)",
-            }}
-          >
-            <VerticalStack space={1}>
-              <Text fontWeight="bold">Desktop</Text>
-              <Text>Hover to see track info. Click to open in Spotify.</Text>
-            </VerticalStack>
-            <VerticalStack space={1}>
-              <Text fontWeight="bold">Touch device</Text>
-              <Text>
-                Tap to open in Spotify. Touch and hold to see track info.
-              </Text>
-            </VerticalStack>
-            <VerticalStack space={1}>
-              <Text fontWeight="bold">Tips for mobile</Text>
-              <Text>
-                For preview, while tapped, move away from track to prevent
-                opening in Spotify.
-              </Text>
-            </VerticalStack>
-          </div>
-        </VerticalStack>
+              <VerticalStack space={1}>
+                <Text fontWeight="bold">Desktop</Text>
+                <Text>Hover to see track info. Click to open in Spotify.</Text>
+              </VerticalStack>
+              <VerticalStack space={1}>
+                <Text fontWeight="bold">Touch device</Text>
+                <Text>
+                  Tap to open in Spotify. Touch and hold to see track info.
+                </Text>
+              </VerticalStack>
+              <VerticalStack space={1}>
+                <Text fontWeight="bold">Tips for mobile</Text>
+                <Text>
+                  For preview, while tapped, move away from track to prevent
+                  opening in Spotify.
+                </Text>
+              </VerticalStack>
+            </div>
+          </VerticalStack>
+        </motion.div>
       </VerticalStack>
     </StandardLayout>
   );
