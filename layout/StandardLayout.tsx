@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { Footer } from "./Footer";
 import { Header } from "./Header";
 
-interface Props {
+interface Props extends React.HTMLAttributes<HTMLDivElement> {
   title?: string;
   footer?: boolean;
 }
@@ -36,9 +36,10 @@ export const StandardLayout: React.FC<Props> = ({
   children,
   title = "",
   footer = true,
+  ...rest
 }) => {
   return (
-    <Grid>
+    <Grid {...rest}>
       <Head>
         <title>{title}</title>
         <meta charSet="utf-8" />
