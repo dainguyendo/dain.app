@@ -20,7 +20,7 @@ interface HTMLMediaProps
   src: string;
 }
 
-interface HTMLMediaState {
+export interface HTMLMediaState {
   buffered: any[];
   duration: number;
   paused: boolean;
@@ -29,7 +29,7 @@ interface HTMLMediaState {
   volume: number;
 }
 
-interface HTMLMediaControls {
+export interface HTMLMediaControls {
   play: () => Promise<void> | void;
   pause: () => void;
   mute: () => void;

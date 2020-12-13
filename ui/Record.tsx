@@ -1,39 +1,31 @@
-import { motion } from "framer-motion";
+import { HTMLMotionProps, motion } from "framer-motion";
 
-type Props = React.DetailedHTMLProps<
-  React.ImgHTMLAttributes<HTMLImageElement>,
-  HTMLImageElement
->;
+type Props = HTMLMotionProps<"div"> & {
+  height: React.CSSProperties["height"];
+  width: React.CSSProperties["width"];
+  src: string | undefined;
+};
 
-export const Record: React.FC<Props> = (props) => {
+export const Record: React.FC<Props> = ({
+  height,
+  width,
+  src,
+  ...motionProps
+}) => {
   return (
     <motion.div
-      whileHover={{
-        rotate: 360,
-        transition: {
-          ease: "linear",
-          repeat: Infinity,
-          duration: 5,
-        },
-      }}
-      whileTap={{
-        rotate: 360,
-        transition: {
-          ease: "linear",
-          repeat: Infinity,
-          duration: 5,
-        },
-      }}
+      {...motionProps}
       className="record"
       style={{
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        height: props.height,
-        width: props.width,
-        backgroundImage: `url(${props.src})`,
+        height: height,
+        width: width,
+        backgroundImage: `url(${src})`,
         backgroundSize: "contain",
         borderRadius: "50%",
+        ...motionProps.style,
       }}
     >
       <div

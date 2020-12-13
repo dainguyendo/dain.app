@@ -1,8 +1,9 @@
 import { useMediaQuery } from "react-responsive";
-import { defaultTheme } from "../theme";
+import { useTheme } from "styled-components";
 
 export function useResponsiveScreen() {
-  const isAbove650 = useMediaQuery({ minWidth: defaultTheme.breakpoints[0] });
+  const theme = useTheme();
+  const isAbove650 = useMediaQuery({ minWidth: theme.breakpoints[0] });
   return {
     isAbove650,
   };

@@ -46,6 +46,13 @@ export const Header: React.FC = () => {
               </Anchor>
             </Link>
           </motion.li>
+          <motion.li variants={listItemVariants}>
+            <Link passHref={true} href="/misc">
+              <Anchor>
+                <Text fontWeight="bold">misc</Text>
+              </Anchor>
+            </Link>
+          </motion.li>
         </motion.ul>
       </nav>
     </HeaderContainer>

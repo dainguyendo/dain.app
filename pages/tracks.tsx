@@ -2,10 +2,10 @@ import { QuestionMarkCircledIcon } from "@modulz/radix-icons";
 import { motion } from "framer-motion";
 import * as React from "react";
 import { useQuery } from "react-query";
+import { useTheme } from "styled-components";
 import { StandardLayout } from "../layout/StandardLayout";
 import { usePlayPreview } from "../providers/PlayPreviewContext";
 import { getRecentTracksQuery } from "../spotify/getRecentTracksQuery";
-import { defaultTheme } from "../theme";
 import { Anchor } from "../ui/Anchor";
 import { Button } from "../ui/Button";
 import { Error } from "../ui/Error";
@@ -27,6 +27,7 @@ const trackVariants = {
 };
 
 export default function Tracks() {
+  const theme = useTheme();
   const [limit, setLimit] = React.useState(10);
   const { isAbove650 } = useResponsiveScreen();
   const { preview, toggle } = usePlayPreview();
@@ -90,7 +91,7 @@ export default function Tracks() {
             variants={listVariants}
             style={{
               display: "grid",
-              gap: defaultTheme.spacing[3],
+              gap: theme.spacing[3],
               gridTemplateColumns: isAbove650
                 ? "repeat(3, 1fr)"
                 : "repeat(2, 1fr)",
@@ -135,7 +136,7 @@ export default function Tracks() {
             <div
               style={{
                 display: "grid",
-                gap: defaultTheme.spacing[3],
+                gap: theme.spacing[3],
                 gridTemplateColumns: isAbove650
                   ? "repeat(3, 1fr)"
                   : "repeat(2, 1fr)",

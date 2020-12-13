@@ -75,11 +75,25 @@ export const Track: React.FC<Props> = (props) => {
     >
       <VisuallyHidden>{`${song} by ${artist.name}`}</VisuallyHidden>
       <Record
-        loading="lazy"
         src={medAlbumImage.url}
         height={125}
         width={125}
-        alt={`${artist.name} - ${song} album image`}
+        whileHover={{
+          rotate: 360,
+          transition: {
+            ease: "linear",
+            repeat: Infinity,
+            duration: 5,
+          },
+        }}
+        whileTap={{
+          rotate: 360,
+          transition: {
+            ease: "linear",
+            repeat: Infinity,
+            duration: 5,
+          },
+        }}
       />
       {audio}
       {hovered && rect && (
