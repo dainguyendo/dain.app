@@ -1,4 +1,4 @@
-export async function getRecentTracksQuery(_key: string, limit: number = 20) {
+export async function getRecentTracksQuery(limit: number = 20) {
   const response = await fetch(`/api/recent-tracks?limit=${limit}`);
 
   if (response.status !== 200) {

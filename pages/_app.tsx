@@ -1,6 +1,7 @@
 import { AnimateSharedLayout } from "framer-motion";
 import App from "next/app";
 import * as React from "react";
+import { QueryClient, QueryClientProvider } from "react-query";
 import { createGlobalStyle, ThemeProvider } from "styled-components";
 import { PlayPreviewProvider } from "../providers/PlayPreviewContext";
 import { defaultTheme } from "../theme";
@@ -14,20 +15,22 @@ const GlobalStyle = createGlobalStyle`
   }
 `;
 
+const queryClient = new QueryClient();
+
 class MyApp extends App {
   render() {
     const { Component, pageProps } = this.props;
     return (
-      <>
-        <ThemeProvider theme={defaultTheme}>
-          <GlobalStyle />
+      <ThemeProvider theme={defaultTheme}>
+        <GlobalStyle />
+        <QueryClientProvider client={queryClient}>
           <PlayPreviewProvider>
             <AnimateSharedLayout>
               <Component {...pageProps} />
             </AnimateSharedLayout>
           </PlayPreviewProvider>
-        </ThemeProvider>
-      </>
+        </QueryClientProvider>
+      </ThemeProvider>
     );
   }
 }
