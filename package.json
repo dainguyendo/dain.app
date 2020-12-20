@@ -13,6 +13,7 @@
     "date-fns": "^2.16.1",
     "framer-motion": "^3.1.1",
     "gray-matter": "^4.0.2",
+    "mapbox-gl": "^2.0.0",
     "next": "latest",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
@@ -27,6 +28,7 @@
     "zustand": "^3.2.0"
   },
   "devDependencies": {
+    "@types/mapbox-gl": "^2.0.0",
     "@types/node": "^14.14.14",
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
