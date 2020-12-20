@@ -32,9 +32,8 @@ export default function Tracks() {
   const { isAbove650 } = useResponsiveScreen();
   const { preview, toggle } = usePlayPreview();
 
-  const { data: recentTracks, status } = useQuery(
-    ["recent", limit],
-    getRecentTracksQuery
+  const { data: recentTracks, status } = useQuery(["recent", limit], () =>
+    getRecentTracksQuery(limit)
   );
 
   return (

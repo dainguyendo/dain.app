@@ -17,9 +17,8 @@ const TracksWaveformPage = () => {
   const theme = useTheme();
   const store = useTrackVisualization();
   const [limit] = React.useState(9);
-  const { data: recentTracks, status } = useQuery(
-    ["recent", limit],
-    getRecentTracksQuery
+  const { data: recentTracks, status } = useQuery(["recent", limit], () =>
+    getRecentTracksQuery(limit)
   );
 
   React.useEffect(() => {
