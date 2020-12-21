@@ -22,11 +22,28 @@ function MiscPage() {
                 lineHeight="heading"
                 fontSize={2}
               >
-                Track Waveform
+                track-waveform
               </Text>
             </a>
           </Link>
           <Text>Create waveforms from Spotify tracks and visualize in 3D.</Text>
+        </VerticalStack>
+      </Card>
+      <Card>
+        <VerticalStack space={0}>
+          <Link href="/misc/affixed">
+            <a>
+              <Text
+                fontWeight="bold"
+                fontFamily="heading"
+                lineHeight="heading"
+                fontSize={2}
+              >
+                affixed
+              </Text>
+            </a>
+          </Link>
+          <Text>Two wheels, feet fastened, and ready to ride.</Text>
         </VerticalStack>
       </Card>
     </StandardLayout>

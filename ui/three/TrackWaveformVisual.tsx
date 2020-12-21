@@ -51,11 +51,9 @@ export const TrackWaveformVisual: React.FC<Props> = ({ track }) => {
   const trackCache = cache[track?.id ?? ""];
 
   if (track && audio && trackCache && audio.duration > 0) {
-    // const song = track.name;
-    // const [artist] = track.artists;
     return (
       <React.Fragment>
-        <Canvas camera={{ position: [-10, 10, 20], fov: 35 }}>
+        <Canvas camera={{ position: [30, 10, 20], fov: 12 }}>
           <ambientLight />
           <pointLight position={[10, 10, 10]} />
           <RotatingGroup>
