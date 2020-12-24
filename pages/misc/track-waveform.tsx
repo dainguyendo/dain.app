@@ -28,7 +28,7 @@ const TracksWaveformPage = () => {
   });
 
   return (
-    <StandardLayout title="Visual: Tracks Waveform">
+    <StandardLayout title="track waveform">
       <VerticalStack space={5}>
         {status === "error" && <Error />}
         {status === "loading" && <LoadingSphere />}
@@ -90,7 +90,7 @@ const TracksWaveformPage = () => {
                 lineHeight="heading"
                 color="grey600"
               >
-                Track Waveform
+                track waveform
               </Text>
               <p>
                 <Text>

@@ -5,7 +5,6 @@ import styled from "styled-components";
 import { Anchor } from "../ui/Anchor";
 import { horizontalStack } from "../ui/HorizontalStack";
 import { Text } from "../ui/Text";
-import { listItemVariants, listVariants } from "../ui/variants";
 
 const HeaderContainer = styled.header`
   display: flex;
@@ -24,29 +23,29 @@ export const Header: React.FC = () => {
           }
         `}
       >
-        <motion.ul initial="out" animate="in" variants={listVariants}>
-          <motion.li variants={listItemVariants}>
+        <motion.ul>
+          <motion.li>
             <Link passHref={true} href="/">
               <Anchor>
                 <Text fontWeight="bold">home</Text>
               </Anchor>
             </Link>
           </motion.li>
-          <motion.li variants={listItemVariants}>
+          <motion.li>
             <Link passHref={true} href="/tracks">
               <Anchor>
                 <Text fontWeight="bold">tracks</Text>
               </Anchor>
             </Link>
           </motion.li>
-          <motion.li variants={listItemVariants}>
+          <motion.li>
             <Link passHref={true} href="/words">
               <Anchor>
                 <Text fontWeight="bold">words</Text>
               </Anchor>
             </Link>
           </motion.li>
-          <motion.li variants={listItemVariants}>
+          <motion.li>
             <Link passHref={true} href="/misc">
               <Anchor>
                 <Text fontWeight="bold">misc</Text>

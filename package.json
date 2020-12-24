@@ -9,10 +9,13 @@
   },
   "dependencies": {
     "@modulz/radix-icons": "^3.3.0",
+    "@radix-ui/react-dropdown-menu": "0.0.1",
     "@react-spring/three": "^9.0.0-rc.3",
     "date-fns": "^2.16.1",
     "framer-motion": "^3.1.1",
+    "geojson": "^0.5.0",
     "gray-matter": "^4.0.2",
+    "mapbox-gl": "^2.0.0",
     "next": "latest",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
@@ -27,6 +30,8 @@
     "zustand": "^3.2.0"
   },
   "devDependencies": {
+    "@types/geojson": "^7946.0.7",
+    "@types/mapbox-gl": "^2.0.0",
     "@types/node": "^14.14.14",
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",

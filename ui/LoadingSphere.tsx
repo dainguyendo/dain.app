@@ -1,14 +1,15 @@
 import { Half2Icon } from "@modulz/radix-icons";
 import { motion } from "framer-motion";
 import * as React from "react";
-import { Text } from "./Text";
 import { VerticalStack } from "./VerticalStack";
 
-export const LoadingSphere = () => {
+export const LoadingSphere: React.FC<{
+  style?: React.CSSProperties;
+}> = ({ children, style }) => {
   return (
     <VerticalStack
       space={1}
-      style={{ justifyContent: "center", alignItems: "center" }}
+      style={{ justifyContent: "center", alignItems: "center", ...style }}
     >
       <motion.div
         animate={{
@@ -26,7 +27,7 @@ export const LoadingSphere = () => {
       >
         <Half2Icon width={50} height={50} />
       </motion.div>
-      <Text fontWeight="bold">Loading ...</Text>
+      {children}
     </VerticalStack>
   );
 };
