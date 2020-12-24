@@ -9,7 +9,7 @@ type State = {
   initMap: (options?: mapboxgl.MapboxOptions) => void;
   getMap: () => mapboxgl.Map;
 
-  addAndGoTo: (id: string) => void;
+  addAndGoTo: (route: any) => void;
   removeSourceAndLayer: (id: string) => void;
 };
 
@@ -22,20 +22,20 @@ export const useMapbox = create<State>((set, get) => ({
     return set({ map });
   },
   getMap: () => get().map!,
-  addAndGoTo: async (id) => {
+  addAndGoTo: async (route) => {
     const map = get().map;
-    const response = await fetch(`/api/get-route?id=${id}`);
-    const route = await response.json();
-    const featureCollection = route.geojson;
+    // const response = await fetch(`/api/get-route?id=${id}`);
+    // const route = await response.json();
+    // const featureCollection = route.geojson;
 
-    map?.addSource(id, {
+    map?.addSource(route.id, {
       type: "geojson",
-      data: featureCollection,
+      data: route.geojson,
     });
     map?.addLayer({
-      id,
+      id: route.id,
       type: "line",
-      source: id,
+      source: route.id,
       layout: {
         "line-cap": "round",
         "line-join": "round",
@@ -46,7 +46,7 @@ export const useMapbox = create<State>((set, get) => ({
       },
     });
 
-    const bounds = getBoundsFromFeatures(featureCollection.features);
+    const bounds = getBoundsFromFeatures(route.geojson.features);
 
     if (bounds) {
       map?.fitBounds(bounds, {

@@ -12,7 +12,7 @@ interface Options {
   withGeojson: boolean;
 }
 
-interface Route {
+export interface Route {
   id: string;
   meta: {
     title: string;
@@ -22,12 +22,13 @@ interface Route {
 }
 
 export function getRouteBySlug(slug: string, options: Options) {
-  const fullPath = join(routesDirectory, slug);
+  const realSlug = slug.replace(/\.geojson$/, "");
+  const fullPath = join(routesDirectory, `${realSlug}.geojson`);
   const fileContents = fs.readFileSync(fullPath, "utf8");
   const { data, content } = matter(fileContents);
 
   const route: Route = {
-    id: slug,
+    id: realSlug,
     meta: {
       title: data.title,
       description: data?.description,

@@ -94,7 +94,7 @@ const AffixedPage = ({
                       onSelect={() => {
                         const source = map?.getSource(route.id);
                         if (!source) {
-                          return addAndGoTo(route.id);
+                          return addAndGoTo(route);
                         } else {
                           return removeSourceAndLayer(route.id);
                         }
@@ -145,7 +145,7 @@ const AffixedPage = ({
 };
 
 export async function getStaticProps() {
-  const routes = getAllRoutes({ withGeojson: false });
+  const routes = getAllRoutes({ withGeojson: true });
   return {
     props: {
       routes,
