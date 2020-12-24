@@ -5,7 +5,6 @@ import styled from "styled-components";
 import { Anchor } from "../ui/Anchor";
 import { horizontalStack } from "../ui/HorizontalStack";
 import { Text } from "../ui/Text";
-import { listItemVariants, listVariants } from "../ui/variants";
 
 const HeaderContainer = styled.header`
   display: flex;
