@@ -3,10 +3,11 @@ import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
 import * as React from "react";
 import { useQuery } from "react-query";
-import styled, { useTheme } from "styled-components";
+import { useTheme } from "styled-components";
 import FullView from "../../layout/FullView";
 import { getRecentTracksQuery } from "../../spotify/getRecentTracksQuery";
 import { useTrackVisualization } from "../../stores/trackVisualStore";
+import Absolute from "../../ui/Absolute";
 import { Error } from "../../ui/Error";
 import { LoadingSphere } from "../../ui/LoadingSphere";
 import { Record } from "../../ui/Record";
@@ -15,10 +16,6 @@ import { Text } from "../../ui/Text";
 import { TrackWaveformVisual } from "../../ui/three/TrackWaveformVisual";
 import { listItemVariants } from "../../ui/variants";
 import { VerticalStack } from "../../ui/VerticalStack";
-
-const Absolute = styled.div`
-  position: absolute;
-`;
 
 const TracksWaveformPage = () => {
   const theme = useTheme();
