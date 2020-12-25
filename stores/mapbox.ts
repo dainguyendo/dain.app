@@ -1,14 +1,13 @@
 import mapboxgl from "mapbox-gl";
 import create from "zustand";
 import { getBoundsFromFeatures } from "../packages/map-utils";
+import { defaultTheme } from "../theme";
 
 type State = {
   map: mapboxgl.Map | null;
   selectedLayer: string | null;
 
   initMap: (options?: mapboxgl.MapboxOptions) => void;
-  getMap: () => mapboxgl.Map;
-
   addAndGoTo: (route: any) => void;
   removeSourceAndLayer: (id: string) => void;
 };
@@ -19,15 +18,11 @@ export const useMapbox = create<State>((set, get) => ({
 
   initMap: (options) => {
     const map = new mapboxgl.Map(options);
+    addBuildings(map);
     return set({ map });
   },
-  getMap: () => get().map!,
   addAndGoTo: async (route) => {
     const map = get().map;
-    // const response = await fetch(`/api/get-route?id=${id}`);
-    // const route = await response.json();
-    // const featureCollection = route.geojson;
-
     map?.addSource(route.id, {
       type: "geojson",
       data: route.geojson,
@@ -50,7 +45,8 @@ export const useMapbox = create<State>((set, get) => ({
 
     if (bounds) {
       map?.fitBounds(bounds, {
-        padding: 20,
+        padding: 15,
+        pitch: 15,
       });
     }
 
@@ -64,3 +60,40 @@ export const useMapbox = create<State>((set, get) => ({
     set({ selectedLayer: null });
   },
 }));
+
+function addBuildings(map: mapboxgl.Map) {
+  map.on("load", function () {
+    // Insert the layer beneath any symbol layer.
+    let layers = map.getStyle().layers ?? [];
+    let labelLayerId;
+    for (let i = 0; i < layers.length; i++) {
+      if (
+        layers[i].type === "symbol" &&
+        (layers[i] as mapboxgl.SymbolLayer).layout?.["text-field"]
+      ) {
+        labelLayerId = layers[i].id;
+        break;
+      }
+    }
+
+    map.addLayer(
+      {
+        id: "3d-buildings",
+        source: "composite",
+        "source-layer": "building",
+        filter: ["==", "extrude", "true"],
+        type: "fill-extrusion",
+        minzoom: 11,
+        paint: {
+          "fill-extrusion-color": defaultTheme.colors.grey700,
+
+          // use an 'interpolate' expression to add a smooth transition effect to the
+          // buildings as the user zooms in
+          "fill-extrusion-height": ["get", "height"],
+          "fill-extrusion-opacity": 0.6,
+        },
+      },
+      labelLayerId
+    );
+  });
+}

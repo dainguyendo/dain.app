@@ -1,71 +1,93 @@
-import { motion } from "framer-motion";
+import { ArrowLeftIcon } from "@modulz/radix-icons";
+import { AnimatePresence, motion } from "framer-motion";
+import Link from "next/link";
 import * as React from "react";
 import { useQuery } from "react-query";
 import { useTheme } from "styled-components";
-import { StandardLayout } from "../../layout/StandardLayout";
+import FullViewLayout from "../../layout/FullViewLayout";
 import { getRecentTracksQuery } from "../../spotify/getRecentTracksQuery";
 import { useTrackVisualization } from "../../stores/trackVisualStore";
-import { Anchor } from "../../ui/Anchor";
+import Absolute from "../../ui/Absolute";
 import { Error } from "../../ui/Error";
 import { LoadingSphere } from "../../ui/LoadingSphere";
 import { Record } from "../../ui/Record";
+import { Row } from "../../ui/Row";
 import { Text } from "../../ui/Text";
 import { TrackWaveformVisual } from "../../ui/three/TrackWaveformVisual";
+import { listItemVariants } from "../../ui/variants";
 import { VerticalStack } from "../../ui/VerticalStack";
 
 const TracksWaveformPage = () => {
   const theme = useTheme();
-  const store = useTrackVisualization();
+  const { audio, track: selectedTrack, setTrack } = useTrackVisualization();
   const [limit] = React.useState(9);
   const { data: recentTracks, status } = useQuery(["recent", limit], () =>
     getRecentTracksQuery(limit)
   );
 
   React.useEffect(() => {
-    if (!store.track) {
-      store.audio?.pause();
+    if (!selectedTrack) {
+      audio?.pause();
     }
   });
 
   return (
-    <StandardLayout title="track waveform">
-      <VerticalStack space={5}>
-        {status === "error" && <Error />}
-        {status === "loading" && <LoadingSphere />}
-        {status === "success" && recentTracks && (
-          <VerticalStack space={3}>
+    <FullViewLayout title="track-waveform">
+      <div
+        style={{
+          height: "100%",
+          width: "100%",
+        }}
+      >
+        <TrackWaveformVisual track={selectedTrack} />
+      </div>
+
+      <Absolute style={{ top: "2.5%", right: "5%", textAlign: "right" }}>
+        {selectedTrack && (
+          <AnimatePresence>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              variants={listItemVariants}
+            >
+              <VerticalStack space={0}>
+                <Text fontSize={3} fontWeight="bold">
+                  {selectedTrack.name}
+                </Text>
+                <Text fontSize={2}>{selectedTrack.artists[0].name}</Text>
+              </VerticalStack>
+            </motion.div>
+          </AnimatePresence>
+        )}
+      </Absolute>
+
+      <Absolute style={{ bottom: "2.5%", left: "5%" }}>
+        <VerticalStack space={2}>
+          {status === "error" && <Error />}
+          {status === "loading" && <LoadingSphere />}
+          {status === "success" && recentTracks && (
             <div
               style={{
                 display: "grid",
                 gridGap: theme.spacing[3],
                 gridTemplateColumns: "repeat(3, 1fr)",
                 placeItems: "center",
-                position: "relative",
               }}
             >
-              <div
-                style={{
-                  pointerEvents: "none",
-                  position: "absolute",
-                  height: "100%",
-                  width: "100%",
-                  zIndex: -1,
-                }}
-              >
-                <TrackWaveformVisual track={store.track} />
-              </div>
               {recentTracks.items.map((item, idx) => {
                 const track = item.track;
                 const { album } = track as SpotifyApi.TrackObjectFull;
                 const medAlbumImage = album.images[album.images.length - 2];
-                const isSelected = track.id === store.track?.id;
+                const isSelected = track.id === selectedTrack?.id;
                 return (
                   <Record
                     key={`${track.id}-${idx}`}
                     src={medAlbumImage.url}
-                    height={125}
-                    width={125}
+                    height={100}
+                    width={100}
                     animate={{
+                      opacity: selectedTrack && !isSelected ? 0.2 : 1,
                       rotate: isSelected ? 360 : 0,
                       transition: {
                         ease: "linear",
@@ -74,7 +96,7 @@ const TracksWaveformPage = () => {
                       },
                     }}
                     onClick={() => {
-                      store.setTrack(track);
+                      setTrack(track);
                     }}
                     style={{
                       cursor: "pointer",
@@ -83,60 +105,27 @@ const TracksWaveformPage = () => {
                 );
               })}
             </div>
-            <motion.div layoutId="info">
-              <Text
-                fontWeight="bold"
-                fontSize={3}
-                lineHeight="heading"
-                color="grey600"
-              >
-                track waveform
-              </Text>
-              <p>
-                <Text>
-                  It's been a bit since I've had any involvement with
-                  visuals/visualizations.
-                </Text>
-              </p>
-              <p>
-                <Text>
-                  To get back, I wanted to explore creating waveforms from
-                  audio. Adding 3D was just a new twist for myself.
-                </Text>
-              </p>
-              <Text fontWeight="bold" fontSize={1} lineHeight="heading">
-                Explored:
-              </Text>
-              <ul>
-                <VerticalStack space={1}>
-                  <li>
-                    <Anchor
-                      target="_blank"
-                      href="https://github.com/pmndrs/react-three-fiber"
-                    >
-                      <code>react-fiber-three</code>
-                    </Anchor>
-                  </li>
-                  <li>
-                    <Anchor target="_blank" href="https://zustand.surge.sh/">
-                      <code>zustand</code>
-                    </Anchor>
-                  </li>
-                  <li>
-                    <Anchor
-                      target="_blank"
-                      href="https://developer.mozilla.org/en-US/docs/Web/API/AudioContext"
-                    >
-                      <code>AudioContext</code>
-                    </Anchor>
-                  </li>
-                </VerticalStack>
-              </ul>
-            </motion.div>
-          </VerticalStack>
-        )}
-      </VerticalStack>
-    </StandardLayout>
+          )}
+
+          <Link href="/misc">
+            <a>
+              <Row alignItems="center">
+                <ArrowLeftIcon />
+                <Text>back</Text>
+              </Row>
+            </a>
+          </Link>
+          <Text
+            fontWeight="bold"
+            fontSize={3}
+            lineHeight="heading"
+            color="grey600"
+          >
+            track waveform
+          </Text>
+        </VerticalStack>
+      </Absolute>
+    </FullViewLayout>
   );
 };
 
