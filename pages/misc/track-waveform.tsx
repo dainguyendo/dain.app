@@ -4,7 +4,7 @@ import Link from "next/link";
 import * as React from "react";
 import { useQuery } from "react-query";
 import { useTheme } from "styled-components";
-import FullView from "../../layout/FullView";
+import FullViewLayout from "../../layout/FullViewLayout";
 import { getRecentTracksQuery } from "../../spotify/getRecentTracksQuery";
 import { useTrackVisualization } from "../../stores/trackVisualStore";
 import Absolute from "../../ui/Absolute";
@@ -32,7 +32,7 @@ const TracksWaveformPage = () => {
   });
 
   return (
-    <FullView>
+    <FullViewLayout title="track-waveform">
       <div
         style={{
           height: "100%",
@@ -125,7 +125,7 @@ const TracksWaveformPage = () => {
           </Text>
         </VerticalStack>
       </Absolute>
-    </FullView>
+    </FullViewLayout>
   );
 };
 

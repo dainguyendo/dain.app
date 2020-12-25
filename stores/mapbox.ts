@@ -8,7 +8,6 @@ type State = {
   selectedLayer: string | null;
 
   initMap: (options?: mapboxgl.MapboxOptions) => void;
-
   addAndGoTo: (route: any) => void;
   removeSourceAndLayer: (id: string) => void;
 };

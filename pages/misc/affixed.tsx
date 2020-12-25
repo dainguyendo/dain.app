@@ -7,7 +7,7 @@ import Link from "next/link";
 import * as React from "react";
 import styled, { useTheme } from "styled-components";
 import { getAllRoutes, Route } from "../../fixed-routes/api";
-import FullView from "../../layout/FullView";
+import FullViewLayout from "../../layout/FullViewLayout";
 import { useMapbox } from "../../stores/mapbox";
 import Absolute from "../../ui/Absolute";
 import { HorizontalStack } from "../../ui/HorizontalStack";
@@ -59,7 +59,7 @@ const AffixedPage = ({
   };
 
   return (
-    <FullView>
+    <FullViewLayout title="affixed">
       <Head>
         <link
           href="https://api.mapbox.com/mapbox-gl-js/v2.0.0/mapbox-gl.css"
@@ -144,7 +144,7 @@ const AffixedPage = ({
           </Card>
         </VerticalStack>
       </Absolute>
-    </FullView>
+    </FullViewLayout>
   );
 };
 
