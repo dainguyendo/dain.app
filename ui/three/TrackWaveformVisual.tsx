@@ -1,6 +1,6 @@
+import { Canvas, useFrame } from "@react-three/fiber";
 import * as React from "react";
-import { Canvas, useFrame } from "react-three-fiber";
-import { Group } from "three";
+import type { Group } from "three";
 import { getAudioData } from "../../audio/getAudioData";
 import { useTrackVisualization } from "../../stores/trackVisualStore";
 import { usePrevious } from "../usePrevious";

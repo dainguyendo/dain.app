@@ -1,7 +1,7 @@
-import * as React from "react";
-import { MeshProps } from "react-three-fiber";
-import { Mesh } from "three";
 import { a, useSpring } from "@react-spring/three";
+import { MeshProps } from "@react-three/fiber";
+import * as React from "react";
+import type { Mesh } from "three";
 
 interface Props extends MeshProps {
   delay?: number;
