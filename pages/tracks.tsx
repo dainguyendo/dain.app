@@ -2,12 +2,18 @@ import { QuestionMarkCircledIcon } from "@modulz/radix-icons";
 import { motion } from "framer-motion";
 import * as React from "react";
 import { useQuery } from "react-query";
-import { useTheme } from "styled-components";
+import styled, { useTheme } from "styled-components";
 import { StandardLayout } from "../layout/StandardLayout";
 import { usePlayPreview } from "../providers/PlayPreviewContext";
 import { getRecentTracksQuery } from "../spotify/getRecentTracksQuery";
-import { Anchor } from "../ui/Anchor";
 import { Button } from "../ui/Button";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogOverlay,
+  DialogTrigger,
+} from "../ui/Dialog";
 import { Error } from "../ui/Error";
 import { HorizontalStack } from "../ui/HorizontalStack";
 import { LoadingSphere } from "../ui/LoadingSphere";
@@ -26,6 +32,12 @@ const trackVariants = {
   },
 };
 
+const Controls = styled.div`
+  align-items: center;
+  display: flex;
+  gap: ${({ theme }) => theme.spacing[2]};
+`;
+
 export default function Tracks() {
   const theme = useTheme();
   const [limit, setLimit] = React.useState(10);
@@ -39,13 +51,60 @@ export default function Tracks() {
   return (
     <StandardLayout title="Recent tracks">
       <VerticalStack space={5}>
-        <HorizontalStack space={3} style={{ alignItems: "center" }}>
-          <Anchor href="#help" style={{ flexGrow: 2 }}>
-            <HorizontalStack space={1} style={{ alignItems: "center" }}>
-              <Text color="grey600">How to use</Text>
-              <QuestionMarkCircledIcon />
-            </HorizontalStack>
-          </Anchor>
+        <Controls>
+          <div style={{ flexGrow: 2 }}>
+            <Dialog>
+              <DialogTrigger as={Button}>
+                <HorizontalStack space={1} style={{ alignItems: "center" }}>
+                  <Text>How to use</Text>
+                  <QuestionMarkCircledIcon />
+                </HorizontalStack>
+              </DialogTrigger>
+              <DialogOverlay />
+              <DialogContent style={{ padding: theme.spacing[3] }}>
+                <Text
+                  fontWeight="bold"
+                  fontSize={3}
+                  lineHeight="heading"
+                  color="grey600"
+                >
+                  Help
+                </Text>
+                <div
+                  style={{
+                    display: "grid",
+                    gap: theme.spacing[3],
+                    gridTemplateColumns: isAbove650
+                      ? "repeat(3, 1fr)"
+                      : "repeat(1, 1fr)",
+                  }}
+                >
+                  <VerticalStack space={1}>
+                    <Text fontWeight="bold">Desktop</Text>
+                    <Text>
+                      Hover to see track info. Click to open in Spotify.
+                    </Text>
+                  </VerticalStack>
+                  <VerticalStack space={1}>
+                    <Text fontWeight="bold">Touch device</Text>
+                    <Text>
+                      Tap to open in Spotify. Touch and hold to see track info.
+                    </Text>
+                  </VerticalStack>
+                  <VerticalStack space={1}>
+                    <Text fontWeight="bold">Tips for mobile</Text>
+                    <Text>
+                      For preview, while tapped, move away from track to prevent
+                      opening in Spotify.
+                    </Text>
+                  </VerticalStack>
+                </div>
+                <DialogClose as={Button}>
+                  <Text>Close</Text>
+                </DialogClose>
+              </DialogContent>
+            </Dialog>
+          </div>
           <HorizontalStack space={1} style={{ alignItems: "center" }}>
             <label htmlFor="enableTrackPreview">
               <Text color="grey600">Track preview</Text>
@@ -82,7 +141,7 @@ export default function Tracks() {
               <Text>50</Text>
             </Button>
           </HorizontalStack>
-        </HorizontalStack>
+        </Controls>
         {status === "success" && recentTracks && (
           <motion.div
             initial="out"
@@ -119,48 +178,6 @@ export default function Tracks() {
         )}
         {status === "loading" && <LoadingSphere />}
         {status === "error" && <Error />}
-        <motion.div layoutId="help-section">
-          <VerticalStack space={1}>
-            <Anchor id="help">
-              <Text
-                fontWeight="bold"
-                fontSize={3}
-                lineHeight="heading"
-                color="grey600"
-              >
-                Help
-              </Text>
-            </Anchor>
-
-            <div
-              style={{
-                display: "grid",
-                gap: theme.spacing[3],
-                gridTemplateColumns: isAbove650
-                  ? "repeat(3, 1fr)"
-                  : "repeat(2, 1fr)",
-              }}
-            >
-              <VerticalStack space={1}>
-                <Text fontWeight="bold">Desktop</Text>
-                <Text>Hover to see track info. Click to open in Spotify.</Text>
-              </VerticalStack>
-              <VerticalStack space={1}>
-                <Text fontWeight="bold">Touch device</Text>
-                <Text>
-                  Tap to open in Spotify. Touch and hold to see track info.
-                </Text>
-              </VerticalStack>
-              <VerticalStack space={1}>
-                <Text fontWeight="bold">Tips for mobile</Text>
-                <Text>
-                  For preview, while tapped, move away from track to prevent
-                  opening in Spotify.
-                </Text>
-              </VerticalStack>
-            </div>
-          </VerticalStack>
-        </motion.div>
       </VerticalStack>
     </StandardLayout>
   );
