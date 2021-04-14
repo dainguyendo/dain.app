@@ -1,3 +1,4 @@
+import { IdProvider } from "@radix-ui/react-id";
 import { AnimateSharedLayout } from "framer-motion";
 import App from "next/app";
 import * as React from "react";
@@ -26,7 +27,9 @@ class MyApp extends App {
         <QueryClientProvider client={queryClient}>
           <PlayPreviewProvider>
             <AnimateSharedLayout>
-              <Component {...pageProps} />
+              <IdProvider>
+                <Component {...pageProps} />
+              </IdProvider>
             </AnimateSharedLayout>
           </PlayPreviewProvider>
         </QueryClientProvider>
