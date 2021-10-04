@@ -12,18 +12,16 @@ const HeaderContainer = styled.header`
   margin: ${(props) => props.theme.spacing[4]} 0;
 `;
 
+const List = styled(motion.ul)`
+  display: flex;
+  ${horizontalStack(2)}
+`;
+
 export const Header: React.FC = () => {
   return (
     <HeaderContainer>
-      <nav
-        css={`
-          ul {
-            display: flex;
-            ${horizontalStack(2)}
-          }
-        `}
-      >
-        <motion.ul>
+      <nav>
+        <List>
           <motion.li>
             <Link passHref={true} href="/">
               <Anchor>
@@ -45,7 +43,7 @@ export const Header: React.FC = () => {
               </Anchor>
             </Link>
           </motion.li>
-        </motion.ul>
+        </List>
       </nav>
     </HeaderContainer>
   );
