@@ -39,13 +39,6 @@ export const Header: React.FC = () => {
             </Link>
           </motion.li>
           <motion.li>
-            <Link passHref={true} href="/words">
-              <Anchor>
-                <Text fontWeight="bold">words</Text>
-              </Anchor>
-            </Link>
-          </motion.li>
-          <motion.li>
             <Link passHref={true} href="/misc">
               <Anchor>
                 <Text fontWeight="bold">misc</Text>
