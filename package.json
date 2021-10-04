@@ -24,8 +24,8 @@
     "react-query": "^3.13.6",
     "react-responsive": "^8.2.0",
     "react-spring": "^9.1.1",
-    "remark": "^13.0.0",
-    "remark-html": "^13.0.1",
+    "remark": "^14.0.1",
+    "remark-html": "^15.0.0",
     "styled-components": "^5.2.3",
     "three": "^0.127.0",
     "zustand": "^3.4.1"
