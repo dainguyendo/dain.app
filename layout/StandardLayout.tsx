@@ -1,6 +1,6 @@
 import Head from "next/head";
 import * as React from "react";
-import styled from "styled-components";
+import { styled } from "../stitches.config";
 import { Footer } from "./Footer";
 import { Header } from "./Header";
 
@@ -9,28 +9,22 @@ interface Props extends React.HTMLAttributes<HTMLDivElement> {
   footer?: boolean;
 }
 
-const Grid = styled.main`
-  display: grid;
-  padding: 0 ${(props) => props.theme.spacing[2]};
+const Grid = styled("main", {
+  display: "grid",
+  px: "$2",
+  gridTemplateColumns: "1fr min(65ch, 100%) 1fr",
 
-  grid-template-columns:
-    1fr
-    min(65ch, 100%)
-    1fr;
-
-  & > * {
-    grid-column: 2;
-  }
-
-  & > .full-bleed {
-    width: 100%;
-    grid-column: 1 / 4;
-  }
-
-  @media (min-width: ${(props) => props.theme.breakpoints[0]}) {
-    padding: 0;
-  }
-`;
+  "& > *": {
+    gridColumn: 2,
+  },
+  "& > .full-bleed": {
+    width: "100%",
+    gridColumn: 1 / 4,
+  },
+  bp1: {
+    padding: 0,
+  },
+});
 
 export const StandardLayout: React.FC<Props> = ({
   children,

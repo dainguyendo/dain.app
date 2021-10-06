@@ -5,32 +5,29 @@ import { InferGetStaticPropsType } from "next";
 import Head from "next/head";
 import Link from "next/link";
 import * as React from "react";
-import styled, { useTheme } from "styled-components";
 import { getAllRoutes, Route } from "../../fixed-routes/api";
 import FullViewLayout from "../../layout/FullViewLayout";
+import { Flex } from "../../packages/ui/Flex";
+import { Pill } from "../../packages/ui/Pill";
+import { Stack } from "../../packages/ui/Stack";
+import { styled, theme } from "../../stitches.config";
 import { useMapbox } from "../../stores/mapbox";
-import Absolute from "../../ui/Absolute";
-import { HorizontalStack } from "../../ui/HorizontalStack";
-import Pill from "../../ui/Pill";
-import { Row } from "../../ui/Row";
-import { Text } from "../../ui/Text";
+import { Text } from "../../packages/ui/Text";
 import { listItemVariants, listVariants } from "../../ui/variants";
-import { VerticalStack } from "../../ui/VerticalStack";
 
 const accessToken = process.env.NEXT_PUBLIC_MAPBOX_PUBLIC_TOKEN;
 mapboxgl.accessToken = accessToken!;
 
-const Card = styled.div`
-  background-color: ${(props) => props.theme.colors.grey100};
-  border-radius: 4px;
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
-  padding: ${(props) => props.theme.spacing[2]};
-`;
+const Card = styled("div", {
+  backgroundColor: "$gray12",
+  borderRadius: "$1",
+  boxShadow: "0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)",
+  p: "$2",
+});
 
 const AffixedPage = ({
   routes,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
-  const theme = useTheme();
   const mapEl = React.useRef<HTMLDivElement>(null);
   const {
     initMap,
@@ -74,15 +71,16 @@ const AffixedPage = ({
           width: "100%",
         }}
       />
-      <Absolute
+      <div
         style={{
+          position: "absolute",
           bottom: "5%",
           left: "2.5%",
         }}
       >
-        <VerticalStack space={1}>
+        <Stack space={1}>
           <motion.div initial="out" animate="in" variants={listVariants}>
-            <HorizontalStack space={1}>
+            <Stack direction="horizontal" space={1}>
               {routes.map((route) => (
                 <motion.div
                   key={route.id}
@@ -105,26 +103,19 @@ const AffixedPage = ({
                   </Pill>
                 </motion.div>
               ))}
-            </HorizontalStack>
+            </Stack>
           </motion.div>
           <Card>
             <Link href="/misc">
               <a>
-                <Row alignItems="center">
+                <Flex direction="row" align="center">
                   <ArrowLeftIcon />
                   <Text>back</Text>
-                </Row>
+                </Flex>
               </a>
             </Link>
-            <VerticalStack space={1} style={{ marginTop: theme.spacing[2] }}>
-              <Text
-                fontWeight="bold"
-                fontSize={3}
-                lineHeight="heading"
-                color="grey600"
-              >
-                affixed
-              </Text>
+            <Stack space={1} style={{ marginTop: theme.space[2].value }}>
+              <Text>affixed</Text>
               <Text>
                 Cities and bicycles go{" "}
                 <span style={{ textDecoration: "line-through" }}>
@@ -140,10 +131,10 @@ const AffixedPage = ({
               <Text>
                 Routes were exported from Google Map's timeline feature.
               </Text>
-            </VerticalStack>
+            </Stack>
           </Card>
-        </VerticalStack>
-      </Absolute>
+        </Stack>
+      </div>
     </FullViewLayout>
   );
 };

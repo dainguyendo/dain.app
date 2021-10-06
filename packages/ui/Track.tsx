@@ -1,12 +1,12 @@
 import { motion } from "framer-motion";
 import * as React from "react";
-import { usePlayPreview } from "../providers/PlayPreviewContext";
-import { Anchor } from "./Anchor";
+import { TrackTooltip } from "../../packages/ui/TrackTooltip";
+import { Text } from "../../packages/ui/Text";
+import { VisuallyHidden } from "../../packages/ui/VisuallyHidden";
+import { usePlayPreview } from "../../providers/PlayPreviewContext";
+import useAudio from "../../ui/useAudio";
+import { Link } from "./Link";
 import { Record } from "./Record";
-import { Text } from "./Text";
-import { TrackTooltip } from "./TrackTooltip";
-import useAudio from "./useAudio";
-import { VisuallyHidden } from "./VisuallyHidden";
 
 const tooltipVariants = {
   hidden: {
@@ -64,7 +64,7 @@ export const Track: React.FC<Props> = (props) => {
   };
 
   return (
-    <Anchor
+    <Link
       ref={ref}
       href={track.uri}
       target="_blank"
@@ -102,7 +102,10 @@ export const Track: React.FC<Props> = (props) => {
           animate="show"
           variants={tooltipVariants}
           transition={{ when: "afterChildren" }}
-          rect={rect}
+          style={{
+            height: `${rect.height / 2}px`,
+            width: `${rect.width / 8}px`,
+          }}
         >
           <motion.div
             initial="right"
@@ -120,11 +123,11 @@ export const Track: React.FC<Props> = (props) => {
               whiteSpace: "nowrap",
             }}
           >
-            <Text fontWeight="bold">{song}</Text>
+            <Text>{song}</Text>
             <Text>{artist.name}</Text>
           </motion.div>
         </TrackTooltip>
       )}
-    </Anchor>
+    </Link>
   );
 };

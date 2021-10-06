@@ -1,12 +1,15 @@
-import { QuestionMarkCircledIcon } from "@modulz/radix-icons";
 import { motion } from "framer-motion";
 import type { InferGetStaticPropsType } from "next";
 import * as React from "react";
-import styled, { useTheme } from "styled-components";
 import { StandardLayout } from "../layout/StandardLayout";
-import { usePlayPreview } from "../providers/PlayPreviewContext";
 import { getRecentTracks } from "../packages/spotify/getRecentTracks";
-import { Button } from "../ui/Button";
+import { Button } from "../packages/ui/Button";
+import { Flex } from "../packages/ui/Flex";
+import { Stack } from "../packages/ui/Stack";
+import { Text } from "../packages/ui/Text";
+import { Track } from "../packages/ui/Track";
+import { usePlayPreview } from "../providers/PlayPreviewContext";
+import { theme } from "../stitches.config";
 import {
   Dialog,
   DialogClose,
@@ -14,12 +17,8 @@ import {
   DialogOverlay,
   DialogTrigger,
 } from "../ui/Dialog";
-import { HorizontalStack } from "../ui/HorizontalStack";
-import { Text } from "../ui/Text";
-import { Track } from "../ui/Track";
 import { useResponsiveScreen } from "../ui/useResponsiveScreen";
 import { listVariants } from "../ui/variants";
-import { VerticalStack } from "../ui/VerticalStack";
 
 const trackVariants = {
   out: {
@@ -29,12 +28,6 @@ const trackVariants = {
     opacity: 1,
   },
 };
-
-const Controls = styled.div`
-  align-items: center;
-  display: flex;
-  gap: ${({ theme }) => theme.spacing[2]};
-`;
 
 export async function getStaticProps() {
   const recentTracks = await getRecentTracks(50);
@@ -49,24 +42,18 @@ export async function getStaticProps() {
 export default function Tracks({
   recentTracks,
 }: InferGetStaticPropsType<typeof getStaticProps>) {
-  const theme = useTheme();
   const { isAbove650 } = useResponsiveScreen();
   const { preview, toggle } = usePlayPreview();
 
   return (
     <StandardLayout title="Recent tracks">
-      <VerticalStack space={5}>
-        <Controls>
+      <Stack space={5}>
+        <Flex align="center" gap={2}>
           <div style={{ flexGrow: 2 }}>
             <Dialog>
-              <DialogTrigger as={Button}>
-                <HorizontalStack space={1} style={{ alignItems: "center" }}>
-                  <Text>How to use</Text>
-                  <QuestionMarkCircledIcon />
-                </HorizontalStack>
-              </DialogTrigger>
+              <DialogTrigger as={Button}>How to use</DialogTrigger>
               <DialogOverlay />
-              <DialogContent style={{ padding: theme.spacing[3] }}>
+              <DialogContent style={{ padding: theme.space[3].value }}>
                 <Text
                   fontWeight="bold"
                   fontSize={3}
@@ -78,31 +65,31 @@ export default function Tracks({
                 <div
                   style={{
                     display: "grid",
-                    gap: theme.spacing[3],
+                    gap: theme.space[3].value,
                     gridTemplateColumns: isAbove650
                       ? "repeat(3, 1fr)"
                       : "repeat(1, 1fr)",
                   }}
                 >
-                  <VerticalStack space={1}>
+                  <Stack space={1}>
                     <Text fontWeight="bold">Desktop</Text>
                     <Text>
                       Hover to see track info. Click to open in Spotify.
                     </Text>
-                  </VerticalStack>
-                  <VerticalStack space={1}>
+                  </Stack>
+                  <Stack space={1}>
                     <Text fontWeight="bold">Touch device</Text>
                     <Text>
                       Tap to open in Spotify. Touch and hold to see track info.
                     </Text>
-                  </VerticalStack>
-                  <VerticalStack space={1}>
+                  </Stack>
+                  <Stack space={1}>
                     <Text fontWeight="bold">Tips for mobile</Text>
                     <Text>
                       For preview, while tapped, move away from track to prevent
                       opening in Spotify.
                     </Text>
-                  </VerticalStack>
+                  </Stack>
                 </div>
                 <DialogClose as={Button}>
                   <Text>Close</Text>
@@ -110,7 +97,11 @@ export default function Tracks({
               </DialogContent>
             </Dialog>
           </div>
-          <HorizontalStack space={1} style={{ alignItems: "center" }}>
+          <Stack
+            direction="horizontal"
+            space={1}
+            style={{ alignItems: "center" }}
+          >
             <label htmlFor="enableTrackPreview">
               <Text color="grey600">Track preview</Text>
             </label>
@@ -121,15 +112,15 @@ export default function Tracks({
               checked={!!preview}
               onChange={toggle}
             />
-          </HorizontalStack>
-        </Controls>
+          </Stack>
+        </Flex>
         <motion.div
           initial="out"
           animate="in"
           variants={listVariants}
           style={{
             display: "grid",
-            gap: theme.spacing[3],
+            gap: theme.space[3].value,
             gridTemplateColumns: isAbove650
               ? "repeat(3, 1fr)"
               : "repeat(2, 1fr)",
@@ -152,7 +143,7 @@ export default function Tracks({
             </motion.div>
           ))}
         </motion.div>
-      </VerticalStack>
+      </Stack>
     </StandardLayout>
   );
 }
