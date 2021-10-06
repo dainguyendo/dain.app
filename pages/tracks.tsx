@@ -54,14 +54,7 @@ export default function Tracks({
               <DialogTrigger as={Button}>How to use</DialogTrigger>
               <DialogOverlay />
               <DialogContent style={{ padding: theme.space[3].value }}>
-                <Text
-                  fontWeight="bold"
-                  fontSize={3}
-                  lineHeight="heading"
-                  color="grey600"
-                >
-                  Help
-                </Text>
+                <Text>Help</Text>
                 <div
                   style={{
                     display: "grid",
@@ -72,19 +65,19 @@ export default function Tracks({
                   }}
                 >
                   <Stack space={1}>
-                    <Text fontWeight="bold">Desktop</Text>
+                    <Text>Desktop</Text>
                     <Text>
                       Hover to see track info. Click to open in Spotify.
                     </Text>
                   </Stack>
                   <Stack space={1}>
-                    <Text fontWeight="bold">Touch device</Text>
+                    <Text>Touch device</Text>
                     <Text>
                       Tap to open in Spotify. Touch and hold to see track info.
                     </Text>
                   </Stack>
                   <Stack space={1}>
-                    <Text fontWeight="bold">Tips for mobile</Text>
+                    <Text>Tips for mobile</Text>
                     <Text>
                       For preview, while tapped, move away from track to prevent
                       opening in Spotify.
