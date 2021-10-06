@@ -17,34 +17,28 @@ interface StaticProps {
 }
 
 export const getStaticProps = async () => {
-  try {
-    const page_id: string = process.env.NOTION_RESUME_PAGE_ID || "";
+  const page_id: string = process.env.NOTION_RESUME_PAGE_ID || "";
 
-    if (!page_id) {
-      throw new Error("Missing NOTION_RESUME_PAGE_ID environment variable");
-    }
-
-    const block = await Notion.blocks.retrieve({
-      block_id: page_id,
-    });
-
-    const content = await Notion.blocks.children.list({
-      block_id: block.id,
-      page_size: 50,
-    });
-
-    return {
-      props: {
-        block,
-        content,
-      },
-      revalidate: process.env.NODE_ENV === "production" ? 300 : false,
-    };
-  } catch (error) {
-    return {
-      notFound: true,
-    };
+  if (!page_id) {
+    throw new Error("Missing NOTION_RESUME_PAGE_ID environment variable");
   }
+
+  const block = await Notion.blocks.retrieve({
+    block_id: page_id,
+  });
+
+  const content = await Notion.blocks.children.list({
+    block_id: block.id,
+    page_size: 50,
+  });
+
+  return {
+    props: {
+      block,
+      content,
+    },
+    revalidate: process.env.NODE_ENV === "production" ? 300 : false,
+  };
 };
 
 export default function Resume({ block, content }: StaticProps) {
