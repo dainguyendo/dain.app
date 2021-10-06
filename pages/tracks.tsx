@@ -1,11 +1,11 @@
 import { QuestionMarkCircledIcon } from "@modulz/radix-icons";
 import { motion } from "framer-motion";
+import type { InferGetStaticPropsType } from "next";
 import * as React from "react";
-import { useQuery } from "react-query";
 import styled, { useTheme } from "styled-components";
 import { StandardLayout } from "../layout/StandardLayout";
 import { usePlayPreview } from "../providers/PlayPreviewContext";
-import { getRecentTracksQuery } from "../spotify/getRecentTracksQuery";
+import { getRecentTracks } from "../packages/spotify/getRecentTracks";
 import { Button } from "../ui/Button";
 import {
   Dialog,
@@ -14,9 +14,7 @@ import {
   DialogOverlay,
   DialogTrigger,
 } from "../ui/Dialog";
-import { Error } from "../ui/Error";
 import { HorizontalStack } from "../ui/HorizontalStack";
-import { LoadingSphere } from "../ui/LoadingSphere";
 import { Text } from "../ui/Text";
 import { Track } from "../ui/Track";
 import { useResponsiveScreen } from "../ui/useResponsiveScreen";
@@ -38,15 +36,22 @@ const Controls = styled.div`
   gap: ${({ theme }) => theme.spacing[2]};
 `;
 
-export default function Tracks() {
+export async function getStaticProps() {
+  const recentTracks = await getRecentTracks(50);
+  return {
+    props: {
+      recentTracks,
+    },
+    revalidate: 300,
+  };
+}
+
+export default function Tracks({
+  recentTracks,
+}: InferGetStaticPropsType<typeof getStaticProps>) {
   const theme = useTheme();
-  const [limit, setLimit] = React.useState(10);
   const { isAbove650 } = useResponsiveScreen();
   const { preview, toggle } = usePlayPreview();
-
-  const { data: recentTracks, status } = useQuery(["recent", limit], () =>
-    getRecentTracksQuery(limit)
-  );
 
   return (
     <StandardLayout title="Recent tracks">
@@ -117,67 +122,36 @@ export default function Tracks() {
               onChange={toggle}
             />
           </HorizontalStack>
-          <HorizontalStack space={1} style={{ alignItems: "center" }}>
-            <Text color="grey600">Limit: </Text>
-            <Button
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-              onClick={() => setLimit(10)}
-            >
-              <Text>10</Text>
-            </Button>
-            <Button
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-              onClick={() => setLimit(25)}
-            >
-              <Text>25</Text>
-            </Button>
-            <Button
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-              onClick={() => setLimit(50)}
-            >
-              <Text>50</Text>
-            </Button>
-          </HorizontalStack>
         </Controls>
-        {status === "success" && recentTracks && (
-          <motion.div
-            initial="out"
-            animate="in"
-            variants={listVariants}
-            style={{
-              display: "grid",
-              gap: theme.spacing[3],
-              gridTemplateColumns: isAbove650
-                ? "repeat(3, 1fr)"
-                : "repeat(2, 1fr)",
-              placeItems: "center",
-            }}
-          >
-            {recentTracks.items.map((item, idx) => {
-              const { track } = item;
-              return (
-                <motion.div
-                  key={`${track.id}${idx}`}
-                  variants={trackVariants}
-                  style={{
-                    position: "relative",
-                  }}
-                >
-                  <Track
-                    index={idx}
-                    totalTracks={recentTracks.items.length}
-                    {...item}
-                  />
-                </motion.div>
-              );
-            })}
-          </motion.div>
-        )}
-        {status === "loading" && <LoadingSphere />}
-        {status === "error" && <Error />}
+        <motion.div
+          initial="out"
+          animate="in"
+          variants={listVariants}
+          style={{
+            display: "grid",
+            gap: theme.spacing[3],
+            gridTemplateColumns: isAbove650
+              ? "repeat(3, 1fr)"
+              : "repeat(2, 1fr)",
+            placeItems: "center",
+          }}
+        >
+          {recentTracks.items.map((item, idx) => (
+            <motion.div
+              key={`${item.track.id}${idx}`}
+              variants={trackVariants}
+              style={{
+                position: "relative",
+              }}
+            >
+              <Track
+                index={idx}
+                totalTracks={recentTracks.items.length}
+                {...item}
+              />
+            </motion.div>
+          ))}
+        </motion.div>
       </VerticalStack>
     </StandardLayout>
   );
