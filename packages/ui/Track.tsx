@@ -31,7 +31,6 @@ interface Props extends SpotifyApi.PlayHistoryObject {
 
 export const Track: React.FC<Props> = (props) => {
   const { track } = props;
-  const ref = React.useRef<HTMLAnchorElement | null>(null);
   const [hovered, setHover] = React.useState(false);
   const [audio, , controls] = useAudio({
     src: track.preview_url ?? "",
@@ -51,7 +50,6 @@ export const Track: React.FC<Props> = (props) => {
   const song = track.name;
 
   const medAlbumImage = album.images[album.images.length - 2];
-  const rect = ref.current?.getBoundingClientRect();
 
   const enablePreviewAndPlay = () => {
     setHover(true);
@@ -65,7 +63,6 @@ export const Track: React.FC<Props> = (props) => {
 
   return (
     <Link
-      ref={ref}
       href={track.uri}
       target="_blank"
       onMouseEnter={enablePreviewAndPlay}
@@ -96,15 +93,15 @@ export const Track: React.FC<Props> = (props) => {
         }}
       />
       {audio}
-      {hovered && rect && (
+      {hovered && (
         <TrackTooltip
           initial="hidden"
           animate="show"
           variants={tooltipVariants}
           transition={{ when: "afterChildren" }}
           style={{
-            height: `${rect.height / 2}px`,
-            width: `${rect.width / 8}px`,
+            height: "100%",
+            width: "100%",
           }}
         >
           <motion.div
@@ -123,7 +120,7 @@ export const Track: React.FC<Props> = (props) => {
               whiteSpace: "nowrap",
             }}
           >
-            <Text>{song}</Text>
+            <Text bold>{song}</Text>
             <Text>{artist.name}</Text>
           </motion.div>
         </TrackTooltip>

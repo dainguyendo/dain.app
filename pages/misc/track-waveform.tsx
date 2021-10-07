@@ -1,4 +1,4 @@
-import { ArrowLeftIcon } from "@modulz/radix-icons";
+import { ArrowLeftIcon } from "@radix-ui/react-icons";
 import { AnimatePresence, motion } from "framer-motion";
 import type { InferGetStaticPropsType } from "next";
 import NextLink from "next/link";

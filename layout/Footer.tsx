@@ -1,4 +1,4 @@
-import { CameraIcon, GitHubLogoIcon } from "@modulz/radix-icons";
+import { CameraIcon, GitHubLogoIcon } from "@radix-ui/react-icons";
 import { motion } from "framer-motion";
 import * as React from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "../packages/ui/Avatar";
@@ -10,6 +10,9 @@ import { Text } from "../packages/ui/Text";
 import { styled } from "../stitches.config";
 
 const FooterContainer = styled(motion.footer, {
+  display: "flex",
+  ai: "center",
+  jc: "center",
   my: "$4",
 });
 

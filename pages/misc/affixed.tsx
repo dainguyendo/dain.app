@@ -1,4 +1,4 @@
-import { ArrowLeftIcon } from "@modulz/radix-icons";
+import { ArrowLeftIcon } from "@radix-ui/react-icons";
 import { motion } from "framer-motion";
 import mapboxgl from "mapbox-gl";
 import { InferGetStaticPropsType } from "next";
