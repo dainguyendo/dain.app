@@ -3,27 +3,21 @@ import { motion } from "framer-motion";
 import mapboxgl from "mapbox-gl";
 import { InferGetStaticPropsType } from "next";
 import Head from "next/head";
-import Link from "next/link";
+import NextLink from "next/link";
 import * as React from "react";
 import { getAllRoutes, Route } from "../../fixed-routes/api";
 import FullViewLayout from "../../layout/FullViewLayout";
+import { Button } from "../../packages/ui/Button";
+import { Card } from "../../packages/ui/Card";
 import { Flex } from "../../packages/ui/Flex";
-import { Pill } from "../../packages/ui/Pill";
-import { Stack } from "../../packages/ui/Stack";
-import { styled, theme } from "../../stitches.config";
-import { useMapbox } from "../../stores/mapbox";
+import { Heading } from "../../packages/ui/Heading";
+import { Link } from "../../packages/ui/Link";
 import { Text } from "../../packages/ui/Text";
+import { useMapbox } from "../../stores/mapbox";
 import { listItemVariants, listVariants } from "../../ui/variants";
 
 const accessToken = process.env.NEXT_PUBLIC_MAPBOX_PUBLIC_TOKEN;
 mapboxgl.accessToken = accessToken!;
-
-const Card = styled("div", {
-  backgroundColor: "$gray12",
-  borderRadius: "$1",
-  boxShadow: "0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)",
-  p: "$2",
-});
 
 const AffixedPage = ({
   routes,
@@ -78,9 +72,18 @@ const AffixedPage = ({
           left: "2.5%",
         }}
       >
-        <Stack space={1}>
+        <Card css={{ p: "$4", vs: "$2" }}>
+          <NextLink href="/misc">
+            <Link>
+              <Flex direction="row" align="center">
+                <ArrowLeftIcon />
+                <Text>back</Text>
+              </Flex>
+            </Link>
+          </NextLink>
+          <Heading size="4">affixed</Heading>
           <motion.div initial="out" animate="in" variants={listVariants}>
-            <Stack direction="horizontal" space={1}>
+            <Flex direction="row" gap="2">
               {routes.map((route) => (
                 <motion.div
                   key={route.id}
@@ -94,46 +97,20 @@ const AffixedPage = ({
                   }}
                   variants={listItemVariants}
                 >
-                  <Pill
-                    role="button"
-                    onClick={() => handleClick(route)}
-                    style={{ cursor: "pointer" }}
-                  >
-                    <Text color="grey100">{route.meta.title}</Text>
-                  </Pill>
+                  <Button type="button" onClick={() => handleClick(route)}>
+                    <Text
+                      variant={
+                        selectedLayer === route.meta.title ? "crimson" : "gray"
+                      }
+                    >
+                      {route.meta.title}
+                    </Text>
+                  </Button>
                 </motion.div>
               ))}
-            </Stack>
+            </Flex>
           </motion.div>
-          <Card>
-            <Link href="/misc">
-              <a>
-                <Flex direction="row" align="center">
-                  <ArrowLeftIcon />
-                  <Text>back</Text>
-                </Flex>
-              </a>
-            </Link>
-            <Stack space={1} style={{ marginTop: theme.space[2].value }}>
-              <Text>affixed</Text>
-              <Text>
-                Cities and bicycles go{" "}
-                <span style={{ textDecoration: "line-through" }}>
-                  hand in hand
-                </span>{" "}
-                (foot in pedal 😅 ?). Where immersion meets efficiency -
-                exploring on a bike is hard to beat.
-              </Text>
-              <Text>
-                Here are some routes my track bike, hence <i>affixed</i>, has
-                met the city's pavement.
-              </Text>
-              <Text>
-                Routes were exported from Google Map's timeline feature.
-              </Text>
-            </Stack>
-          </Card>
-        </Stack>
+        </Card>
       </div>
     </FullViewLayout>
   );

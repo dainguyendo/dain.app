@@ -1,6 +1,8 @@
 import { crimson, gray, pink } from "@radix-ui/colors";
-import type { PropertyValue } from "@stitches/react";
+import type { CSS, PropertyValue } from "@stitches/react";
 import { createStitches } from "@stitches/react";
+
+export type { VariantProps } from "@stitches/react";
 
 export const {
   styled,
@@ -199,3 +201,5 @@ export const {
     }),
   },
 });
+
+export type CSSConfig = CSS<typeof config>;

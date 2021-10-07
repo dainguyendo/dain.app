@@ -1,11 +1,13 @@
 import { ArrowLeftIcon } from "@modulz/radix-icons";
 import { AnimatePresence, motion } from "framer-motion";
 import type { InferGetStaticPropsType } from "next";
-import Link from "next/link";
+import NextLink from "next/link";
 import * as React from "react";
 import FullViewLayout from "../../layout/FullViewLayout";
 import { getRecentTracks } from "../../packages/spotify/getRecentTracks";
 import { Flex } from "../../packages/ui/Flex";
+import { Heading } from "../../packages/ui/Heading";
+import { Link } from "../../packages/ui/Link";
 import { Record } from "../../packages/ui/Record";
 import { Stack } from "../../packages/ui/Stack";
 import { Text } from "../../packages/ui/Text";
@@ -63,8 +65,8 @@ const TracksWaveformPage = ({
               variants={listItemVariants}
             >
               <Stack space={1}>
-                <Text>{selectedTrack.name}</Text>
-                <Text>{selectedTrack.artists[0].name}</Text>
+                <Heading size="4">{selectedTrack.name}</Heading>
+                <Heading size="4">{selectedTrack.artists[0].name}</Heading>
               </Stack>
             </motion.div>
           </AnimatePresence>
@@ -111,15 +113,15 @@ const TracksWaveformPage = ({
               );
             })}
           </div>
-          <Link href="/misc">
-            <a>
+          <NextLink href="/misc" passHref>
+            <Link>
               <Flex direction="row" align="center">
                 <ArrowLeftIcon />
                 <Text>back</Text>
               </Flex>
-            </a>
-          </Link>
-          <Text>track waveform</Text>
+            </Link>
+          </NextLink>
+          <Heading>track waveform</Heading>
         </Stack>
       </div>
     </FullViewLayout>

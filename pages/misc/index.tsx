@@ -1,37 +1,44 @@
-import Link from "next/link";
+import NextLink from "next/link";
 import { StandardLayout } from "../../layout/StandardLayout";
+import { Card } from "../../packages/ui/Card";
+import { Grid } from "../../packages/ui/Grid";
+import { Heading } from "../../packages/ui/Heading";
+import { Link } from "../../packages/ui/Link";
+import { Paragraph } from "../../packages/ui/Paragraph";
 import { Stack } from "../../packages/ui/Stack";
-import { Text } from "../../packages/ui/Text";
-import { styled } from "../../stitches.config";
-
-const Card = styled("div", {
-  borderRadius: "$1",
-  p: "$2",
-});
 
 function MiscPage() {
   return (
     <StandardLayout title="Misc">
-      <Card>
-        <Stack space={1}>
-          <Link href="/misc/track-waveform">
-            <a>
-              <Text>track-waveform</Text>
-            </a>
+      <Grid gap="4">
+        <NextLink href="/misc/track-waveform" passHref>
+          <Link variant="empty" aria-labelledby="waveform-heading">
+            <Card variant="ghost" css={{ p: "$4" }}>
+              <Stack space={2}>
+                <Heading id="waveform-heading">track-waveform</Heading>
+                <Paragraph>
+                  Visualization of a record's audio buffer. Tracks are sourced
+                  from Spotify and visualization is built with react-three-fiber
+                  and threejs.
+                </Paragraph>
+              </Stack>
+            </Card>
           </Link>
-          <Text>Create waveforms from Spotify tracks and visualize in 3D.</Text>
-        </Stack>
-      </Card>
-      <Card>
-        <Stack space={1}>
-          <Link href="/misc/affixed">
-            <a>
-              <Text>affixed</Text>
-            </a>
+        </NextLink>
+        <NextLink href="/misc/affixed" passHref>
+          <Link variant="empty" aria-labelledby="affixed">
+            <Card variant="ghost" css={{ p: "$4" }}>
+              <Stack space={2}>
+                <Heading id="affixed-heading">affixed</Heading>
+                <Paragraph>
+                  Map sharing some of my fixed track bike routes across
+                  different cities. Built with mapbox-gl.
+                </Paragraph>
+              </Stack>
+            </Card>
           </Link>
-          <Text>Two wheels, feet fastened, and ready to ride.</Text>
-        </Stack>
-      </Card>
+        </NextLink>
+      </Grid>
     </StandardLayout>
   );
 }

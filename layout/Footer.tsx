@@ -1,15 +1,13 @@
 import { CameraIcon, GitHubLogoIcon } from "@modulz/radix-icons";
 import { motion } from "framer-motion";
-import Image from "next/image";
 import * as React from "react";
+import { Avatar, AvatarFallback, AvatarImage } from "../packages/ui/Avatar";
+import { Flex } from "../packages/ui/Flex";
+import { Heading } from "../packages/ui/Heading";
 import { Link } from "../packages/ui/Link";
 import { Stack } from "../packages/ui/Stack";
 import { Text } from "../packages/ui/Text";
 import { styled } from "../stitches.config";
-
-const ProfileImage = styled(Image, {
-  clipPath: "circle(35%)",
-});
 
 const FooterContainer = styled(motion.footer, {
   my: "$4",
@@ -18,24 +16,21 @@ const FooterContainer = styled(motion.footer, {
 export const Footer = () => {
   return (
     <FooterContainer layoutId="footer">
-      <Stack direction="horizontal" space={2} style={{ alignItems: "center" }}>
-        <ProfileImage
-          priority={true}
-          src="/me.png"
-          alt="Dai Nguyendo"
-          width={225}
-          height={150}
-        />
+      <Flex direction="row" align="center" gap="3">
+        <Avatar css={{ width: 115, height: 115 }}>
+          <AvatarImage src="/me.png" alt="Dai Nguyendo" />
+          <AvatarFallback>DN</AvatarFallback>
+        </Avatar>
         <Stack direction="vertical" space={1}>
-          <Text>dai nguyendo</Text>
-          <Stack direction="horizontal" space={2}>
+          <Heading size="4">dai nguyendo</Heading>
+          <Flex direction="row" gap="2">
             <Link href="https://github.com/dainguyendo">
               <Stack
                 direction="horizontal"
                 space={1}
                 style={{ alignItems: "center" }}
               >
-                <GitHubLogoIcon />
+                <GitHubLogoIcon width={18} height={18} />
                 <Text>github</Text>
               </Stack>
             </Link>
@@ -45,13 +40,13 @@ export const Footer = () => {
                 space={1}
                 style={{ alignItems: "center" }}
               >
-                <CameraIcon />
+                <CameraIcon width={18} height={18} />
                 <Text>photo</Text>
               </Stack>
             </Link>
-          </Stack>
+          </Flex>
         </Stack>
-      </Stack>
+      </Flex>
     </FooterContainer>
   );
 };

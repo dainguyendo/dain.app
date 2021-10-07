@@ -24,21 +24,21 @@ export const Header: React.FC = () => {
           <motion.li>
             <NextLink passHref={true} href="/">
               <Link>
-                <Text>home</Text>
+                <Text bold>home</Text>
               </Link>
             </NextLink>
           </motion.li>
           <motion.li>
             <NextLink passHref={true} href="/tracks">
               <Link>
-                <Text>tracks</Text>
+                <Text bold>tracks</Text>
               </Link>
             </NextLink>
           </motion.li>
           <motion.li>
             <NextLink passHref={true} href="/misc">
               <Link>
-                <Text>misc</Text>
+                <Text bold>misc</Text>
               </Link>
             </NextLink>
           </motion.li>
