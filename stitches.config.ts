@@ -1,4 +1,4 @@
-import { crimson, gray, pink } from "@radix-ui/colors";
+import { crimson, gray, pink, blackA, whiteA } from "@radix-ui/colors";
 import type { CSS, PropertyValue } from "@stitches/react";
 import { createStitches } from "@stitches/react";
 
@@ -19,6 +19,10 @@ export const {
       ...crimson,
       ...gray,
       ...pink,
+      ...blackA,
+      ...whiteA,
+
+      spotify: "#1DB954",
     },
     fonts: {
       untitled: "'Karla', sans-serif",

@@ -40,6 +40,7 @@ export const Text = styled("span", {
       crimson: { color: "$crimson11" },
       pink: { color: "$pink11" },
       gray: { color: "$gray12" },
+      white: { color: "$gray1" },
     },
     bold: {
       true: {

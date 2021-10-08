@@ -2,7 +2,6 @@ import { IdProvider } from "@radix-ui/react-id";
 import { AnimateSharedLayout } from "framer-motion";
 import App from "next/app";
 import * as React from "react";
-import { PlayPreviewProvider } from "../providers/PlayPreviewContext";
 import { globalCss } from "../stitches.config";
 
 const global = globalCss({
@@ -22,13 +21,11 @@ class MyApp extends App {
     const { Component, pageProps } = this.props;
     global();
     return (
-      <PlayPreviewProvider>
-        <AnimateSharedLayout>
-          <IdProvider>
-            <Component {...pageProps} />
-          </IdProvider>
-        </AnimateSharedLayout>
-      </PlayPreviewProvider>
+      <AnimateSharedLayout>
+        <IdProvider>
+          <Component {...pageProps} />
+        </IdProvider>
+      </AnimateSharedLayout>
     );
   }
 }

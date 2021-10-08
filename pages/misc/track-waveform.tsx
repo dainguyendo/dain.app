@@ -14,13 +14,18 @@ import { Text } from "../../packages/ui/Text";
 import { theme } from "../../stitches.config";
 import { useTrackVisualization } from "../../stores/trackVisualStore";
 import { TrackWaveformVisual } from "../../ui/three/TrackWaveformVisual";
-import { listItemVariants } from "../../ui/variants";
 
 export async function getStaticProps() {
   const recentTracks = await getRecentTracks(9);
+  // Remove duplicate recent tracks based on track ID
+  const uniqueRecentTracks = recentTracks.items.filter(
+    (item, idx, self) =>
+      idx === self.findIndex((t) => t.track.id === item.track.id)
+  );
+
   return {
     props: {
-      recentTracks,
+      recentTracks: uniqueRecentTracks,
     },
     revalidate: 300,
   };
@@ -58,15 +63,12 @@ const TracksWaveformPage = ({
       >
         {selectedTrack && (
           <AnimatePresence>
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              variants={listItemVariants}
-            >
+            <motion.div>
               <Stack space={1}>
-                <Heading size="4">{selectedTrack.name}</Heading>
-                <Heading size="4">{selectedTrack.artists[0].name}</Heading>
+                <Heading variant="crimson" bold size="4">
+                  {selectedTrack.name}
+                </Heading>
+                <Heading size="3">{selectedTrack.artists[0].name}</Heading>
               </Stack>
             </motion.div>
           </AnimatePresence>
@@ -83,7 +85,7 @@ const TracksWaveformPage = ({
               placeItems: "center",
             }}
           >
-            {recentTracks.items.map((item, idx) => {
+            {recentTracks.map((item, idx) => {
               const track = item.track;
               const { album } = track as SpotifyApi.TrackObjectFull;
               const medAlbumImage = album.images[album.images.length - 2];

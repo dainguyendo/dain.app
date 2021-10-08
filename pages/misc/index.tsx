@@ -17,7 +17,7 @@ function MiscPage() {
               <Stack space={2}>
                 <Heading id="waveform-heading">track-waveform</Heading>
                 <Paragraph>
-                  Visualization of a record's audio buffer. Tracks are sourced
+                  Visualization of a record audio buffer. Tracks are sourced
                   from Spotify and visualization is built with react-three-fiber
                   and threejs.
                 </Paragraph>

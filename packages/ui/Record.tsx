@@ -1,9 +1,46 @@
 import { HTMLMotionProps, motion } from "framer-motion";
+import { styled } from "../../stitches.config";
 
 type Props = HTMLMotionProps<"div"> & {
   height: React.CSSProperties["height"];
   width: React.CSSProperties["width"];
   src: string | undefined;
+};
+
+const StyledRecord = styled(motion.div, {
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  backgroundSize: "contain",
+  borderRadius: "$round",
+});
+
+const RecordHole = styled("div", {
+  backgroundColor: "#FFF",
+  borderRadius: "$round",
+  width: "15%",
+  height: "15%",
+});
+
+export const motionRecordVariants = {
+  idle: { rotate: 0 },
+  spin: {
+    rotate: 360,
+    transition: {
+      ease: "linear",
+      repeat: Infinity,
+      duration: 2,
+    },
+  },
+  hidden: {
+    opacity: 0,
+  },
+  visible: (idx: number) => ({
+    opacity: 1,
+    transition: {
+      delay: idx * 0.1,
+    },
+  }),
 };
 
 export const Record: React.FC<Props> = ({
@@ -13,30 +50,15 @@ export const Record: React.FC<Props> = ({
   ...motionProps
 }) => {
   return (
-    <motion.div
+    <StyledRecord
       {...motionProps}
-      className="record"
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        height: height,
-        width: width,
+      css={{
+        height,
+        width,
         backgroundImage: `url(${src})`,
-        backgroundSize: "contain",
-        borderRadius: "50%",
-        ...motionProps.style,
       }}
     >
-      <div
-        className="record-hole"
-        style={{
-          backgroundColor: "#FFFF",
-          borderRadius: "50%",
-          width: "15%",
-          height: "15%",
-        }}
-      />
-    </motion.div>
+      <RecordHole />
+    </StyledRecord>
   );
 };

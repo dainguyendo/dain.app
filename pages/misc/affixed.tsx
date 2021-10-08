@@ -14,7 +14,6 @@ import { Heading } from "../../packages/ui/Heading";
 import { Link } from "../../packages/ui/Link";
 import { Text } from "../../packages/ui/Text";
 import { useMapbox } from "../../stores/mapbox";
-import { listItemVariants, listVariants } from "../../ui/variants";
 
 const accessToken = process.env.NEXT_PUBLIC_MAPBOX_PUBLIC_TOKEN;
 mapboxgl.accessToken = accessToken!;
@@ -38,6 +37,7 @@ const AffixedPage = ({
       center: [-95.29141288449965, 39.879699639124645],
       zoom: 2,
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleClick = (route: Route) => {
@@ -82,20 +82,18 @@ const AffixedPage = ({
             </Link>
           </NextLink>
           <Heading size="4">affixed</Heading>
-          <motion.div initial="out" animate="in" variants={listVariants}>
+          <motion.div>
             <Flex direction="row" gap="2">
               {routes.map((route) => (
                 <motion.div
                   key={route.id}
                   initial="out"
                   animate={{
-                    ...listItemVariants.in,
                     opacity:
                       selectedLayer && selectedLayer !== route.meta.title
                         ? 0.2
                         : 1,
                   }}
-                  variants={listItemVariants}
                 >
                   <Button type="button" onClick={() => handleClick(route)}>
                     <Text
