@@ -1,25 +1,31 @@
-import { ArrowLeftIcon } from "@modulz/radix-icons";
+import { ArrowLeftIcon } from "@radix-ui/react-icons";
 import { AnimatePresence, motion } from "framer-motion";
 import type { InferGetStaticPropsType } from "next";
-import Link from "next/link";
+import NextLink from "next/link";
 import * as React from "react";
-import { useTheme } from "styled-components";
 import FullViewLayout from "../../layout/FullViewLayout";
 import { getRecentTracks } from "../../packages/spotify/getRecentTracks";
+import { Flex } from "../../packages/ui/Flex";
+import { Heading } from "../../packages/ui/Heading";
+import { Link } from "../../packages/ui/Link";
+import { Record } from "../../packages/ui/Record";
+import { Stack } from "../../packages/ui/Stack";
+import { Text } from "../../packages/ui/Text";
+import { theme } from "../../stitches.config";
 import { useTrackVisualization } from "../../stores/trackVisualStore";
-import Absolute from "../../ui/Absolute";
-import { Record } from "../../ui/Record";
-import { Row } from "../../ui/Row";
-import { Text } from "../../ui/Text";
 import { TrackWaveformVisual } from "../../ui/three/TrackWaveformVisual";
-import { listItemVariants } from "../../ui/variants";
-import { VerticalStack } from "../../ui/VerticalStack";
 
 export async function getStaticProps() {
   const recentTracks = await getRecentTracks(9);
+  // Remove duplicate recent tracks based on track ID
+  const uniqueRecentTracks = recentTracks.items.filter(
+    (item, idx, self) =>
+      idx === self.findIndex((t) => t.track.id === item.track.id)
+  );
+
   return {
     props: {
-      recentTracks,
+      recentTracks: uniqueRecentTracks,
     },
     revalidate: 300,
   };
@@ -28,7 +34,6 @@ export async function getStaticProps() {
 const TracksWaveformPage = ({
   recentTracks,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
-  const theme = useTheme();
   const { audio, track: selectedTrack, setTrack } = useTrackVisualization();
 
   React.useEffect(() => {
@@ -48,37 +53,39 @@ const TracksWaveformPage = ({
         <TrackWaveformVisual track={selectedTrack} />
       </div>
 
-      <Absolute style={{ top: "2.5%", right: "5%", textAlign: "right" }}>
+      <div
+        style={{
+          position: "absolute",
+          top: "2.5%",
+          right: "5%",
+          textAlign: "right",
+        }}
+      >
         {selectedTrack && (
           <AnimatePresence>
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              variants={listItemVariants}
-            >
-              <VerticalStack space={0}>
-                <Text fontSize={3} fontWeight="bold">
+            <motion.div>
+              <Stack space={1}>
+                <Heading variant="crimson" bold size="4">
                   {selectedTrack.name}
-                </Text>
-                <Text fontSize={2}>{selectedTrack.artists[0].name}</Text>
-              </VerticalStack>
+                </Heading>
+                <Heading size="3">{selectedTrack.artists[0].name}</Heading>
+              </Stack>
             </motion.div>
           </AnimatePresence>
         )}
-      </Absolute>
+      </div>
 
-      <Absolute style={{ bottom: "2.5%", left: "5%" }}>
-        <VerticalStack space={2}>
+      <div style={{ position: "absolute", bottom: "2.5%", left: "5%" }}>
+        <Stack space={2}>
           <div
             style={{
               display: "grid",
-              gridGap: theme.spacing[3],
+              gridGap: theme.space[3].value,
               gridTemplateColumns: "repeat(3, 1fr)",
               placeItems: "center",
             }}
           >
-            {recentTracks.items.map((item, idx) => {
+            {recentTracks.map((item, idx) => {
               const track = item.track;
               const { album } = track as SpotifyApi.TrackObjectFull;
               const medAlbumImage = album.images[album.images.length - 2];
@@ -108,24 +115,17 @@ const TracksWaveformPage = ({
               );
             })}
           </div>
-          <Link href="/misc">
-            <a>
-              <Row alignItems="center">
+          <NextLink href="/misc" passHref>
+            <Link>
+              <Flex direction="row" align="center">
                 <ArrowLeftIcon />
                 <Text>back</Text>
-              </Row>
-            </a>
-          </Link>
-          <Text
-            fontWeight="bold"
-            fontSize={3}
-            lineHeight="heading"
-            color="grey600"
-          >
-            track waveform
-          </Text>
-        </VerticalStack>
-      </Absolute>
+              </Flex>
+            </Link>
+          </NextLink>
+          <Heading>track waveform</Heading>
+        </Stack>
+      </div>
     </FullViewLayout>
   );
 };

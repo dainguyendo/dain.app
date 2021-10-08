@@ -1,7 +1,7 @@
 import mapboxgl from "mapbox-gl";
 import create from "zustand";
 import { getBoundsFromFeatures } from "../packages/map-utils";
-import { defaultTheme } from "../theme";
+import { theme } from "../stitches.config";
 
 type State = {
   map: mapboxgl.Map | null;
@@ -85,7 +85,7 @@ function addBuildings(map: mapboxgl.Map) {
         type: "fill-extrusion",
         minzoom: 11,
         paint: {
-          "fill-extrusion-color": defaultTheme.colors.grey700,
+          "fill-extrusion-color": theme.colors.crimson8.value,
 
           // use an 'interpolate' expression to add a smooth transition effect to the
           // buildings as the user zooms in
