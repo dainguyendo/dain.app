@@ -32,6 +32,7 @@ const Content = styled(motion.div, {
   display: "flex",
   flexDirection: "column",
   alignItems: "center",
+  gap: "$2",
 });
 
 const Top = styled(motion.div, {
@@ -40,6 +41,10 @@ const Top = styled(motion.div, {
 
 const Bottom = styled(motion.div, {
   alignSelf: "flex-end",
+});
+
+const CloseIcon = styled(Cross1Icon, {
+  color: "$gray12",
 });
 
 interface Props {
@@ -82,9 +87,10 @@ export const TrackDialog: React.FC<Props> = ({
                 right: "25px",
               }}
             >
-              <Cross1Icon />
+              <CloseIcon width={18} height={18} />
             </IconButton>
           </DialogClose>
+
           <Top
             custom={{ x: 20, delay: 0.3 }}
             variants={motionXTranslateAndFadeVariant}
@@ -117,6 +123,7 @@ export const TrackDialog: React.FC<Props> = ({
               </Heading>
             </motion.div>
           </Top>
+
           <Tooltip>
             <TooltipTrigger asChild>
               <Button
@@ -129,6 +136,7 @@ export const TrackDialog: React.FC<Props> = ({
                     controls.pause();
                   }
                 }}
+                css={{ p: 0 }}
               >
                 <motion.div
                   initial="flat"
@@ -153,12 +161,13 @@ export const TrackDialog: React.FC<Props> = ({
                 </motion.div>
               </Button>
             </TooltipTrigger>
-            <TooltipContent>
+            <TooltipContent side="left" sideOffset={5}>
               <Text bold variant="white">
                 {state.paused ? "Play" : "Pause"}
               </Text>
             </TooltipContent>
           </Tooltip>
+
           <Bottom
             custom={{ x: -20, delay: 0.35 }}
             variants={motionXTranslateAndFadeVariant}
@@ -171,7 +180,7 @@ export const TrackDialog: React.FC<Props> = ({
                 <Text bold size="4" css={{ color: "$spotify" }}>
                   Spotify
                 </Text>
-                <ExternalLinkIcon />
+                <ExternalLinkIcon width={18} height={18} />
               </Flex>
             </Link>
           </Bottom>

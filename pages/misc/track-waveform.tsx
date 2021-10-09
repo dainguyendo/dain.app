@@ -117,6 +117,7 @@ const TracksWaveformPage = ({
                 variant="naked"
                 type="button"
                 onClick={() => setTrack(selectedTrack)}
+                css={{ p: 0 }}
               >
                 <Record
                   aria-hidden={true}
@@ -164,6 +165,7 @@ const TracksWaveformPage = ({
                         type="button"
                         variant="naked"
                         onClick={() => setTrack(track)}
+                        css={{ p: 0 }}
                       >
                         <Record
                           layoutId={track.id}
@@ -181,7 +183,7 @@ const TracksWaveformPage = ({
           <NextLink href="/misc" passHref>
             <Link>
               <Flex direction="row" align="center">
-                <ArrowLeftIcon />
+                <ArrowLeftIcon width={18} height={18} />
                 <Text>back</Text>
               </Flex>
             </Link>
