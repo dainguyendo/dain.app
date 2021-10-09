@@ -79,6 +79,7 @@ export default function Tracks({
                   type="button"
                   variant="naked"
                   onClick={() => selectTrack(item)}
+                  css={{ p: 0 }}
                 >
                   <Record
                     layoutId={item.track.id}

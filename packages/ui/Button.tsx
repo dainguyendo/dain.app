@@ -11,7 +11,7 @@ export const Button = styled("button", {
   fontWeight: 700,
 
   "&:focus": {
-    outline: "1px solid $colors$crimson11",
+    outline: "3px solid $colors$crimson11",
   },
 
   "&:focus:not(:focus-visible)": {
@@ -19,7 +19,7 @@ export const Button = styled("button", {
   },
 
   "&:focus-visible": {
-    outline: "1px solid $colors$crimson11",
+    outline: "3px solid $colors$crimson11",
   },
 
   variants: {

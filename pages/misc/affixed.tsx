@@ -76,7 +76,7 @@ const AffixedPage = ({
           <NextLink href="/misc">
             <Link>
               <Flex direction="row" align="center">
-                <ArrowLeftIcon />
+                <ArrowLeftIcon width={18} height={18} />
                 <Text>back</Text>
               </Flex>
             </Link>
