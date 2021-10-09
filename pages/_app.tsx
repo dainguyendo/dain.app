@@ -5,6 +5,9 @@ import * as React from "react";
 import { globalCss } from "../stitches.config";
 
 const global = globalCss({
+  "*": {
+    boxSizing: "border-box",
+  },
   html: {
     scrollBehavior: "smooth",
   },
