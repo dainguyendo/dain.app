@@ -1,21 +1,20 @@
 import { motion } from "framer-motion";
-import Link from "next/link";
+import NextLink from "next/link";
 import * as React from "react";
-import styled from "styled-components";
-import { Anchor } from "../ui/Anchor";
-import { horizontalStack } from "../ui/HorizontalStack";
-import { Text } from "../ui/Text";
+import { Link } from "../packages/ui/Link";
+import { Text } from "../packages/ui/Text";
+import { styled } from "../stitches.config";
 
-const HeaderContainer = styled.header`
-  display: flex;
-  justify-content: flex-end;
-  margin: ${(props) => props.theme.spacing[4]} 0;
-`;
+const HeaderContainer = styled("header", {
+  display: "flex",
+  jc: "flex-end",
+  my: "$4",
+});
 
-const List = styled(motion.ul)`
-  display: flex;
-  ${horizontalStack(2)}
-`;
+const List = styled(motion.ul, {
+  display: "flex",
+  hs: "$2",
+});
 
 export const Header: React.FC = () => {
   return (
@@ -23,25 +22,25 @@ export const Header: React.FC = () => {
       <nav>
         <List>
           <motion.li>
-            <Link passHref={true} href="/">
-              <Anchor>
-                <Text fontWeight="bold">home</Text>
-              </Anchor>
-            </Link>
+            <NextLink passHref={true} href="/">
+              <Link>
+                <Text bold>home</Text>
+              </Link>
+            </NextLink>
           </motion.li>
           <motion.li>
-            <Link passHref={true} href="/tracks">
-              <Anchor>
-                <Text fontWeight="bold">tracks</Text>
-              </Anchor>
-            </Link>
+            <NextLink passHref={true} href="/tracks">
+              <Link>
+                <Text bold>tracks</Text>
+              </Link>
+            </NextLink>
           </motion.li>
           <motion.li>
-            <Link passHref={true} href="/misc">
-              <Anchor>
-                <Text fontWeight="bold">misc</Text>
-              </Anchor>
-            </Link>
+            <NextLink passHref={true} href="/misc">
+              <Link>
+                <Text bold>misc</Text>
+              </Link>
+            </NextLink>
           </motion.li>
         </List>
       </nav>

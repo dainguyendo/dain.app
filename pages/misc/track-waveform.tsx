@@ -1,34 +1,76 @@
-import { ArrowLeftIcon } from "@modulz/radix-icons";
+import { ArrowLeftIcon } from "@radix-ui/react-icons";
 import { AnimatePresence, motion } from "framer-motion";
 import type { InferGetStaticPropsType } from "next";
-import Link from "next/link";
+import NextLink from "next/link";
 import * as React from "react";
-import { useTheme } from "styled-components";
 import FullViewLayout from "../../layout/FullViewLayout";
 import { getRecentTracks } from "../../packages/spotify/getRecentTracks";
+import { Button } from "../../packages/ui/Button";
+import { Flex } from "../../packages/ui/Flex";
+import { Grid } from "../../packages/ui/Grid";
+import { Heading } from "../../packages/ui/Heading";
+import { Link } from "../../packages/ui/Link";
+import {
+  motionRecordRotationVariants,
+  motionXTranslateAndFadeVariant,
+} from "../../packages/ui/motionVariants";
+import { motionRecordVariants, Record } from "../../packages/ui/Record";
+import { Text } from "../../packages/ui/Text";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "../../packages/ui/Tooltip";
+import { styled } from "../../stitches.config";
 import { useTrackVisualization } from "../../stores/trackVisualStore";
-import Absolute from "../../ui/Absolute";
-import { Record } from "../../ui/Record";
-import { Row } from "../../ui/Row";
-import { Text } from "../../ui/Text";
 import { TrackWaveformVisual } from "../../ui/three/TrackWaveformVisual";
-import { listItemVariants } from "../../ui/variants";
-import { VerticalStack } from "../../ui/VerticalStack";
 
 export async function getStaticProps() {
   const recentTracks = await getRecentTracks(9);
+  // Remove duplicate recent tracks based on track ID
+  const uniqueRecentTracks = recentTracks.items.filter(
+    (item, idx, self) =>
+      idx === self.findIndex((t) => t.track.id === item.track.id)
+  );
+
   return {
     props: {
-      recentTracks,
+      recentTracks: uniqueRecentTracks,
     },
     revalidate: 300,
   };
 }
 
+const TrackWaveformVisualContainer = styled("div", { size: "100%" });
+const SelectedTitleContainer = styled(motion.div, {
+  padding: "$2",
+  position: "absolute",
+  textAlign: "right",
+  top: 0,
+  right: 0,
+  "@bp1": {
+    padding: 0,
+    top: "5%",
+    right: "5%",
+  },
+});
+const ControlsContainer = styled(motion.div, {
+  padding: "$2",
+  position: "absolute",
+  bottom: 0,
+  left: 0,
+  width: "100%",
+  "@bp1": {
+    padding: 0,
+    bottom: "5%",
+    left: "5%",
+    width: "max-content",
+  },
+});
+
 const TracksWaveformPage = ({
   recentTracks,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
-  const theme = useTheme();
   const { audio, track: selectedTrack, setTrack } = useTrackVisualization();
 
   React.useEffect(() => {
@@ -39,93 +81,116 @@ const TracksWaveformPage = ({
 
   return (
     <FullViewLayout title="track-waveform">
-      <div
-        style={{
-          height: "100%",
-          width: "100%",
-        }}
-      >
-        <TrackWaveformVisual track={selectedTrack} />
-      </div>
+      <AnimatePresence>
+        <TrackWaveformVisualContainer>
+          <TrackWaveformVisual track={selectedTrack} />
+        </TrackWaveformVisualContainer>
 
-      <Absolute style={{ top: "2.5%", right: "5%", textAlign: "right" }}>
         {selectedTrack && (
-          <AnimatePresence>
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              variants={listItemVariants}
-            >
-              <VerticalStack space={0}>
-                <Text fontSize={3} fontWeight="bold">
-                  {selectedTrack.name}
-                </Text>
-                <Text fontSize={2}>{selectedTrack.artists[0].name}</Text>
-              </VerticalStack>
-            </motion.div>
-          </AnimatePresence>
-        )}
-      </Absolute>
-
-      <Absolute style={{ bottom: "2.5%", left: "5%" }}>
-        <VerticalStack space={2}>
-          <div
-            style={{
-              display: "grid",
-              gridGap: theme.spacing[3],
-              gridTemplateColumns: "repeat(3, 1fr)",
-              placeItems: "center",
+          <SelectedTitleContainer
+            key="title-container"
+            custom={{ x: -20, delay: 0.3 }}
+            variants={motionXTranslateAndFadeVariant}
+            initial="hidden"
+            animate="visible"
+            exit="hidden"
+            css={{
+              vs: "$1",
             }}
           >
-            {recentTracks.items.map((item, idx) => {
-              const track = item.track;
-              const { album } = track as SpotifyApi.TrackObjectFull;
-              const medAlbumImage = album.images[album.images.length - 2];
-              const isSelected = track.id === selectedTrack?.id;
-              return (
+            <Heading variant="crimson" bold size="4">
+              {selectedTrack.name}
+            </Heading>
+            <Heading size="3">{selectedTrack.artists[0].name}</Heading>
+          </SelectedTitleContainer>
+        )}
+
+        <ControlsContainer key="controls-container" css={{ vs: "$2" }}>
+          {selectedTrack ? (
+            <motion.div
+              initial="flat"
+              animate="skew"
+              exit="flat"
+              variants={motionRecordRotationVariants}
+            >
+              <Button
+                variant="naked"
+                type="button"
+                onClick={() => setTrack(selectedTrack)}
+                css={{ p: 0 }}
+              >
                 <Record
-                  key={`${track.id}-${idx}`}
-                  src={medAlbumImage.url}
-                  height={100}
-                  width={100}
-                  animate={{
-                    opacity: selectedTrack && !isSelected ? 0.2 : 1,
-                    rotate: isSelected ? 360 : 0,
-                    transition: {
-                      ease: "linear",
-                      repeat: isSelected ? Infinity : 0,
-                      duration: isSelected ? 5 : 0.25,
-                    },
-                  }}
-                  onClick={() => {
-                    setTrack(track);
-                  }}
-                  style={{
-                    cursor: "pointer",
-                  }}
+                  aria-hidden={true}
+                  key={selectedTrack.id}
+                  layoutId={selectedTrack.id}
+                  src={
+                    (selectedTrack as SpotifyApi.TrackObjectFull).album
+                      .images[0].url
+                  }
+                  height={300}
+                  width={300}
+                  initial="idle"
+                  variants={motionRecordVariants}
+                  animate="spin"
                 />
-              );
-            })}
-          </div>
-          <Link href="/misc">
-            <a>
-              <Row alignItems="center">
-                <ArrowLeftIcon />
+              </Button>
+            </motion.div>
+          ) : (
+            <Grid
+              columns="3"
+              gap={{
+                "@initial": "2",
+                "@bp1": "3",
+              }}
+              css={{ placeItems: "center" }}
+            >
+              {recentTracks.map((item, idx) => {
+                const track = item.track;
+                const { album } = track as SpotifyApi.TrackObjectFull;
+                const albumImage = album.images[0];
+                return (
+                  <Tooltip key={`${track.id}-${idx}`}>
+                    <TooltipContent
+                      side="left"
+                      sideOffset={5}
+                      css={{ vs: "$1" }}
+                    >
+                      <Text bold variant="white" size="3">
+                        {track.name}
+                      </Text>
+                      <Text variant="white">{track.artists[0].name}</Text>
+                    </TooltipContent>
+                    <TooltipTrigger asChild>
+                      <Button
+                        type="button"
+                        variant="naked"
+                        onClick={() => setTrack(track)}
+                        css={{ p: 0 }}
+                      >
+                        <Record
+                          layoutId={track.id}
+                          src={albumImage.url}
+                          height={100}
+                          width={100}
+                        />
+                      </Button>
+                    </TooltipTrigger>
+                  </Tooltip>
+                );
+              })}
+            </Grid>
+          )}
+          <NextLink href="/misc" passHref>
+            <Link>
+              <Flex direction="row" align="center">
+                <ArrowLeftIcon width={18} height={18} />
                 <Text>back</Text>
-              </Row>
-            </a>
-          </Link>
-          <Text
-            fontWeight="bold"
-            fontSize={3}
-            lineHeight="heading"
-            color="grey600"
-          >
-            track waveform
-          </Text>
-        </VerticalStack>
-      </Absolute>
+              </Flex>
+            </Link>
+          </NextLink>
+          <Heading>track waveform</Heading>
+        </ControlsContainer>
+      </AnimatePresence>
     </FullViewLayout>
   );
 };

@@ -7,8 +7,8 @@ import * as React from "react";
 import { StandardLayout } from "../layout/StandardLayout";
 import Notion from "../packages/notion/client";
 import { renderBlock } from "../packages/notion/renderer";
-import { Heading } from "../ui/Heading";
-import { Text } from "../ui/Text";
+import { Heading } from "../packages/ui/Heading";
+import { Text } from "../packages/ui/Text";
 
 interface StaticProps {
   page: GetPageResponse;
@@ -44,7 +44,7 @@ export const getStaticProps = async () => {
 export default function Resume({ block, content }: StaticProps) {
   return (
     <StandardLayout title="Resume">
-      <Heading size={3}>Professional Experiences</Heading>
+      <Heading>Professional Experiences</Heading>
       <Text>
         <i>
           Last updated:{" "}

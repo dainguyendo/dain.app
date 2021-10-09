@@ -2,33 +2,33 @@ import { IdProvider } from "@radix-ui/react-id";
 import { AnimateSharedLayout } from "framer-motion";
 import App from "next/app";
 import * as React from "react";
-import { createGlobalStyle, ThemeProvider } from "styled-components";
-import { PlayPreviewProvider } from "../providers/PlayPreviewContext";
-import { defaultTheme } from "../theme";
+import { globalCss } from "../stitches.config";
 
-const GlobalStyle = createGlobalStyle`
-  html {
-    scroll-behavior: smooth;
-  }
-  ul,ol {
-    list-style: none;
-  }
-`;
+const global = globalCss({
+  "*": {
+    boxSizing: "border-box",
+  },
+  html: {
+    scrollBehavior: "smooth",
+  },
+  ul: {
+    listStyle: "none",
+  },
+  ol: {
+    listStyle: "none",
+  },
+});
 
 class MyApp extends App {
   render() {
     const { Component, pageProps } = this.props;
+    global();
     return (
-      <ThemeProvider theme={defaultTheme}>
-        <GlobalStyle />
-        <PlayPreviewProvider>
-          <AnimateSharedLayout>
-            <IdProvider>
-              <Component {...pageProps} />
-            </IdProvider>
-          </AnimateSharedLayout>
-        </PlayPreviewProvider>
-      </ThemeProvider>
+      <AnimateSharedLayout>
+        <IdProvider>
+          <Component {...pageProps} />
+        </IdProvider>
+      </AnimateSharedLayout>
     );
   }
 }

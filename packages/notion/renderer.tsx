@@ -1,6 +1,7 @@
 import { ListBlockChildrenResponse } from "@notionhq/client/build/src/api-endpoints";
-import { Text } from "../../ui/Text";
-import { Heading } from "../../ui/Heading";
+import { Heading } from "../ui/Heading";
+import { Paragraph } from "../ui/Paragraph";
+import { Text } from "../ui/Text";
 
 type BlockObject = ListBlockChildrenResponse["results"][0];
 
@@ -15,27 +16,27 @@ export function renderBlock(block: BlockObject) {
   switch (block.type) {
     case "heading_1":
       return (
-        <Heading size={4} key={block.id}>
+        <Heading key={block.id} as="h1">
           {block.heading_1.text.map(renderText)}
         </Heading>
       );
     case "heading_2":
       return (
-        <Heading size={5} key={block.id}>
+        <Heading key={block.id} as="h2">
           {block.heading_2.text.map(renderText)}
         </Heading>
       );
     case "heading_3":
       return (
-        <Heading size={6} key={block.id}>
+        <Heading key={block.id} as="h3">
           {block.heading_3.text.map(renderText)}
         </Heading>
       );
     case "paragraph":
       return (
-        <p key={block.id}>
-          <Text>{block.paragraph.text.map(renderText)}</Text>
-        </p>
+        <Paragraph key={block.id}>
+          {block.paragraph.text.map(renderText)}
+        </Paragraph>
       );
     case "bulleted_list_item": {
       return (
