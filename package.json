@@ -8,6 +8,7 @@
     "type-check": "tsc"
   },
   "dependencies": {
+    "@notionhq/client": "^0.4.2",
     "@radix-ui/colors": "^0.1.7",
     "@radix-ui/react-avatar": "^0.1.0",
     "@radix-ui/react-dialog": "^0.1.0",
