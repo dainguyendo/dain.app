@@ -3,6 +3,7 @@ import { Cross1Icon, ExternalLinkIcon } from "@radix-ui/react-icons";
 import { motion } from "framer-motion";
 import * as React from "react";
 import { styled } from "../../stitches.config";
+import { getArtists } from "../spotify/utils";
 import { Button } from "./Button";
 import { Dialog, DialogClose, DialogContent } from "./Dialog";
 import { Flex } from "./Flex";
@@ -119,7 +120,7 @@ export const TrackDialog: React.FC<Props> = ({
               variants={motionXTranslateAndFadeVariant}
             >
               <Heading size="3">
-                {playHistoryObject.track.artists[0].name}
+                {getArtists(playHistoryObject.track.artists)}
               </Heading>
             </motion.div>
           </Top>
