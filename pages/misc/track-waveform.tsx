@@ -5,6 +5,7 @@ import NextLink from "next/link";
 import * as React from "react";
 import FullViewLayout from "../../layout/FullViewLayout";
 import { getRecentTracks } from "../../packages/spotify/getRecentTracks";
+import { getArtists } from "../../packages/spotify/utils";
 import { Button } from "../../packages/ui/Button";
 import { Flex } from "../../packages/ui/Flex";
 import { Grid } from "../../packages/ui/Grid";
@@ -101,7 +102,7 @@ const TracksWaveformPage = ({
             <Heading variant="crimson" bold size="4">
               {selectedTrack.name}
             </Heading>
-            <Heading size="3">{selectedTrack.artists[0].name}</Heading>
+            <Heading size="3">{getArtists(selectedTrack.artists)}</Heading>
           </SelectedTitleContainer>
         )}
 
@@ -158,7 +159,7 @@ const TracksWaveformPage = ({
                       <Text bold variant="white" size="3">
                         {track.name}
                       </Text>
-                      <Text variant="white">{track.artists[0].name}</Text>
+                      <Text variant="white">{getArtists(track.artists)}</Text>
                     </TooltipContent>
                     <TooltipTrigger asChild>
                       <Button
