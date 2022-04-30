@@ -44,8 +44,6 @@ export async function getStaticProps() {
 export default function Tracks({
   recentTracks,
 }: InferGetStaticPropsType<typeof getStaticProps>) {
-  console.log({ recentTracks });
-
   const [
     selectedTrack,
     selectTrack,
