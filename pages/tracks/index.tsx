@@ -10,6 +10,7 @@ import { motionRecordVariants, Record } from "../../packages/ui/Record";
 import { RecordTooltip } from "../../packages/ui/RecordTooltip";
 import {
   ScrollArea,
+  ScrollAreaCorner,
   ScrollAreaScrollbar,
   ScrollAreaThumb,
   ScrollAreaViewport,
@@ -17,16 +18,11 @@ import {
 import useAudio from "../../packages/ui/useAudio";
 import { styled } from "../../stitches.config";
 
-const PageScrollArea = styled(ScrollArea, {
-  width: "100vw",
-  height: "100vh",
-});
-
-const PageScrollAreaViewport = styled(ScrollAreaViewport, {
-  height: "100vh",
-  width: "100vw",
+const Center = styled("div", {
   display: "grid",
   placeItems: "center",
+  padding: "0 $7",
+  height: "100vh",
 });
 
 export async function getStaticProps() {
@@ -48,6 +44,8 @@ export async function getStaticProps() {
 export default function Tracks({
   recentTracks,
 }: InferGetStaticPropsType<typeof getStaticProps>) {
+  console.log({ recentTracks });
+
   const [
     selectedTrack,
     selectTrack,
@@ -58,6 +56,7 @@ export default function Tracks({
     autoPlay: false,
   });
 
+  const isATrackSelected = !!selectedTrack;
   const selectedTrackId = selectedTrack?.track.id;
 
   React.useEffect(() => {
@@ -69,55 +68,70 @@ export default function Tracks({
   }, [audio, controls, selectedTrackId]);
 
   return (
-    <PageScrollArea>
-      <PageScrollAreaViewport>
-        <Flex direction="row" gap="4">
-          {recentTracks.map((item, idx) => {
-            const track = item.track as SpotifyApi.TrackObjectFull;
-            const albumImage = track.album.images[0];
+    <ScrollArea>
+      <ScrollAreaViewport>
+        <Center>
+          <Flex direction="row" gap="4">
+            {recentTracks.map((item, idx) => {
+              const track = item.track as SpotifyApi.TrackObjectFull;
+              const albumImage = track.album.images[0];
 
-            const isPlaying = selectedTrackId === track.id;
+              const isPlaying = selectedTrackId === track.id;
 
-            return (
-              <RecordTooltip
-                key={item.track.id}
-                trackName={item.track.name}
-                trackArtists={getArtists(item.track.artists)}
-              >
-                <Button
-                  type="button"
-                  variant="naked"
-                  onClick={() => {
-                    selectTrack(isPlaying ? null : item);
-                  }}
-                  css={{ p: 0 }}
+              return (
+                <RecordTooltip
+                  key={item.track.id}
+                  trackName={item.track.name}
+                  trackArtists={getArtists(item.track.artists)}
                 >
-                  <motion.div
-                    initial="flat"
-                    animate={isPlaying ? "skew" : "flat"}
-                    variants={motionRecordRotationVariants}
+                  <Button
+                    type="button"
+                    variant="naked"
+                    onClick={() => {
+                      selectTrack(isPlaying ? null : item);
+                    }}
+                    css={{ p: 0 }}
                   >
-                    <Record
-                      layoutId={item.track.id}
-                      src={albumImage.url}
-                      height={"70vh"}
-                      width={"70vh"}
-                      custom={idx}
-                      variants={motionRecordVariants}
-                      initial={false}
-                      animate={isPlaying ? "spin" : "visible"}
-                    />
-                  </motion.div>
-                </Button>
-              </RecordTooltip>
-            );
-          })}
-        </Flex>
+                    <motion.div
+                      initial="flat"
+                      animate={isPlaying ? "skew" : "flat"}
+                      variants={motionRecordRotationVariants}
+                    >
+                      <Record
+                        layoutId={item.track.id}
+                        src={albumImage.url}
+                        height={"70vh"}
+                        width={"70vh"}
+                        custom={idx}
+                        variants={motionRecordVariants}
+                        initial={"visible"}
+                        animate={
+                          isATrackSelected
+                            ? isPlaying
+                              ? "spin"
+                              : "faded"
+                            : "visible"
+                        }
+                      />
+                    </motion.div>
+                  </Button>
+                </RecordTooltip>
+              );
+            })}
+          </Flex>
+        </Center>
         {audio}
-      </PageScrollAreaViewport>
+      </ScrollAreaViewport>
+
       <ScrollAreaScrollbar orientation="horizontal">
         <ScrollAreaThumb />
       </ScrollAreaScrollbar>
-    </PageScrollArea>
+
+      <ScrollAreaScrollbar orientation="vertical">
+        <ScrollAreaThumb />
+      </ScrollAreaScrollbar>
+
+      <ScrollAreaCorner />
+    </ScrollArea>
   );
 }

@@ -32,9 +32,8 @@ export const motionRecordVariants = {
       duration: 2,
     },
   },
-  hidden: {
-    opacity: 0,
-  },
+  hidden: { opacity: 0 },
+  faded: { opacity: 0.5 },
   visible: (idx: number) => ({
     opacity: 1,
     transition: {

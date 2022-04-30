@@ -1,36 +1,40 @@
-import * as RadixScrollArea from "@radix-ui/react-scroll-area";
+import * as ScrollAreaPrimitive from "@radix-ui/react-scroll-area";
 import { styled } from "../../stitches.config";
 
 const SCROLLBAR_SIZE = 10;
 
-export const ScrollArea = styled(RadixScrollArea.Root, {
+const StyledScrollArea = styled(ScrollAreaPrimitive.Root, {
   width: "100%",
-  height: "100%",
+  borderRadius: 0,
   overflow: "hidden",
 });
-export const ScrollAreaViewport = styled(RadixScrollArea.Viewport, {
+
+const StyledViewport = styled(ScrollAreaPrimitive.Viewport, {
   width: "100%",
   height: "100%",
+  borderRadius: "inherit",
 });
-export const ScrollAreaScrollbar = styled(RadixScrollArea.Scrollbar, {
+
+const StyledScrollbar = styled(ScrollAreaPrimitive.Scrollbar, {
   display: "flex",
   // ensures no selection
   userSelect: "none",
   // disable browser handling of all panning and zooming gestures on touch devices
   touchAction: "none",
   padding: 2,
-  background: "$gray2",
+  background: "$gray1",
   transition: "background 160ms ease-out",
-  "&:hover": { background: "$gray3" },
+  "&:hover": { background: "$gray2" },
   '&[data-orientation="vertical"]': { width: SCROLLBAR_SIZE },
   '&[data-orientation="horizontal"]': {
     flexDirection: "column",
     height: SCROLLBAR_SIZE,
   },
 });
-export const ScrollAreaThumb = styled(RadixScrollArea.Thumb, {
+
+const StyledThumb = styled(ScrollAreaPrimitive.Thumb, {
   flex: 1,
-  background: "hotpink",
+  background: "$pink11",
   borderRadius: SCROLLBAR_SIZE,
   // increase target size for touch devices https://www.w3.org/WAI/WCAG21/Understanding/target-size.html
   position: "relative",
@@ -46,4 +50,13 @@ export const ScrollAreaThumb = styled(RadixScrollArea.Thumb, {
     minHeight: 44,
   },
 });
-export const ScrollAreaCorner = RadixScrollArea.Corner;
+
+const StyledCorner = styled(ScrollAreaPrimitive.Corner, {
+  background: "none",
+});
+
+export const ScrollArea = StyledScrollArea;
+export const ScrollAreaViewport = StyledViewport;
+export const ScrollAreaScrollbar = StyledScrollbar;
+export const ScrollAreaThumb = StyledThumb;
+export const ScrollAreaCorner = StyledCorner;
