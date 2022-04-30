@@ -6,8 +6,12 @@ import { useTrackVisualization } from "../../stores/trackVisualStore";
 import { usePrevious } from "../usePrevious";
 // import { Cube } from "./Cube";
 
-const RotatingGroup: React.FC = ({ children }) => {
-  const group = React.useRef<Group>();
+interface RotatingGroupProps {
+  children?: React.ReactNode;
+}
+
+const RotatingGroup = ({ children }: RotatingGroupProps) => {
+  const group = React.useRef<Group>() as any;
 
   useFrame(({ camera }) => {
     camera.position.set(

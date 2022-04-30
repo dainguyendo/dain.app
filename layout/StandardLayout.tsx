@@ -7,6 +7,7 @@ import { Header } from "./Header";
 interface Props extends React.HTMLAttributes<HTMLDivElement> {
   title?: string;
   footer?: boolean;
+  children?: React.ReactNode;
 }
 
 const Grid = styled("main", {

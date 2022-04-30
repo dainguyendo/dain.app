@@ -4,6 +4,7 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "./Tooltip";
 interface Props {
   trackName: string;
   trackArtists: string;
+  children?: React.ReactNode;
 }
 
 export const RecordTooltip: React.FC<Props> = ({
