@@ -1,5 +1,4 @@
 import { IdProvider } from "@radix-ui/react-id";
-import { AnimateSharedLayout } from "framer-motion";
 import App from "next/app";
 import * as React from "react";
 import { globalCss } from "../stitches.config";
@@ -24,11 +23,9 @@ class MyApp extends App {
     const { Component, pageProps } = this.props;
     global();
     return (
-      <AnimateSharedLayout>
-        <IdProvider>
-          <Component {...pageProps} />
-        </IdProvider>
-      </AnimateSharedLayout>
+      <IdProvider>
+        <Component {...pageProps} />
+      </IdProvider>
     );
   }
 }

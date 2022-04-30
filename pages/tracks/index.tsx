@@ -65,14 +65,7 @@ export default function Tracks({
   }, [audio, controls, selectedTrackId]);
 
   return (
-    <StandardLayout footer={false}>
-      {/* {isATrackSelected && (
-        <Stack direction="vertical">
-          <Text>now playing</Text>
-          <Text>{selectedTrack.track.name}</Text>
-          <Text>{getArtists(selectedTrack.track.artists)}</Text>
-        </Stack>
-      )} */}
+    <StandardLayout>
       <div className="full-bleed">
         <ScrollArea>
           <ScrollAreaViewport>

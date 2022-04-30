@@ -35,13 +35,13 @@ export const Header: React.FC = () => {
               </Link>
             </NextLink>
           </motion.li>
-          <motion.li>
+          {/* <motion.li>
             <NextLink passHref={true} href="/misc">
               <Link>
                 <Text bold>misc</Text>
               </Link>
             </NextLink>
-          </motion.li>
+          </motion.li> */}
         </List>
       </nav>
     </HeaderContainer>
