@@ -7,11 +7,11 @@ import { Header } from "./Header";
 interface Props extends React.HTMLAttributes<HTMLDivElement> {
   title?: string;
   footer?: boolean;
+  children?: React.ReactNode;
 }
 
 const Grid = styled("main", {
   display: "grid",
-  px: "$2",
   gridTemplateColumns: "1fr min(65ch, 100%) 1fr",
 
   "& > *": {
@@ -19,7 +19,7 @@ const Grid = styled("main", {
   },
   "& > .full-bleed": {
     width: "100%",
-    gridColumn: 1 / 4,
+    gridColumn: "1 / -1",
   },
   bp1: {
     padding: 0,

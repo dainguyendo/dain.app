@@ -12,7 +12,6 @@ const StyledRecord = styled(motion.div, {
   alignItems: "center",
   justifyContent: "center",
   backgroundSize: "contain",
-  borderRadius: "$round",
 });
 
 const RecordHole = styled("div", {
@@ -32,9 +31,8 @@ export const motionRecordVariants = {
       duration: 2,
     },
   },
-  hidden: {
-    opacity: 0,
-  },
+  hidden: { opacity: 0 },
+  faded: { opacity: 0.5 },
   visible: (idx: number) => ({
     opacity: 1,
     transition: {
@@ -49,16 +47,22 @@ export const Record: React.FC<Props> = ({
   src,
   ...motionProps
 }) => {
+  const animate = motionProps.animate;
+  const isSpinning = animate === "spin";
+
   return (
     <StyledRecord
       {...motionProps}
       css={{
         height,
-        width,
+        width: isSpinning ? width : "10vh",
+        borderRadius: isSpinning ? "$round" : 0,
         backgroundImage: `url(${src})`,
+        backgroundRepeat: "no-repeat",
+        backgroundSize: "cover",
       }}
     >
-      <RecordHole />
+      {isSpinning && <RecordHole />}
     </StyledRecord>
   );
 };

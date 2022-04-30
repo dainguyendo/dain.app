@@ -4,10 +4,14 @@ import type { Group } from "three";
 import { getAudioData } from "../../audio/getAudioData";
 import { useTrackVisualization } from "../../stores/trackVisualStore";
 import { usePrevious } from "../usePrevious";
-import { Cube } from "./Cube";
+// import { Cube } from "./Cube";
 
-const RotatingGroup: React.FC = ({ children }) => {
-  const group = React.useRef<Group>();
+interface RotatingGroupProps {
+  children?: React.ReactNode;
+}
+
+const RotatingGroup = ({ children }: RotatingGroupProps) => {
+  const group = React.useRef<Group>() as any;
 
   useFrame(({ camera }) => {
     camera.position.set(
@@ -57,18 +61,18 @@ export const TrackWaveformVisual: React.FC<Props> = ({ track }) => {
           <ambientLight />
           <pointLight position={[10, 10, 10]} />
           <RotatingGroup>
-            {trackCache.data.map((value, idx) => {
+            {/* {trackCache.data.map((value, idx) => {
               const delay =
                 (audio.duration / trackCache.data.length) * idx * 1000;
               return (
                 <Cube
                   key={idx}
-                  value={value}
-                  delay={delay}
-                  position={[idx, 0, 0]}
+                  // value={value}
+                  // delay={delay}
+                  // position={[idx, 0, 0]}
                 />
               );
-            })}
+            })} */}
           </RotatingGroup>
         </Canvas>
       </React.Fragment>

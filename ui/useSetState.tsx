@@ -5,7 +5,7 @@ const useSetState = <T extends object>(
 ): [T, (patch: Partial<T> | ((prevState: T) => Partial<T>)) => void] => {
   const [state, set] = useState<T>(initialState);
   const setState = useCallback(
-    (patch) => {
+    (patch: any) => {
       set((prevState) =>
         Object.assign(
           {},

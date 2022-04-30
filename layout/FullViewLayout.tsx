@@ -3,6 +3,7 @@ import * as React from "react";
 
 interface Props {
   title?: string;
+  children?: React.ReactNode;
 }
 
 const FullViewLayout: React.FC<Props> = ({ children, title = "" }) => {
