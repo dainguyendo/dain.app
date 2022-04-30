@@ -9,6 +9,9 @@ const HeaderContainer = styled("header", {
   display: "flex",
   jc: "flex-end",
   my: "$4",
+  px: "$4",
+
+  "@bp1": { px: 0 },
 });
 
 const List = styled(motion.ul, {
