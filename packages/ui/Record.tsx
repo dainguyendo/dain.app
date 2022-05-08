@@ -54,7 +54,7 @@ export const Record: React.FC<Props> = ({
     <StyledRecord
       {...motionProps}
       css={{
-        height,
+        height: isSpinning ? height : "100vh",
         width: isSpinning ? width : "10vh",
         borderRadius: isSpinning ? "$round" : 0,
         backgroundImage: `url(${src})`,
