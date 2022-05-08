@@ -24,7 +24,10 @@ const StyledScrollbar = styled(ScrollAreaPrimitive.Scrollbar, {
   padding: 2,
   background: "$gray1",
   transition: "background 160ms ease-out",
-  "&:hover": { background: "$gray2" },
+  "&:hover": {
+    backgroundColor: "rgba(255, 255, 255, .15)",
+    backdropFilter: "blur(5px)",
+  },
   '&[data-orientation="vertical"]': { width: SCROLLBAR_SIZE },
   '&[data-orientation="horizontal"]': {
     flexDirection: "column",

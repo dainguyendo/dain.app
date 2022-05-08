@@ -6,6 +6,7 @@ import { Header } from "./Header";
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {
   title?: string;
+  header?: boolean;
   footer?: boolean;
   children?: React.ReactNode;
 }
@@ -29,6 +30,7 @@ const Grid = styled("main", {
 export const StandardLayout: React.FC<Props> = ({
   children,
   title = "",
+  header = true,
   footer = true,
   ...rest
 }) => {
@@ -39,7 +41,7 @@ export const StandardLayout: React.FC<Props> = ({
         <meta charSet="utf-8" />
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
-      <Header />
+      {header && <Header />}
       {children}
       {footer && <Footer />}
     </Grid>

@@ -5,6 +5,7 @@ import { StandardLayout } from "../../layout/StandardLayout";
 import { getRecentTracks } from "../../packages/spotify/getRecentTracks";
 import { getArtists } from "../../packages/spotify/utils";
 import { Button } from "../../packages/ui/Button";
+import { CurrentTrack } from "../../packages/ui/CurrentTrack";
 import { Flex } from "../../packages/ui/Flex";
 import { motionRecordRotationVariants } from "../../packages/ui/motionVariants";
 import { motionRecordVariants, Record } from "../../packages/ui/Record";
@@ -16,12 +17,24 @@ import {
   ScrollAreaThumb,
   ScrollAreaViewport,
 } from "../../packages/ui/ScrollArea";
+import { TracksVolumeSlider } from "../../packages/ui/TracksVolumeSlider";
 import useAudio from "../../packages/ui/useAudio";
 import { styled } from "../../stitches.config";
 
 const Center = styled("div", {
   display: "grid",
   placeItems: "center",
+});
+
+const AbsoluteContainer = styled(motion.div, {
+  bottom: "$3",
+  right: "$2",
+  padding: "$2",
+  position: "absolute",
+
+  backgroundColor: "rgba(255, 255, 255, .15)",
+  backdropFilter: "blur(5px)",
+  borderRadius: "$pill",
 });
 
 export async function getStaticProps() {
@@ -43,12 +56,10 @@ export async function getStaticProps() {
 export default function Tracks({
   recentTracks,
 }: InferGetStaticPropsType<typeof getStaticProps>) {
-  const [
-    selectedTrack,
-    selectTrack,
-  ] = React.useState<SpotifyApi.PlayHistoryObject | null>(null);
+  const [selectedTrack, selectTrack] =
+    React.useState<SpotifyApi.PlayHistoryObject | null>(null);
 
-  const [audio, _state, controls] = useAudio({
+  const [audio, state, controls] = useAudio({
     src: selectedTrack?.track.preview_url ?? "",
     autoPlay: false,
   });
@@ -65,7 +76,7 @@ export default function Tracks({
   }, [audio, controls, selectedTrackId]);
 
   return (
-    <StandardLayout>
+    <StandardLayout title="Recent tracks" header={false} footer={false}>
       <div className="full-bleed">
         <ScrollArea>
           <ScrollAreaViewport>
@@ -111,6 +122,8 @@ export default function Tracks({
                                   : "faded"
                                 : "visible"
                             }
+                            whileInView="visible"
+                            viewport={{ once: true }}
                           />
                         </motion.div>
                       </Button>
@@ -129,6 +142,25 @@ export default function Tracks({
           <ScrollAreaCorner />
         </ScrollArea>
       </div>
+
+      <AbsoluteContainer
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1, ease: "easeInOut" }}
+      >
+        <Flex
+          direction="row"
+          css={{ alignItems: "center", justifyContent: "center", gap: "$4" }}
+        >
+          {selectedTrack && <CurrentTrack track={selectedTrack} />}
+          <TracksVolumeSlider
+            defaultVolume={state.volume}
+            onVolumeChange={(volume) => {
+              controls.volume(volume);
+            }}
+          />
+        </Flex>
+      </AbsoluteContainer>
     </StandardLayout>
   );
 }
