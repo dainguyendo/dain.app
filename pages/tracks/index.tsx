@@ -32,8 +32,8 @@ const AbsoluteContainer = styled(motion.div, {
   padding: "$2",
   position: "absolute",
 
-  backgroundColor: "rgba(255, 255, 255, .15)",
-  backdropFilter: "blur(5px)",
+  backgroundColor: "rgba(255, 255, 255, .35)",
+  backdropFilter: "blur(10px)",
   borderRadius: "$pill",
 });
 

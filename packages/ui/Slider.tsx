@@ -1,6 +1,6 @@
-import { styled } from "../../stitches.config";
-import { violet, blackA } from "@radix-ui/colors";
+import { blackA, violet } from "@radix-ui/colors";
 import * as SliderPrimitive from "@radix-ui/react-slider";
+import { styled } from "../../stitches.config";
 
 export const Slider = styled(SliderPrimitive.Root, {
   position: "relative",
@@ -8,7 +8,7 @@ export const Slider = styled(SliderPrimitive.Root, {
   alignItems: "center",
   userSelect: "none",
   touchAction: "none",
-  width: 200,
+  width: 135,
 
   '&[data-orientation="horizontal"]': {
     height: 20,
