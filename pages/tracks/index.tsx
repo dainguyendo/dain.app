@@ -101,7 +101,7 @@ export default function Tracks({
           <ScrollAreaViewport>
             <Center>
               <Flex direction="row">
-                {recentTracks.map((item, idx) => {
+                {recentTracks.map((item) => {
                   const track = item.track as SpotifyApi.TrackObjectFull;
                   const albumImage = track.album.images[0];
 
@@ -116,7 +116,7 @@ export default function Tracks({
                       <Button
                         type="button"
                         variant="naked"
-                        onClick={(event) => {
+                        onClick={() => {
                           selectTrack(isPlaying ? null : item);
                         }}
                         css={{ p: 0 }}
