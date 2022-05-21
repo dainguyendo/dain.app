@@ -18,8 +18,10 @@ import {
   ScrollAreaViewport,
 } from "../../packages/ui/ScrollArea";
 import { TracksVolumeSlider } from "../../packages/ui/TracksVolumeSlider";
-import useAudio from "../../packages/ui/useAudio";
+import { useLocallyStoredVolume } from "../../packages/ui/useLocallyStoredVolume";
+import { useAudio } from "../../packages/ui/useAudio";
 import { styled } from "../../stitches.config";
+import { useIsomorphicLayoutEffect } from "../../packages/ui/useIsomorphicLayoutEffect";
 
 const Center = styled("div", {
   display: "grid",
@@ -59,21 +61,38 @@ export default function Tracks({
   const [selectedTrack, selectTrack] =
     React.useState<SpotifyApi.PlayHistoryObject | null>(null);
 
-  const [audio, state, controls] = useAudio({
-    src: selectedTrack?.track.preview_url ?? "",
-    autoPlay: false,
+  const [cachedVolume, setCacheVolume] = useLocallyStoredVolume();
+  const [volume, setVolume] = React.useState(cachedVolume ?? 0.5);
+
+  const audio = useAudio(selectedTrack?.track.preview_url ?? "", {
+    volume,
   });
 
   const isATrackSelected = !!selectedTrack;
   const selectedTrackId = selectedTrack?.track.id;
 
   React.useEffect(() => {
-    if (selectedTrackId && audio) {
-      controls.play();
-    } else {
-      controls.pause();
+    if (audio) {
+      if (selectedTrackId) {
+        audio?.play();
+      } else {
+        audio?.pause();
+      }
     }
-  }, [audio, controls, selectedTrackId]);
+  }, [audio, selectedTrackId]);
+
+  useIsomorphicLayoutEffect(() => {
+    if (selectedTrackId) {
+      const el = document.getElementById(`record-${selectedTrackId}`);
+      if (el) {
+        el.scrollIntoView({
+          behavior: "smooth",
+          block: "center",
+          inline: "center",
+        });
+      }
+    }
+  }, [selectedTrackId]);
 
   return (
     <StandardLayout title="Recent tracks" header={false} footer={false}>
@@ -82,7 +101,7 @@ export default function Tracks({
           <ScrollAreaViewport>
             <Center>
               <Flex direction="row">
-                {recentTracks.map((item, idx) => {
+                {recentTracks.map((item) => {
                   const track = item.track as SpotifyApi.TrackObjectFull;
                   const albumImage = track.album.images[0];
 
@@ -108,11 +127,11 @@ export default function Tracks({
                           variants={motionRecordRotationVariants}
                         >
                           <Record
+                            id={`record-${track.id}`}
                             layoutId={item.track.id}
                             src={albumImage.url}
                             height={"70vh"}
                             width={"70vh"}
-                            custom={idx}
                             variants={motionRecordVariants}
                             initial={"visible"}
                             animate={
@@ -132,7 +151,6 @@ export default function Tracks({
                 })}
               </Flex>
             </Center>
-            {audio}
           </ScrollAreaViewport>
 
           <ScrollAreaScrollbar orientation="horizontal">
@@ -148,18 +166,21 @@ export default function Tracks({
         animate={{ opacity: 1 }}
         transition={{ duration: 1, ease: "easeInOut" }}
       >
-        <Flex
-          direction="row"
-          css={{ alignItems: "center", justifyContent: "center", gap: "$4" }}
-        >
-          {selectedTrack && <CurrentTrack track={selectedTrack} />}
-          <TracksVolumeSlider
-            defaultVolume={state.volume}
-            onVolumeChange={(volume) => {
-              controls.volume(volume);
-            }}
-          />
-        </Flex>
+        {audio && (
+          <Flex
+            direction="row"
+            css={{ alignItems: "center", justifyContent: "center", gap: "$4" }}
+          >
+            {selectedTrack && <CurrentTrack track={selectedTrack} />}
+            <TracksVolumeSlider
+              volume={volume}
+              onVolumeChange={(volume) => {
+                setVolume(volume);
+                setCacheVolume(volume);
+              }}
+            />
+          </Flex>
+        )}
       </AbsoluteContainer>
     </StandardLayout>
   );

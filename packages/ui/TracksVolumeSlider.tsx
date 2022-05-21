@@ -82,26 +82,23 @@ function RotatingIconButton({ children, volume }: RotatingIconButtonProps) {
 }
 
 interface Props {
-  defaultVolume: number;
+  volume: number;
   onVolumeChange?: (volume: number) => void;
 }
 
-export const TracksVolumeSlider = ({
-  defaultVolume,
-  onVolumeChange,
-}: Props) => {
+export const TracksVolumeSlider = ({ volume, onVolumeChange }: Props) => {
   return (
     <Flex
       direction="row"
       css={{ alignItems: "center", justifyContent: "center", gap: "$1" }}
     >
-      <RotatingIconButton volume={defaultVolume}>
+      <RotatingIconButton volume={volume}>
         <SpeakerOffIcon />
         <SpeakerQuietIcon />
         <SpeakerLoudIcon />
       </RotatingIconButton>
       <Slider
-        defaultValue={[defaultVolume]}
+        value={[volume]}
         max={1}
         step={0.1}
         aria-label="Volume"
