@@ -33,12 +33,9 @@ export const motionRecordVariants = {
   },
   hidden: { opacity: 0 },
   faded: { opacity: 0.5 },
-  visible: (idx: number) => ({
+  visible: {
     opacity: 1,
-    transition: {
-      delay: idx * 0.1,
-    },
-  }),
+  },
 };
 
 export const Record: React.FC<Props> = ({

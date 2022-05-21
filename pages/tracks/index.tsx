@@ -21,6 +21,7 @@ import { TracksVolumeSlider } from "../../packages/ui/TracksVolumeSlider";
 import { useLocallyStoredVolume } from "../../packages/ui/useLocallyStoredVolume";
 import { useAudio } from "../../packages/ui/useAudio";
 import { styled } from "../../stitches.config";
+import { useIsomorphicLayoutEffect } from "../../packages/ui/useIsomorphicLayoutEffect";
 
 const Center = styled("div", {
   display: "grid",
@@ -80,6 +81,19 @@ export default function Tracks({
     }
   }, [audio, selectedTrackId]);
 
+  useIsomorphicLayoutEffect(() => {
+    if (selectedTrackId) {
+      const el = document.getElementById(`record-${selectedTrackId}`);
+      if (el) {
+        el.scrollIntoView({
+          behavior: "smooth",
+          block: "center",
+          inline: "center",
+        });
+      }
+    }
+  }, [selectedTrackId]);
+
   return (
     <StandardLayout title="Recent tracks" header={false} footer={false}>
       <div className="full-bleed">
@@ -102,7 +116,7 @@ export default function Tracks({
                       <Button
                         type="button"
                         variant="naked"
-                        onClick={() => {
+                        onClick={(event) => {
                           selectTrack(isPlaying ? null : item);
                         }}
                         css={{ p: 0 }}
@@ -113,11 +127,11 @@ export default function Tracks({
                           variants={motionRecordRotationVariants}
                         >
                           <Record
+                            id={`record-${track.id}`}
                             layoutId={item.track.id}
                             src={albumImage.url}
                             height={"70vh"}
                             width={"70vh"}
-                            custom={idx}
                             variants={motionRecordVariants}
                             initial={"visible"}
                             animate={
