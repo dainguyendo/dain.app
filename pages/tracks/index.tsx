@@ -19,6 +19,7 @@ import {
 } from "../../packages/ui/ScrollArea";
 import { TracksVolumeSlider } from "../../packages/ui/TracksVolumeSlider";
 import useAudio from "../../packages/ui/useAudio";
+import { useLocalStorage } from "../../packages/ui/useLocalStorage";
 import { styled } from "../../stitches.config";
 
 const Center = styled("div", {
@@ -59,9 +60,12 @@ export default function Tracks({
   const [selectedTrack, selectTrack] =
     React.useState<SpotifyApi.PlayHistoryObject | null>(null);
 
+  const [cachedVolume, setCacheVolume] = useLocalStorage("tracksVolume", 0.5);
+
   const [audio, state, controls] = useAudio({
     src: selectedTrack?.track.preview_url ?? "",
     autoPlay: false,
+    initialVolume: cachedVolume ?? 0.5,
   });
 
   const isATrackSelected = !!selectedTrack;
@@ -157,6 +161,7 @@ export default function Tracks({
             defaultVolume={state.volume}
             onVolumeChange={(volume) => {
               controls.volume(volume);
+              setCacheVolume(volume);
             }}
           />
         </Flex>
