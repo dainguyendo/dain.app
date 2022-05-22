@@ -22,11 +22,11 @@ const StyledScrollbar = styled(ScrollAreaPrimitive.Scrollbar, {
   // disable browser handling of all panning and zooming gestures on touch devices
   touchAction: "none",
   padding: 2,
-  background: "$gray1",
-  transition: "background 160ms ease-out",
+  backgroundColor: "rgba(255, 255, 255, .15)",
+  backdropFilter: "blur(5px)",
+  transition: "backdrop-filter 160ms ease-out",
   "&:hover": {
-    backgroundColor: "rgba(255, 255, 255, .15)",
-    backdropFilter: "blur(5px)",
+    backdropFilter: "blur(2.5px)",
   },
   '&[data-orientation="vertical"]': { width: SCROLLBAR_SIZE },
   '&[data-orientation="horizontal"]': {

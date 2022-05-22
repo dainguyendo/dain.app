@@ -2,7 +2,7 @@ import { DiscIcon } from "@radix-ui/react-icons";
 import { motion } from "framer-motion";
 import React from "react";
 import { styled } from "../../stitches.config";
-import { getArtists } from "../spotify/utils";
+import type { SimplifiedTrack } from "../spotify/types";
 import { Flex } from "./Flex";
 import { Spacer } from "./Spacer";
 import { Text } from "./Text";
@@ -15,7 +15,7 @@ const StyledLink = styled(motion.a, {
 });
 
 interface Props {
-  track: SpotifyApi.PlayHistoryObject;
+  track: SimplifiedTrack;
 }
 
 const TranslateTrack = ({ children }: { children: React.ReactNode }) => {
@@ -50,18 +50,16 @@ export const CurrentTrack = ({ track }: Props) => {
       animate={{ opacity: 1, x: 0 }}
       exit={{ opacity: 0, x: 15 }}
       transition={{ duration: 0.5, ease: "easeOut" }}
-      href={track.track.uri}
+      href={track.uri}
     >
       <Flex gap="1">
         <DiscIcon />
         <TranslateTrack>
           <Text bold css={{ fontSize: "$1", color: "$pink11" }}>
-            {track.track.name}
+            {track.name}
           </Text>
           <Spacer direction="horizontal" size="1" />
-          <Text css={{ fontSize: "$1" }}>
-            {getArtists(track.track.artists)}
-          </Text>
+          <Text css={{ fontSize: "$1" }}>{track.artists}</Text>
         </TranslateTrack>
       </Flex>
     </StyledLink>

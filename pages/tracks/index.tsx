@@ -2,13 +2,17 @@ import { motion } from "framer-motion";
 import type { InferGetStaticPropsType } from "next";
 import * as React from "react";
 import { StandardLayout } from "../../layout/StandardLayout";
-import { getRecentTracks } from "../../packages/spotify/getRecentTracks";
-import { getArtists } from "../../packages/spotify/utils";
+import {
+  formatToSimplifiedTrack,
+  getRecentTracks,
+  uniqueTrack,
+} from "../../packages/spotify/getRecentTracks";
+import type { SimplifiedTrack } from "../../packages/spotify/types";
 import { Button } from "../../packages/ui/Button";
 import { CurrentTrack } from "../../packages/ui/CurrentTrack";
 import { Flex } from "../../packages/ui/Flex";
-import { motionRecordRotationVariants } from "../../packages/ui/motionVariants";
-import { motionRecordVariants, Record } from "../../packages/ui/Record";
+import { Record } from "../../packages/ui/Record";
+import { RecordPerspective } from "../../packages/ui/RecordPerspective";
 import { RecordTooltip } from "../../packages/ui/RecordTooltip";
 import {
   ScrollArea,
@@ -18,10 +22,10 @@ import {
   ScrollAreaViewport,
 } from "../../packages/ui/ScrollArea";
 import { TracksVolumeSlider } from "../../packages/ui/TracksVolumeSlider";
-import { useLocallyStoredVolume } from "../../packages/ui/useLocallyStoredVolume";
 import { useAudio } from "../../packages/ui/useAudio";
-import { styled } from "../../stitches.config";
 import { useIsomorphicLayoutEffect } from "../../packages/ui/useIsomorphicLayoutEffect";
+import { useLocallyStoredVolume } from "../../packages/ui/useLocallyStoredVolume";
+import { styled } from "../../stitches.config";
 
 const Center = styled("div", {
   display: "grid",
@@ -41,15 +45,15 @@ const AbsoluteContainer = styled(motion.div, {
 
 export async function getStaticProps() {
   const recentTracks = await getRecentTracks(50);
-  // Remove duplicate recent tracks based on track ID
-  const uniqueRecentTracks = recentTracks.items.filter(
-    (item, idx, self) =>
-      idx === self.findIndex((t) => t.track.id === item.track.id)
-  );
+  const data = recentTracks.items
+    .filter(uniqueTrack)
+    .map((item) =>
+      formatToSimplifiedTrack(item.track as SpotifyApi.TrackObjectFull)
+    );
 
   return {
     props: {
-      recentTracks: uniqueRecentTracks,
+      recentTracks: data,
     },
     revalidate: 300,
   };
@@ -58,18 +62,19 @@ export async function getStaticProps() {
 export default function Tracks({
   recentTracks,
 }: InferGetStaticPropsType<typeof getStaticProps>) {
-  const [selectedTrack, selectTrack] =
-    React.useState<SpotifyApi.PlayHistoryObject | null>(null);
+  const [selectedTrack, selectTrack] = React.useState<SimplifiedTrack | null>(
+    null
+  );
 
   const [cachedVolume, setCacheVolume] = useLocallyStoredVolume();
   const [volume, setVolume] = React.useState(cachedVolume ?? 0.5);
 
-  const audio = useAudio(selectedTrack?.track.preview_url ?? "", {
+  const audio = useAudio(selectedTrack?.previewUrl ?? "", {
     volume,
   });
 
   const isATrackSelected = !!selectedTrack;
-  const selectedTrackId = selectedTrack?.track.id;
+  const selectedTrackId = selectedTrack?.id;
 
   React.useEffect(() => {
     if (audio) {
@@ -101,50 +106,33 @@ export default function Tracks({
           <ScrollAreaViewport>
             <Center>
               <Flex direction="row">
-                {recentTracks.map((item) => {
-                  const track = item.track as SpotifyApi.TrackObjectFull;
-                  const albumImage = track.album.images[0];
-
+                {recentTracks.map((track) => {
                   const isPlaying = selectedTrackId === track.id;
 
                   return (
                     <RecordTooltip
-                      key={item.track.id}
-                      trackName={item.track.name}
-                      trackArtists={getArtists(item.track.artists)}
+                      key={track.id}
+                      trackName={track.name}
+                      trackArtists={track.artists}
                     >
                       <Button
                         type="button"
                         variant="naked"
                         onClick={() => {
-                          selectTrack(isPlaying ? null : item);
+                          selectTrack(isPlaying ? null : track);
                         }}
                         css={{ p: 0 }}
                       >
-                        <motion.div
-                          initial="flat"
-                          animate={isPlaying ? "skew" : "flat"}
-                          variants={motionRecordRotationVariants}
+                        <RecordPerspective
+                          variant={isPlaying ? "skew" : "flat"}
                         >
                           <Record
-                            id={`record-${track.id}`}
-                            layoutId={item.track.id}
-                            src={albumImage.url}
-                            height={"70vh"}
-                            width={"70vh"}
-                            variants={motionRecordVariants}
-                            initial={"visible"}
-                            animate={
-                              isATrackSelected
-                                ? isPlaying
-                                  ? "spin"
-                                  : "faded"
-                                : "visible"
-                            }
-                            whileInView="visible"
-                            viewport={{ once: true }}
+                            src={track.albumImageUrl}
+                            active={isATrackSelected ? isPlaying : true}
+                            playing={isPlaying}
+                            track={track}
                           />
-                        </motion.div>
+                        </RecordPerspective>
                       </Button>
                     </RecordTooltip>
                   );
