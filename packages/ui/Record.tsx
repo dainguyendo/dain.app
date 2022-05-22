@@ -1,4 +1,4 @@
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, Transition } from "framer-motion";
 import { styled } from "../../stitches.config";
 import type { SimplifiedTrack } from "../spotify/types";
 
@@ -55,6 +55,11 @@ const variants = {
   },
 } as any;
 
+const transition: Transition = {
+  ease: "easeInOut",
+  duration: 0.35,
+};
+
 export const Record: React.FC<Props> = ({ active, src, playing, track }) => {
   return (
     <AnimatePresence initial={false} exitBeforeEnter>
@@ -72,6 +77,7 @@ export const Record: React.FC<Props> = ({ active, src, playing, track }) => {
             borderRadius: "$round",
             backgroundImage: `url(${src})`,
           }}
+          transition={transition}
         >
           <RecordHole />
         </StyledRecord>
@@ -79,8 +85,8 @@ export const Record: React.FC<Props> = ({ active, src, playing, track }) => {
         <StyledRecord
           id={`record-${track.id}`}
           key={`record-${track.id}-notplaying`}
-          initial="visible"
-          animate={active ? "visible" : "faded"}
+          initial={false}
+          animate={["shrink", active ? "visible" : "faded"]}
           exit={["hidden", "expand"]}
           variants={variants}
           css={{
@@ -89,6 +95,7 @@ export const Record: React.FC<Props> = ({ active, src, playing, track }) => {
             borderRadius: 0,
             backgroundImage: `url(${src})`,
           }}
+          transition={transition}
         />
       )}
     </AnimatePresence>
