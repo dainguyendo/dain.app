@@ -12,6 +12,7 @@ import { Button } from "../../packages/ui/Button";
 import { CurrentTrack } from "../../packages/ui/CurrentTrack";
 import { Flex } from "../../packages/ui/Flex";
 import { Record } from "../../packages/ui/Record";
+import { RecordButton } from "../../packages/ui/RecordButton";
 import { RecordPerspective } from "../../packages/ui/RecordPerspective";
 import { RecordTooltip } from "../../packages/ui/RecordTooltip";
 import {
@@ -115,13 +116,12 @@ export default function Tracks({
                       trackName={track.name}
                       trackArtists={track.artists}
                     >
-                      <Button
+                      <RecordButton
                         type="button"
-                        variant="naked"
                         onClick={() => {
                           selectTrack(isPlaying ? null : track);
                         }}
-                        css={{ p: 0 }}
+                        track={track}
                       >
                         <RecordPerspective
                           variant={isPlaying ? "skew" : "flat"}
@@ -133,7 +133,7 @@ export default function Tracks({
                             track={track}
                           />
                         </RecordPerspective>
-                      </Button>
+                      </RecordButton>
                     </RecordTooltip>
                   );
                 })}
