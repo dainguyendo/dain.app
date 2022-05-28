@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import type { InferGetStaticPropsType } from "next";
 import * as React from "react";
 import { StandardLayout } from "../../layout/StandardLayout";
@@ -10,8 +10,10 @@ import {
 import type { SimplifiedTrack } from "../../packages/spotify/types";
 import { CurrentTrack } from "../../packages/ui/CurrentTrack";
 import { Flex } from "../../packages/ui/Flex";
-import { Record } from "../../packages/ui/Record";
 import { RecordButton } from "../../packages/ui/RecordButton";
+import { RecordGalleryItem } from "../../packages/ui/RecordGalleryItem";
+import { RecordPerspective } from "../../packages/ui/RecordPerspective";
+import { RecordSpinning } from "../../packages/ui/RecordSpinning";
 import { RecordTooltip } from "../../packages/ui/RecordTooltip";
 import {
   ScrollArea,
@@ -117,12 +119,31 @@ export default function Tracks({
                         playing={isPlaying}
                         track={track}
                       >
-                        <Record
-                          src={track.albumImageUrl}
-                          active={isATrackSelected ? isPlaying : true}
-                          playing={isPlaying}
-                          track={track}
-                        />
+                        <AnimatePresence exitBeforeEnter>
+                          {isPlaying ? (
+                            <RecordPerspective
+                              layoutId={`perspective-${track.id}`}
+                              variant="skew"
+                            >
+                              <RecordSpinning
+                                key={`record-${track.id}`}
+                                active={true}
+                                track={track}
+                              />
+                            </RecordPerspective>
+                          ) : (
+                            <RecordPerspective
+                              layoutId={`perspective-${track.id}`}
+                              variant="flat"
+                            >
+                              <RecordGalleryItem
+                                key={`record-${track.id}-notplaying`}
+                                active={isATrackSelected ? isPlaying : true}
+                                track={track}
+                              />
+                            </RecordPerspective>
+                          )}
+                        </AnimatePresence>
                       </RecordButton>
                     </RecordTooltip>
                   );

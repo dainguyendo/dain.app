@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { motion, MotionProps } from "framer-motion";
 
 const variants = {
   flat: {
@@ -17,14 +17,23 @@ const variants = {
 
 type Variant = keyof typeof variants;
 
-interface Props {
+interface Props extends MotionProps {
   children: React.ReactNode;
   variant: Variant;
 }
 
-export const RecordPerspective = ({ children, variant }: Props) => {
+export const RecordPerspective = ({
+  children,
+  variant,
+  ...motionProps
+}: Props) => {
   return (
-    <motion.div initial="flat" animate={variant} variants={variants}>
+    <motion.div
+      {...motionProps}
+      initial="flat"
+      animate={variant}
+      variants={variants}
+    >
       {children}
     </motion.div>
   );
