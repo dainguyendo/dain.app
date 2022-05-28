@@ -44,7 +44,7 @@ const AbsoluteContainer = styled(motion.div, {
   borderRadius: "$pill",
 });
 
-export async function getStaticProps() {
+export async function getServerSideProps() {
   const recentTracks = await getRecentTracks(50);
   const data = recentTracks.items
     .filter(uniqueTrack)
@@ -56,13 +56,12 @@ export async function getStaticProps() {
     props: {
       recentTracks: data,
     },
-    revalidate: 300,
   };
 }
 
 export default function Tracks({
   recentTracks,
-}: InferGetStaticPropsType<typeof getStaticProps>) {
+}: InferGetStaticPropsType<typeof getServerSideProps>) {
   const [selectedTrack, selectTrack] = React.useState<SimplifiedTrack | null>(
     null
   );
@@ -101,7 +100,7 @@ export default function Tracks({
   }, [selectedTrackId]);
 
   return (
-    <StandardLayout title="Recent tracks" header={false} footer={false}>
+    <StandardLayout title="🎧 Recent tracks" header={false} footer={false}>
       <div className="full-bleed">
         <ScrollArea>
           <ScrollAreaViewport>
