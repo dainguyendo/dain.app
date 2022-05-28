@@ -8,7 +8,6 @@ import {
   uniqueTrack,
 } from "../../packages/spotify/getRecentTracks";
 import type { SimplifiedTrack } from "../../packages/spotify/types";
-import { Button } from "../../packages/ui/Button";
 import { CurrentTrack } from "../../packages/ui/CurrentTrack";
 import { Flex } from "../../packages/ui/Flex";
 import { Record } from "../../packages/ui/Record";
