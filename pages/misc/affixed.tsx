@@ -22,13 +22,8 @@ const AffixedPage = ({
   routes,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
   const mapEl = React.useRef<HTMLDivElement>(null);
-  const {
-    initMap,
-    map,
-    addAndGoTo,
-    removeSourceAndLayer,
-    selectedLayer,
-  } = useMapbox();
+  const { initMap, map, addAndGoTo, removeSourceAndLayer, selectedLayer } =
+    useMapbox();
 
   React.useEffect(() => {
     initMap({
@@ -73,7 +68,7 @@ const AffixedPage = ({
         }}
       >
         <Card css={{ p: "$4", vs: "$2" }}>
-          <NextLink href="/misc">
+          <NextLink passHref href="/misc">
             <Link>
               <Flex direction="row" align="center">
                 <ArrowLeftIcon width={18} height={18} />

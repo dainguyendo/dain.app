@@ -121,6 +121,7 @@ export default function Tracks({
                         onClick={() => {
                           selectTrack(isPlaying ? null : track);
                         }}
+                        playing={isPlaying}
                         track={track}
                       >
                         <RecordPerspective

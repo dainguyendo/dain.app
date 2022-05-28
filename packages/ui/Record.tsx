@@ -1,6 +1,7 @@
-import { AnimatePresence, motion, Transition } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { styled } from "../../stitches.config";
 import type { SimplifiedTrack } from "../spotify/types";
+import { stiffSpringTransition } from "./spring";
 
 type Props = {
   src: string | undefined;
@@ -36,7 +37,7 @@ const variants = {
     transition: {
       ease: "linear",
       repeat: Infinity,
-      duration: 2,
+      duration: 2.75,
     },
   },
   hidden: { opacity: 0 },
@@ -55,11 +56,6 @@ const variants = {
   },
 } as any;
 
-const transition: Transition = {
-  ease: "easeInOut",
-  duration: 0.35,
-};
-
 export const Record: React.FC<Props> = ({ active, src, playing, track }) => {
   return (
     <AnimatePresence initial={false} exitBeforeEnter>
@@ -77,7 +73,7 @@ export const Record: React.FC<Props> = ({ active, src, playing, track }) => {
             borderRadius: "$round",
             backgroundImage: `url(${src})`,
           }}
-          transition={transition}
+          transition={stiffSpringTransition}
         >
           <RecordHole />
         </StyledRecord>
@@ -95,7 +91,7 @@ export const Record: React.FC<Props> = ({ active, src, playing, track }) => {
             borderRadius: 0,
             backgroundImage: `url(${src})`,
           }}
-          transition={transition}
+          transition={stiffSpringTransition}
         />
       )}
     </AnimatePresence>

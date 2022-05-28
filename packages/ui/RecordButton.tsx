@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import React from "react";
 import { styled } from "../../stitches.config";
 import { SimplifiedTrack } from "../spotify/types";
+import { stiffSpringTransition } from "./spring";
 import { VisuallyHidden } from "./VisuallyHidden";
 
 const Button = styled(motion.button, {
@@ -44,6 +45,7 @@ export const RecordButton = React.forwardRef<HTMLButtonElement, Props>(
       ref={forwardRef}
       whileHover={!playing ? "scale" : undefined}
       whileFocus={!playing ? "scale" : undefined}
+      transition={stiffSpringTransition}
       variants={variants}
     >
       {children}
