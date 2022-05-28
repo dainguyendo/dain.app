@@ -1,7 +1,11 @@
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, useCycle } from "framer-motion";
+import React from "react";
 import { styled } from "../../stitches.config";
+import { usePrevious } from "../../ui/usePrevious";
 import type { SimplifiedTrack } from "../spotify/types";
+import { RecordPerspective } from "./RecordPerspective";
 import { stiffSpringTransition } from "./spring";
+import { TrackId } from "./TrackId";
 
 type Props = {
   src: string | undefined;
@@ -57,42 +61,60 @@ const variants = {
 } as any;
 
 export const Record: React.FC<Props> = ({ active, src, playing, track }) => {
+  const wasPlaying = usePrevious(playing);
+  const [hovering, hover] = useCycle(false, true);
+
+  React.useEffect(() => {
+    if (wasPlaying && !playing) {
+      hover(0);
+    }
+  }, [wasPlaying, playing, hover]);
+
   return (
     <AnimatePresence initial={false} exitBeforeEnter>
       {playing ? (
-        <StyledRecord
-          id={`record-${track.id}`}
-          key={`record-${track.id}`}
-          initial="hidden"
-          animate={["visible", playing ? "spin" : "idle"]}
-          exit={["idle", "stop"]}
-          variants={variants}
-          css={{
-            height: HEIGHT_PLAYING,
-            width: WIDTH_PLAYING,
-            borderRadius: "$round",
-            backgroundImage: `url(${src})`,
-          }}
-          transition={stiffSpringTransition}
-        >
-          <RecordHole />
-        </StyledRecord>
+        <RecordPerspective variant="skew">
+          <StyledRecord
+            id={`record-${track.id}`}
+            key={`record-${track.id}`}
+            initial="hidden"
+            animate={["visible", playing ? "spin" : "idle"]}
+            exit={["idle", "stop"]}
+            variants={variants}
+            css={{
+              height: HEIGHT_PLAYING,
+              width: WIDTH_PLAYING,
+              borderRadius: "$round",
+              backgroundImage: `url(${src})`,
+            }}
+            transition={stiffSpringTransition}
+          >
+            <RecordHole />
+          </StyledRecord>
+        </RecordPerspective>
       ) : (
-        <StyledRecord
-          id={`record-${track.id}`}
-          key={`record-${track.id}-notplaying`}
-          initial={false}
-          animate={["shrink", active ? "visible" : "faded"]}
-          exit={["hidden", "expand"]}
-          variants={variants}
-          css={{
-            height: HEIGHT_IDLE,
-            width: WIDTH_IDLE,
-            borderRadius: 0,
-            backgroundImage: `url(${src})`,
-          }}
-          transition={stiffSpringTransition}
-        />
+        <RecordPerspective variant="flat">
+          <StyledRecord
+            id={`record-${track.id}`}
+            key={`record-${track.id}-notplaying`}
+            initial={false}
+            animate={["shrink", active ? "visible" : "faded"]}
+            exit={["hidden", "expand"]}
+            whileHover={active ? "expand" : undefined}
+            onHoverStart={() => hover()}
+            onHoverEnd={() => hover()}
+            variants={variants}
+            css={{
+              height: HEIGHT_IDLE,
+              width: WIDTH_IDLE,
+              borderRadius: 0,
+              backgroundImage: `url(${src})`,
+            }}
+            transition={stiffSpringTransition}
+          >
+            {hovering && <TrackId track={track} />}
+          </StyledRecord>
+        </RecordPerspective>
       )}
     </AnimatePresence>
   );

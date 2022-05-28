@@ -9,6 +9,7 @@ const Button = styled(motion.button, {
   appearance: "none",
   border: "none",
   background: "transparent",
+  curosr: "pointer",
   padding: 0,
   outline: "none",
 
@@ -43,8 +44,6 @@ export const RecordButton = React.forwardRef<HTMLButtonElement, Props>(
     <Button
       {...props}
       ref={forwardRef}
-      whileHover={!playing ? "scale" : undefined}
-      whileFocus={!playing ? "scale" : undefined}
       transition={stiffSpringTransition}
       variants={variants}
     >

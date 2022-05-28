@@ -12,7 +12,6 @@ import { CurrentTrack } from "../../packages/ui/CurrentTrack";
 import { Flex } from "../../packages/ui/Flex";
 import { Record } from "../../packages/ui/Record";
 import { RecordButton } from "../../packages/ui/RecordButton";
-import { RecordPerspective } from "../../packages/ui/RecordPerspective";
 import { RecordTooltip } from "../../packages/ui/RecordTooltip";
 import {
   ScrollArea,
@@ -109,11 +108,7 @@ export default function Tracks({
                   const isPlaying = selectedTrackId === track.id;
 
                   return (
-                    <RecordTooltip
-                      key={track.id}
-                      trackName={track.name}
-                      trackArtists={track.artists}
-                    >
+                    <RecordTooltip key={track.id} track={track}>
                       <RecordButton
                         type="button"
                         onClick={() => {
@@ -122,16 +117,12 @@ export default function Tracks({
                         playing={isPlaying}
                         track={track}
                       >
-                        <RecordPerspective
-                          variant={isPlaying ? "skew" : "flat"}
-                        >
-                          <Record
-                            src={track.albumImageUrl}
-                            active={isATrackSelected ? isPlaying : true}
-                            playing={isPlaying}
-                            track={track}
-                          />
-                        </RecordPerspective>
+                        <Record
+                          src={track.albumImageUrl}
+                          active={isATrackSelected ? isPlaying : true}
+                          playing={isPlaying}
+                          track={track}
+                        />
                       </RecordButton>
                     </RecordTooltip>
                   );
