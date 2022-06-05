@@ -1,3 +1,4 @@
+import * as ToggleGroupPrimitive from "@radix-ui/react-toggle-group";
 import { AnimatePresence, motion } from "framer-motion";
 import type { InferGetStaticPropsType } from "next";
 import * as React from "react";
@@ -7,7 +8,6 @@ import {
   getRecentTracks,
   uniqueTrack,
 } from "../../packages/spotify/getRecentTracks";
-import type { SimplifiedTrack } from "../../packages/spotify/types";
 import { CurrentTrack } from "../../packages/ui/CurrentTrack";
 import { Flex } from "../../packages/ui/Flex";
 import { RecordButton } from "../../packages/ui/RecordButton";
@@ -61,12 +61,11 @@ export async function getServerSideProps() {
 export default function Tracks({
   recentTracks,
 }: InferGetStaticPropsType<typeof getServerSideProps>) {
-  const [selectedTrack, selectTrack] = React.useState<SimplifiedTrack | null>(
-    null
-  );
-
+  const [trackId, setTrackId] = React.useState<string | null>(null);
   const [cachedVolume, setCacheVolume] = useLocallyStoredVolume();
   const [volume, setVolume] = React.useState(cachedVolume ?? 0.5);
+
+  const selectedTrack = recentTracks.find((t) => t.id === trackId);
 
   const audio = useAudio(selectedTrack?.previewUrl ?? "", {
     volume,
@@ -104,44 +103,44 @@ export default function Tracks({
         <ScrollArea>
           <ScrollAreaViewport>
             <Center>
-              <Flex direction="row">
-                {recentTracks.map((track) => {
-                  const isPlaying = selectedTrackId === track.id;
+              <ToggleGroupPrimitive.Root
+                type="single"
+                value={selectedTrack?.id}
+                onValueChange={setTrackId}
+                asChild
+              >
+                <Flex direction="row">
+                  {recentTracks.map((track) => {
+                    const isPlaying = selectedTrackId === track.id;
 
-                  return (
-                    <RecordTooltip key={track.id} track={track}>
-                      <RecordButton
-                        type="button"
-                        onClick={() => {
-                          selectTrack(isPlaying ? null : track);
-                        }}
-                        playing={isPlaying}
-                        track={track}
-                      >
-                        <AnimatePresence exitBeforeEnter>
-                          {isPlaying ? (
-                            <RecordPerspective variant="skew">
-                              <RecordSpinning
-                                key={`record-${track.id}`}
-                                active={true}
-                                track={track}
-                              />
-                            </RecordPerspective>
-                          ) : (
-                            <RecordPerspective variant="flat">
-                              <RecordGalleryItem
-                                key={`record-${track.id}-notplaying`}
-                                active={isATrackSelected ? isPlaying : true}
-                                track={track}
-                              />
-                            </RecordPerspective>
-                          )}
-                        </AnimatePresence>
+                    return (
+                      <RecordButton key={track.id} track={track}>
+                        <RecordTooltip key={track.id} track={track}>
+                          <AnimatePresence exitBeforeEnter>
+                            {isPlaying ? (
+                              <RecordPerspective variant="skew">
+                                <RecordSpinning
+                                  key={`record-${track.id}`}
+                                  active={true}
+                                  track={track}
+                                />
+                              </RecordPerspective>
+                            ) : (
+                              <RecordPerspective variant="flat">
+                                <RecordGalleryItem
+                                  key={`record-${track.id}-notplaying`}
+                                  active={isATrackSelected ? isPlaying : true}
+                                  track={track}
+                                />
+                              </RecordPerspective>
+                            )}
+                          </AnimatePresence>
+                        </RecordTooltip>
                       </RecordButton>
-                    </RecordTooltip>
-                  );
-                })}
-              </Flex>
+                    );
+                  })}
+                </Flex>
+              </ToggleGroupPrimitive.Root>
             </Center>
           </ScrollAreaViewport>
 
