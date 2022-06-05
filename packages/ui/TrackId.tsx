@@ -41,7 +41,6 @@ const content: Variants = {
 export const TrackId = ({ track }: Props) => {
   return (
     <Container
-      layoutId={`track-id-${track.id}`}
       initial="exit"
       animate="enter"
       exit="exit"

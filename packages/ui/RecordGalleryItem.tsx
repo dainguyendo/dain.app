@@ -1,9 +1,10 @@
-import { motion, useCycle } from "framer-motion";
+import { motion } from "framer-motion";
 import React from "react";
 import { styled } from "../../stitches.config";
 import type { SimplifiedTrack } from "../spotify/types";
 import { stiffSpringTransition } from "./spring";
 import { TrackId } from "./TrackId";
+import { useHover } from "./useHover";
 import { HEIGHT_IDLE, recordVariants, WIDTH_IDLE } from "./utilities/record";
 
 interface Props {
@@ -23,17 +24,16 @@ const StyledRecord = styled(motion.div, {
 });
 
 export const RecordGalleryItem = ({ active, track }: Props) => {
-  const [hovering, hover] = useCycle(false, true);
+  const [ref, hovering] = useHover<HTMLDivElement>();
 
   return (
     <StyledRecord
       id={`record-${track.id}`}
+      ref={ref}
       initial={false}
       animate={["shrink", active ? "visible" : "faded"]}
       exit={["hidden", "expand"]}
       whileHover={active ? "expand" : undefined}
-      onHoverStart={() => hover()}
-      onHoverEnd={() => hover()}
       variants={recordVariants}
       css={{
         backgroundImage: `url(${track.albumImageUrl})`,

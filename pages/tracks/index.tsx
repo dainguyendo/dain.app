@@ -41,7 +41,6 @@ const AbsoluteContainer = styled(motion.div, {
 
   backgroundColor: "rgba(255, 255, 255, .35)",
   backdropFilter: "blur(10px)",
-  borderRadius: "$pill",
 });
 
 export async function getServerSideProps() {
@@ -121,10 +120,7 @@ export default function Tracks({
                       >
                         <AnimatePresence exitBeforeEnter>
                           {isPlaying ? (
-                            <RecordPerspective
-                              layoutId={`perspective-${track.id}`}
-                              variant="skew"
-                            >
+                            <RecordPerspective variant="skew">
                               <RecordSpinning
                                 key={`record-${track.id}`}
                                 active={true}
@@ -132,10 +128,7 @@ export default function Tracks({
                               />
                             </RecordPerspective>
                           ) : (
-                            <RecordPerspective
-                              layoutId={`perspective-${track.id}`}
-                              variant="flat"
-                            >
+                            <RecordPerspective variant="flat">
                               <RecordGalleryItem
                                 key={`record-${track.id}-notplaying`}
                                 active={isATrackSelected ? isPlaying : true}
