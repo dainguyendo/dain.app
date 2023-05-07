@@ -1,45 +1,54 @@
-import { motion } from "framer-motion";
-import React from "react";
+import { MotionValue, motion, useSpring, useTransform } from "framer-motion";
+import { useRef } from "react";
 import type { SimplifiedTrack } from "../spotify/types";
-import { TrackId } from "./TrackId";
-import { useHover } from "./useHover";
-import { HEIGHT_IDLE, recordVariants, WIDTH_IDLE } from "./utilities/record";
-import { stiffSpring } from "./utilities/transition";
 
 interface Props {
   active: boolean;
   track: SimplifiedTrack;
+  mouseX: MotionValue;
+
+  onHoverStart: (id: string) => void;
+  onHoverEnd: (id: string) => void;
 }
 
-// const StyledRecord = styled(motion.div, {
-//   display: "flex",
-//   alignItems: "center",
-//   justifyContent: "center",
-//   backgroundRepeat: "no-repeat",
-//   backgroundSize: "cover",
-//   height: HEIGHT_IDLE,
-//   width: WIDTH_IDLE,
-//   borderRadius: 0,
-// });
+export const RecordGalleryItem = ({
+  active,
+  track,
+  mouseX,
+  onHoverStart,
+  onHoverEnd,
+}: Props) => {
+  let ref = useRef<HTMLDivElement>(null);
 
-export const RecordGalleryItem = ({ active, track }: Props) => {
-  const [ref, hovering] = useHover<HTMLDivElement>();
+  let distance = useTransform(mouseX, (val) => {
+    let bounds = ref?.current?.getBoundingClientRect() ?? { x: 0, width: 0 };
+
+    return val - bounds.x - bounds.width / 2;
+  });
+
+  let widthSync = useTransform(distance, [-150, 0, 150], [350, 800, 350]);
+  let width = useSpring(widthSync, {
+    mass: 0.1,
+    stiffness: 150,
+    damping: 12,
+  });
 
   return (
     <motion.div
       id={`record-${track.id}`}
       ref={ref}
-      initial={false}
-      animate={["shrink", active ? "visible" : "faded"]}
-      exit={["hidden", "expand"]}
-      whileHover={active ? "expand" : undefined}
-      variants={recordVariants}
       style={{
         backgroundImage: `url(${track.albumImageUrl})`,
+        width,
+        height: "50vh",
       }}
-      transition={stiffSpring}
-    >
-      {hovering && <TrackId track={track} />}
-    </motion.div>
+      className="flex align-center justify-center bg-no-repeat bg-cover"
+      onHoverStart={() => {
+        onHoverStart(track.id);
+      }}
+      onHoverEnd={() => {
+        onHoverEnd(track.id);
+      }}
+    />
   );
 };

@@ -1,9 +1,9 @@
-import { Header } from "@/layout/Header";
-import "./globals.css";
-import { Inter } from "next/font/google";
 import { Footer } from "@/layout/Footer";
+import { Header } from "@/layout/Header";
+import { Karla } from "next/font/google";
+import "./globals.css";
 
-const inter = Inter({ subsets: ["latin"] });
+const karla = Karla({ subsets: ["latin"] });
 
 export const metadata = {
   title: "Dai",
@@ -12,15 +12,18 @@ export const metadata = {
 
 export default function RootLayout({
   children,
+  modal,
 }: {
   children: React.ReactNode;
+  modal?: React.ReactNode;
 }) {
   return (
     <html lang="en">
-      <body className={[inter.className, "root-layout"].join(" ")}>
+      <body className={[karla.className, "root-layout"].join(" ")}>
         <Header />
         {children}
         <Footer />
+        {modal}
       </body>
     </html>
   );
