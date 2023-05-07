@@ -1,11 +1,4 @@
-module.exports = {
-  webpack: (config) => {
-    config.module.rules.push({
-      test: /react-spring/,
-      sideEffects: true,
-    });
+/** @type {import('next').NextConfig} */
+const nextConfig = {}
 
-    // Important: return the modified config
-    return config;
-  },
-};
+module.exports = nextConfig
