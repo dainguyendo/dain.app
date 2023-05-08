@@ -17,6 +17,8 @@
 }
 
 body {
+  width: 100vw;
+  height: 100vh;
   color: rgb(var(--foreground-rgb));
   background: linear-gradient(
       to bottom,
@@ -36,6 +38,6 @@ body {
 }
 
 .full-bleed {
-  width: "100%";
+  width: 100%;
   grid-column: 1 / -1;
 }

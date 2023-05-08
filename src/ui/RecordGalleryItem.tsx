@@ -26,7 +26,7 @@ export const RecordGalleryItem = ({
     return val - bounds.x - bounds.width / 2;
   });
 
-  let widthSync = useTransform(distance, [-150, 0, 150], [250, 600, 250]);
+  let widthSync = useTransform(distance, [-150, 0, 150], [150, 600, 150]);
   let width = useSpring(widthSync, {
     mass: 0.1,
     stiffness: 150,

@@ -1,5 +1,3 @@
-import { Footer } from "@/layout/Footer";
-import { Header } from "@/layout/Header";
 import { Karla } from "next/font/google";
 import "./globals.css";
 
@@ -19,10 +17,8 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={[karla.className, "root-layout"].join(" ")}>
-        <Header />
+      <body className={[karla.className].join(" ")}>
         {children}
-        <Footer />
         {modal}
       </body>
     </html>

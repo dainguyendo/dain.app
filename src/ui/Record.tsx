@@ -6,18 +6,19 @@ import { stiffSpring } from "./utilities/transition";
 
 interface Props {
   track: SimplifiedTrack;
+  spinning: boolean;
 }
 
-export const RecordSpinning = ({ track }: Props) => {
+export const Record = ({ spinning, track }: Props) => {
   return (
     <motion.div
       id={`record-${track.id}`}
       initial="hidden"
-      animate={["visible", "spin"]}
+      animate={spinning ? ["visible", "spin"] : "visible"}
       exit={["idle", "stop"]}
       variants={recordVariants}
       transition={stiffSpring}
-      className="flex grid place-items-center bg-no-repeat rounded-full bg-cover w-32 h-32 relative"
+      className="flex grid place-items-center bg-no-repeat rounded-full bg-cover w-48 h-48 relative"
     >
       <Image
         src={track.albumImageUrl}

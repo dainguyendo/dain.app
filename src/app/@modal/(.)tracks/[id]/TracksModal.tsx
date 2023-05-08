@@ -2,17 +2,11 @@
 
 import { SimplifiedTrack } from "@/spotify/types";
 import { InfiniteTranslateX } from "@/ui/InfiniteTranslateX";
+import { Record } from "@/ui/Record";
 import { RecordPerspective } from "@/ui/RecordPerspective";
-import { RecordSpinning } from "@/ui/RecordSpinning";
 import { TracksVolumeSlider } from "@/ui/TracksVolumeSlider";
 import { useLocallyStoredVolume } from "@/ui/useLocallyStoredVolume";
-import {
-  ArrowLeftIcon,
-  ArrowRightIcon,
-  Link1Icon,
-  PauseIcon,
-  PlayIcon,
-} from "@radix-ui/react-icons";
+import { Link1Icon, PauseIcon, PlayIcon } from "@radix-ui/react-icons";
 import Link from "next/link";
 import React from "react";
 
@@ -21,15 +15,19 @@ interface Props {
 }
 
 export default function TracksModal({ track }: Props) {
-  console.log({ track });
-
   const audioRef = React.useRef<HTMLAudioElement>(null);
 
   const [isPlaying, setIsPlaying] = React.useState(false);
-  const [volume, setVolume] = React.useState<number>(60);
+  const [cachedVolume, setCacheVolume] = useLocallyStoredVolume();
+  const [volume, setVolume] = React.useState<number>(cachedVolume ?? 60);
 
   const togglePlayPause = () => {
     setIsPlaying((prev) => !prev);
+  };
+
+  const handleVolumeChange = (volume: number) => {
+    setVolume(volume);
+    setCacheVolume(volume);
   };
 
   React.useEffect(() => {
@@ -50,28 +48,52 @@ export default function TracksModal({ track }: Props) {
 
   return (
     <div className="bg-black p-6">
-      <div className="grid grid-cols-4">
+      <div className="flex items-center">
         <div className="grid place-items-center">
-          <RecordPerspective variant="skew">
-            <RecordSpinning track={track} />
+          <RecordPerspective variant={isPlaying ? "skew" : "flat"}>
+            <Record spinning={isPlaying} track={track} />
           </RecordPerspective>
         </div>
 
-        <div className="col-span-2 self-center">
-          <InfiniteTranslateX>
-            <h1 className="text-lg font-bold text-rose-500">{track.name}</h1>
-            <h2 className="text-md">{track.artists}</h2>
-          </InfiniteTranslateX>
-          <Link href={track.uri} passHref className="flex items-center gap-1">
-            <Link1Icon />
-            <span className="text-xs">Spotify</span>
-          </Link>
-          <TracksVolumeSlider volume={volume} onVolumeChange={setVolume} />
-        </div>
+        <div className="self-center pl-4 flex items-center gap-4">
+          <div>
+            <div className="overflow-hidden mb-2">
+              {isPlaying ? (
+                <InfiniteTranslateX>
+                  <h1 className="text-lg font-bold text-rose-500">
+                    {track.name}
+                  </h1>
+                  <h2 className="text-md">{track.artists}</h2>
+                </InfiniteTranslateX>
+              ) : (
+                <>
+                  <h1 className="text-lg font-bold text-rose-500">
+                    {track.name}
+                  </h1>
+                  <h2 className="text-md">{track.artists}</h2>
+                </>
+              )}
+            </div>
 
-        <div className="place-self-center">
-          <button onClick={togglePlayPause}>
-            {isPlaying ? <PauseIcon /> : <PlayIcon />}
+            <Link href={track.uri} passHref className="flex items-center gap-1">
+              <Link1Icon />
+              <span className="text-xs">Spotify</span>
+            </Link>
+
+            {volume && (
+              <TracksVolumeSlider
+                volume={volume}
+                onVolumeChange={handleVolumeChange}
+              />
+            )}
+          </div>
+
+          <button type="button" onClick={togglePlayPause}>
+            {isPlaying ? (
+              <PauseIcon width={32} height={32} />
+            ) : (
+              <PlayIcon width={32} height={32} />
+            )}
           </button>
         </div>
       </div>
