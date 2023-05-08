@@ -4,40 +4,8 @@ import {
   SpeakerQuietIcon,
 } from "@radix-ui/react-icons";
 import React from "react";
-import { useMount } from "./useMount";
 import { Slider, SliderRange, SliderThumb, SliderTrack } from "./Slider";
-
-// const riseIn = keyframes({
-//   from: { transform: "translateY(100%)" },
-//   to: { transform: "translateY(0%)" },
-// });
-
-// const riseOut = keyframes({
-//   from: { transform: "translateY(0%)" },
-//   to: { transform: "translateY(-100%)" },
-// });
-
-// const IconButton = styled("div", {
-//   height: "15px",
-//   width: "15px",
-//   position: "relative",
-//   padding: "0px",
-//   overflow: "hidden",
-//   outline: "none",
-//   background: "transparent",
-//   border: "none",
-// });
-
-// const Icon = styled("div", {
-//   position: "absolute",
-//   top: "0px",
-//   height: "100%",
-//   width: "100%",
-//   display: "flex",
-//   alignItems: "center",
-//   justifyContent: "center",
-//   animationFillMode: "forwards",
-// });
+import { useMount } from "./useMount";
 
 interface RotatingIconButtonProps {
   children: React.ReactNode;
@@ -53,23 +21,29 @@ function RotatingIconButton({ children, volume }: RotatingIconButtonProps) {
   });
 
   return (
-    <div>
+    <div className="w-4 h-4 overflow-hidden bg-transparent relative p-0">
       {icons.map((icon, i) => {
         const isCurrent =
           i === 0 && volume === 0
             ? true
-            : i === 1 && volume > 0 && volume <= 0.5
+            : i === 1 && volume > 0 && volume <= 50
             ? true
-            : i === 2 && volume > 0.5
+            : i === 2 && volume > 50
             ? true
             : false;
+
+        if (!isCurrent) return null;
+
         return (
           <div
             key={i}
-            // css={{
-            //   animationDuration: `${isInitial.current ? "0" : "300ms"}`,
-            //   animationName: isCurrent ? riseIn.toString() : riseOut.toString(),
-            // }}
+            className={`absolute top-0 w-full h-full flex justify-center items-center ${
+              isInitial.current ? "duration-0" : "duration-300"
+            } ${
+              isCurrent
+                ? "animate-[rise-in_300ms_linear]"
+                : "animate-[rise-out_300ms_linear]"
+            }`}
           >
             {icon}
           </div>
@@ -86,7 +60,7 @@ interface Props {
 
 export const TracksVolumeSlider = ({ volume, onVolumeChange }: Props) => {
   return (
-    <div className="flex align-center justify-center gap-1">
+    <div className="flex items-center gap-1 py-2">
       <RotatingIconButton volume={volume}>
         <SpeakerOffIcon />
         <SpeakerQuietIcon />
@@ -94,8 +68,8 @@ export const TracksVolumeSlider = ({ volume, onVolumeChange }: Props) => {
       </RotatingIconButton>
       <Slider
         value={[volume]}
-        max={1}
-        step={0.1}
+        max={100}
+        step={1}
         aria-label="Volume"
         onValueChange={(number) => {
           const [volume] = number;

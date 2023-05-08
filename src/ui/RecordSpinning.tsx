@@ -1,27 +1,10 @@
 import { motion } from "framer-motion";
-import React from "react";
+import Image from "next/image";
 import type { SimplifiedTrack } from "../spotify/types";
-import { RecordHole } from "./RecordHole";
-import {
-  HEIGHT_PLAYING,
-  recordVariants,
-  WIDTH_PLAYING,
-} from "./utilities/record";
+import { recordVariants } from "./utilities/record";
 import { stiffSpring } from "./utilities/transition";
 
-// const StyledRecord = styled(motion.div, {
-//   display: "flex",
-//   alignItems: "center",
-//   justifyContent: "center",
-//   backgroundRepeat: "no-repeat",
-//   backgroundSize: "cover",
-//   height: HEIGHT_PLAYING,
-//   width: WIDTH_PLAYING,
-//   borderRadius: "$round",
-// });
-
 interface Props {
-  active: boolean;
   track: SimplifiedTrack;
 }
 
@@ -33,12 +16,21 @@ export const RecordSpinning = ({ track }: Props) => {
       animate={["visible", "spin"]}
       exit={["idle", "stop"]}
       variants={recordVariants}
-      style={{
-        backgroundImage: `url(${track.albumImageUrl})`,
-      }}
       transition={stiffSpring}
+      className="flex grid place-items-center bg-no-repeat rounded-full bg-cover w-32 h-32 relative"
     >
-      <RecordHole />
+      <Image
+        src={track.albumImageUrl}
+        alt={track.name}
+        fill
+        className="rounded-full"
+      />
+
+      {/* Record hole */}
+      <div
+        className="bg-white rounded-full z-10	"
+        style={{ width: "15%", height: "15%" }}
+      />
     </motion.div>
   );
 };

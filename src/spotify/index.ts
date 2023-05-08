@@ -66,7 +66,7 @@ export const uniqueTrack = (
   array: SpotifyApi.PlayHistoryObject[]
 ) => index === array.findIndex((t) => t.track.id === item.track.id);
 
-export const getTrack = async (trackId: string) => {
+export const getTrack = async (trackId: string): Promise<SpotifyApi.TrackObjectFull> => {
   const { access_token } = await getAccessToken();
   const endpoint = `https://api.spotify.com/v1/tracks/${trackId}`;
 
