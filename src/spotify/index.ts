@@ -1,6 +1,9 @@
+import 'server-only';
+
 import querystring from "querystring";
 import { getArtists } from "./utility";
 import type { SimplifiedTrack } from "./types";
+import { cache } from "react";
 
 const {
   SPOTIFY_CLIENT_ID: client_id,
@@ -31,7 +34,7 @@ export const getAccessToken = async () => {
 
 
 
-export const getRecentTracks = async (limit: number = 20) => {
+export const getRecentTracks = cache(async (limit: number = 20) => {
   const { access_token } = await getAccessToken();
   const endpoint = `https://api.spotify.com/v1/me/player/recently-played?limit=${limit}`;
 
@@ -39,13 +42,15 @@ export const getRecentTracks = async (limit: number = 20) => {
     headers: {
       Authorization: `Bearer ${access_token}`,
     },
-  });
+    next: { revalidate: 1800 }
+  }
+  );
 
   const data: SpotifyApi.UsersRecentlyPlayedTracksResponse =
     await response.json();
 
   return data;
-};
+});
 
 export const formatToSimplifiedTrack = (
   track: SpotifyApi.TrackObjectFull
@@ -66,17 +71,18 @@ export const uniqueTrack = (
   array: SpotifyApi.PlayHistoryObject[]
 ) => index === array.findIndex((t) => t.track.id === item.track.id);
 
-export const getTrack = async (trackId: string): Promise<SpotifyApi.TrackObjectFull> => {
+export const getTrack = cache(async (trackId: string): Promise<SpotifyApi.TrackObjectFull> => {
   const { access_token } = await getAccessToken();
   const endpoint = `https://api.spotify.com/v1/tracks/${trackId}`;
 
   const response = await fetch(endpoint, {
     headers: {
       Authorization: `Bearer ${access_token}`,
+      next: { revalidate: 1800 }
     },
   });
 
   const data = await response.json();
   return data;
-};
+});
 

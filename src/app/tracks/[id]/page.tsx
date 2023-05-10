@@ -1,12 +1,17 @@
 import { formatToSimplifiedTrack, getTrack } from "@/spotify";
+import { Metadata } from "next";
 import { TrackPage } from "./track-page";
-import Link from "next/link";
-import { Link1Icon } from "@radix-ui/react-icons";
 
 interface Props {
   params: {
     id: string;
   };
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const data = await getTrack(params.id);
+  const track = formatToSimplifiedTrack(data);
+  return { title: `${track.name} - ${track.artists}` };
 }
 
 export default async function Page({ params: { id: trackId } }: Props) {

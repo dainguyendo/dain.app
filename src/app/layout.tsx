@@ -1,12 +1,8 @@
 import { Karla } from "next/font/google";
+import { Providers } from "./Providers";
 import "./globals.css";
 
 const karla = Karla({ subsets: ["latin"] });
-
-export const metadata = {
-  title: "Dai",
-  description: "Hi, I’m Dai.",
-};
 
 export default function RootLayout({
   children,
@@ -19,8 +15,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <head></head>
       <body className={[karla.className].join(" ")}>
-        {children}
-        {/* <Providers>{children}</Providers> */}
+        <Providers>{children}</Providers>
         {modal}
       </body>
     </html>

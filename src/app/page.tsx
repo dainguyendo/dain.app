@@ -1,4 +1,10 @@
 import { Me } from "@/ui/Me";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Dai",
+  description: "Hi, I’m Dai",
+};
 
 export default function Home() {
   return (
