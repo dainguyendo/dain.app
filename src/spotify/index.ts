@@ -42,7 +42,7 @@ export const getRecentTracks = cache(async (limit: number = 20) => {
     headers: {
       Authorization: `Bearer ${access_token}`,
     },
-    next: { revalidate: 1800 }
+    next: { revalidate: 1800},
   }
   );
 
@@ -78,8 +78,8 @@ export const getTrack = cache(async (trackId: string): Promise<SpotifyApi.TrackO
   const response = await fetch(endpoint, {
     headers: {
       Authorization: `Bearer ${access_token}`,
-      next: { revalidate: 1800 }
     },
+    next: { revalidate: 1800},
   });
 
   const data = await response.json();
