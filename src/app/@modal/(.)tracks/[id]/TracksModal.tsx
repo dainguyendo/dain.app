@@ -47,11 +47,11 @@ export default function TracksModal({ track }: Props) {
   }, [volume, audioRef]);
 
   return (
-    <div className="bg-black p-6">
+    <div className="p-6">
       <div className="flex items-center">
         <div className="grid place-items-center">
           <RecordPerspective variant={isPlaying ? "skew" : "flat"}>
-            <Record spinning={isPlaying} track={track} />
+            <Record size="medium" spinning={isPlaying} track={track} />
           </RecordPerspective>
         </div>
 
@@ -60,18 +60,18 @@ export default function TracksModal({ track }: Props) {
             <div className="overflow-hidden mb-2">
               {isPlaying ? (
                 <InfiniteTranslateX>
-                  <h1 className="text-lg font-bold text-rose-500">
+                  <h1 className="text-lg font-bold text-rose-600">
                     {track.name}
                   </h1>
                   <h2 className="text-md">{track.artists}</h2>
                 </InfiniteTranslateX>
               ) : (
-                <>
-                  <h1 className="text-lg font-bold text-rose-500">
+                <div className="text-clip whitespace-nowrap">
+                  <h1 className="text-lg font-bold text-rose-600">
                     {track.name}
                   </h1>
                   <h2 className="text-md">{track.artists}</h2>
-                </>
+                </div>
               )}
             </div>
 
@@ -90,9 +90,9 @@ export default function TracksModal({ track }: Props) {
 
           <button type="button" onClick={togglePlayPause}>
             {isPlaying ? (
-              <PauseIcon width={32} height={32} />
+              <PauseIcon className="hover:bg-rose-600" width={32} height={32} />
             ) : (
-              <PlayIcon width={32} height={32} />
+              <PlayIcon className="hover:bg-rose-600" width={32} height={32} />
             )}
           </button>
         </div>

@@ -49,17 +49,17 @@ export default function Tracks({ recentTracks }: Props) {
           animate={{ opacity: 1, x: 0 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.5, ease: "easeOut" }}
-          className="flex gap-1 bg-rose-500 text-white p-4 items-center relative w-64 h-full"
+          className="flex gap-1 bg-rose-600 text-white py-8 items-center relative w-64 h-full truncate"
+          style={{
+            writingMode: "vertical-rl",
+            textOrientation: "mixed",
+          }}
         >
-          {/* <Image
-            src={peekedTrack.albumImageUrl}
-            alt={peekedTrack.name}
-            width={64}
-            height={64}
-          /> */}
           <div>
-            <div className="text-sm font-bold">{peekedTrack.name}</div>
-            <div className="text-xs">{peekedTrack.artists}</div>
+            <div className="text-5xl font-bold truncate">
+              {peekedTrack.name}
+            </div>
+            <div className="text-4xl truncate">{peekedTrack.artists}</div>
           </div>
         </motion.div>
       )}

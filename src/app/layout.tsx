@@ -16,9 +16,11 @@ export default function RootLayout({
   modal?: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
+      <head></head>
       <body className={[karla.className].join(" ")}>
         {children}
+        {/* <Providers>{children}</Providers> */}
         {modal}
       </body>
     </html>
