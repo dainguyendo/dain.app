@@ -12,7 +12,7 @@ import { useTheme } from "next-themes";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
-export const Me = () => {
+const Me = () => {
   const [mounted, setMounted] = useState(false);
   const { theme, setTheme } = useTheme();
 
@@ -65,3 +65,5 @@ export const Me = () => {
     </div>
   );
 };
+
+export default Me;

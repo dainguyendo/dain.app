@@ -1,4 +1,4 @@
-import { Me } from "@/ui/Me";
+import Me from "@/ui/Me";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {

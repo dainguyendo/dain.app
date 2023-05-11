@@ -1,5 +1,5 @@
 import { Karla } from "next/font/google";
-import { Providers } from "./Providers";
+import Providers from "./Providers";
 import "./globals.css";
 
 const karla = Karla({ subsets: ["latin"] });

@@ -11,7 +11,7 @@ interface Props {
   recentTracks: SimplifiedTrack[];
 }
 
-export default function Tracks({ recentTracks }: Props) {
+const Tracks = ({ recentTracks }: Props) => {
   const [peekedTrackId, peek] = React.useState<string | null>(null);
 
   const peekedTrack = React.useMemo(
@@ -65,4 +65,5 @@ export default function Tracks({ recentTracks }: Props) {
       )}
     </>
   );
-}
+};
+export default Tracks;

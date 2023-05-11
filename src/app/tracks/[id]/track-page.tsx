@@ -14,7 +14,7 @@ interface Props {
   track: SimplifiedTrack;
 }
 
-export const TrackPage = ({ track }: Props) => {
+const TrackPage = ({ track }: Props) => {
   const audioRef = React.useRef<HTMLAudioElement>(null);
 
   const [isPlaying, setIsPlaying] = React.useState(false);
@@ -91,3 +91,5 @@ export const TrackPage = ({ track }: Props) => {
     </>
   );
 };
+
+export default TrackPage;

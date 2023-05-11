@@ -14,7 +14,7 @@ interface Props {
   track: SimplifiedTrack;
 }
 
-export default function TracksModal({ track }: Props) {
+const TracksModal = ({ track }: Props) => {
   const audioRef = React.useRef<HTMLAudioElement>(null);
 
   const [isPlaying, setIsPlaying] = React.useState(false);
@@ -101,4 +101,6 @@ export default function TracksModal({ track }: Props) {
       {track.previewUrl && <audio src={track.previewUrl} ref={audioRef} />}
     </div>
   );
-}
+};
+
+export default TracksModal;

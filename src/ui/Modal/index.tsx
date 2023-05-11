@@ -6,7 +6,7 @@ interface Props {
   children: React.ReactNode;
 }
 
-export default function Modal({ children }: Props) {
+const Modal = ({ children }: Props) => {
   const overlay = useRef(null);
   const wrapper = useRef(null);
   const router = useRouter();
@@ -65,4 +65,6 @@ export default function Modal({ children }: Props) {
       </div>
     </div>
   );
-}
+};
+
+export default Modal;

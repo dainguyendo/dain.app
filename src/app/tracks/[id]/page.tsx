@@ -1,6 +1,6 @@
 import { formatToSimplifiedTrack, getTrack } from "@/spotify";
 import { Metadata } from "next";
-import { TrackPage } from "./track-page";
+import TrackPage from "./track-page";
 
 interface Props {
   params: {
