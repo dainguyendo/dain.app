@@ -5,6 +5,8 @@ import { InfiniteTranslateX } from "@/ui/InfiniteTranslateX";
 import { Record } from "@/ui/Record";
 import { RecordPerspective } from "@/ui/RecordPerspective";
 import { useLocallyStoredVolume } from "@/ui/useLocallyStoredVolume";
+import { stiffSpring } from "@/ui/utilities/transition";
+import { banner } from "@/ui/utilities/variants";
 import { Link1Icon } from "@radix-ui/react-icons";
 import { motion } from "framer-motion";
 import Link from "next/link";
@@ -48,7 +50,15 @@ const TrackPage = ({ track }: Props) => {
 
   return (
     <>
-      <div className="p-6">
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{
+          delay: 0.3,
+          ...stiffSpring,
+        }}
+        className="p-6"
+      >
         <div className="flex items-center">
           <button
             aria-label={isPlaying ? "Pause" : "Play"}
@@ -63,13 +73,14 @@ const TrackPage = ({ track }: Props) => {
         </div>
 
         {track.previewUrl && <audio src={track.previewUrl} ref={audioRef} />}
-      </div>
+      </motion.div>
 
       <motion.div
-        initial={{ opacity: 0, x: -15 }}
-        animate={{ opacity: 1, x: 0 }}
-        exit={{ opacity: 0 }}
-        transition={{ duration: 0.5, ease: "easeOut" }}
+        initial="horizontalHidden"
+        animate="horizontalVisible"
+        exit="horizontalHidden"
+        variants={banner}
+        transition={{ duration: 0.3, ...stiffSpring }}
         className="flex flex-col gap-1 bg-rose-600 text-white py-8 px-12 relative w-full truncate"
       >
         {isPlaying ? (

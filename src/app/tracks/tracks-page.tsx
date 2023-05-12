@@ -2,8 +2,8 @@
 
 import type { SimplifiedTrack } from "@/spotify/types";
 import { RecordGalleryItem } from "@/ui/RecordGalleryItem";
+import { banner, text } from "@/ui/utilities/variants";
 import { motion, useMotionValue } from "framer-motion";
-import Image from "next/image";
 import Link from "next/link";
 import * as React from "react";
 
@@ -45,10 +45,11 @@ const Tracks = ({ recentTracks }: Props) => {
       </motion.div>
       {peekedTrack && (
         <motion.div
-          initial={{ opacity: 0, x: -15 }}
-          animate={{ opacity: 1, x: 0 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.5, ease: "easeOut" }}
+          initial="verticalHidden"
+          animate="verticalVisible"
+          exit="verticalHidden"
+          variants={banner}
+          transition={{ duration: 0.3, ease: "easeOut", delayChildren: 0.5 }}
           className="flex gap-1 bg-rose-600 text-white py-8 items-center relative w-64 h-full truncate"
           style={{
             writingMode: "vertical-rl",
@@ -56,10 +57,22 @@ const Tracks = ({ recentTracks }: Props) => {
           }}
         >
           <div>
-            <div className="text-5xl font-bold truncate">
+            <motion.div
+              initial="hidden"
+              animate="visible"
+              variants={text}
+              className="text-5xl font-bold truncate"
+            >
               {peekedTrack.name}
-            </div>
-            <div className="text-4xl truncate">{peekedTrack.artists}</div>
+            </motion.div>
+            <motion.div
+              initial="hidden"
+              animate="visible"
+              variants={text}
+              className="text-4xl truncate"
+            >
+              {peekedTrack.artists}
+            </motion.div>
           </div>
         </motion.div>
       )}
