@@ -47,11 +47,11 @@ const TracksModal = ({ track }: Props) => {
   }, [volume, audioRef]);
 
   return (
-    <div className="p-6">
-      <div className="flex items-center">
+    <div className="p-2 md:p-6">
+      <div className="flex flex-col gap-1 md:flex-row items-center">
         <div className="grid place-items-center">
           <RecordPerspective variant={isPlaying ? "skew" : "flat"}>
-            <Record size="medium" spinning={isPlaying} track={track} />
+            <Record size="w-48 h-48" spinning={isPlaying} track={track} />
           </RecordPerspective>
         </div>
 

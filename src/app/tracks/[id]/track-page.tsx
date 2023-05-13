@@ -49,7 +49,7 @@ const TrackPage = ({ track }: Props) => {
   }, [volume, audioRef]);
 
   return (
-    <>
+    <main className="flex flex-col gap-4 items-center justify-center w-screen h-screen">
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -57,7 +57,6 @@ const TrackPage = ({ track }: Props) => {
           delay: 0.3,
           ...stiffSpring,
         }}
-        className="p-6"
       >
         <div className="flex items-center">
           <button
@@ -67,7 +66,7 @@ const TrackPage = ({ track }: Props) => {
             className="grid place-items-center"
           >
             <RecordPerspective variant={isPlaying ? "skew" : "flat"}>
-              <Record size="large" spinning={isPlaying} track={track} />
+              <Record size="w-96 h-96" spinning={isPlaying} track={track} />
             </RecordPerspective>
           </button>
         </div>
@@ -76,22 +75,27 @@ const TrackPage = ({ track }: Props) => {
       </motion.div>
 
       <motion.div
+        layoutId="peeked-track"
         initial="horizontalHidden"
         animate="horizontalVisible"
         exit="horizontalHidden"
         variants={banner}
         transition={{ duration: 0.3, ...stiffSpring }}
-        className="flex flex-col gap-1 bg-rose-600 text-white py-8 px-12 relative w-full truncate"
+        className="flex flex-col gap-1 bg-rose-600 text-white py-2 px-4 md:py-8 md:px-12 relative w-full truncate"
       >
         {isPlaying ? (
           <InfiniteTranslateX>
-            <h1 className="text-5xl font-bold truncate">{track.name}</h1>
-            <h2 className="text-4xl truncate">{track.artists}</h2>
+            <h1 className="text-lg md:text-5xl font-bold truncate">
+              {track.name}
+            </h1>
+            <h2 className="text-md md:text-4xl truncate">{track.artists}</h2>
           </InfiniteTranslateX>
         ) : (
           <div className="text-clip whitespace-nowrap">
-            <h1 className="text-5xl font-bold truncate">{track.name}</h1>
-            <h2 className="text-4xl truncate">{track.artists}</h2>
+            <h1 className="text-lg md:text-5xl font-bold truncate">
+              {track.name}
+            </h1>
+            <h2 className="text-md md:text-4xl truncate">{track.artists}</h2>
           </div>
         )}
         <Link href={track.uri} passHref className="flex items-center gap-1">
@@ -99,7 +103,7 @@ const TrackPage = ({ track }: Props) => {
           <span className="text-xs">Spotify</span>
         </Link>
       </motion.div>
-    </>
+    </main>
   );
 };
 
