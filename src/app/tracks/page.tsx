@@ -19,9 +19,5 @@ export default async function Page() {
       formatToSimplifiedTrack(item.track as SpotifyApi.TrackObjectFull)
     );
 
-  return (
-    <div className="flex items-center justify-center w-screen h-screen">
-      <TracksPage recentTracks={data} />
-    </div>
-  );
+  return <TracksPage recentTracks={data} />;
 }
