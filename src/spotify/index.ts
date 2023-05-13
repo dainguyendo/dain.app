@@ -57,7 +57,7 @@ export const formatToSimplifiedTrack = (
 ): SimplifiedTrack => {
   return {
     id: track.id,
-    albumImageUrl: track.album.images[0]?.url,
+    albumImageUrl: track?.album?.images[0]?.url,
     artists: getArtists(track.artists),
     previewUrl: track.preview_url,
     name: track.name,

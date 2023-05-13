@@ -86,7 +86,7 @@ export const Record = ({ size, spinning, track }: Props) => {
       className={`flex grid place-items-center bg-no-repeat rounded-full bg-cover relative ${size}`}
     >
       <Image
-        src={track.albumImageUrl}
+        src={track?.albumImageUrl ?? "/gradient.avif"}
         alt={track.name}
         fill
         className="rounded-full"

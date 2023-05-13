@@ -38,7 +38,7 @@ export const RecordGalleryItem = ({
       id={`record-${track.id}`}
       ref={ref}
       style={{
-        backgroundImage: `url(${track.albumImageUrl})`,
+        backgroundImage: `url(${track?.albumImageUrl ?? "/gradient.avif"})`,
         width,
         height: "50vh",
       }}
