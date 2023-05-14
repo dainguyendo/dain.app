@@ -24,6 +24,7 @@ export const getAccessToken = async () => {
       grant_type: "refresh_token",
       refresh_token,
     }),
+    cache: "no-store",
   });
 
   return response.json() as Promise<{
@@ -39,6 +40,7 @@ export const getRecentTracks = async (limit: number = 20) => {
     headers: {
       Authorization: `Bearer ${access_token}`,
     },
+    cache: "no-store",
   });
 
   const data: SpotifyApi.UsersRecentlyPlayedTracksResponse =
@@ -76,6 +78,7 @@ export const getTrack = async (
     headers: {
       Authorization: `Bearer ${access_token}`,
     },
+    cache: "no-store",
   });
 
   const data = await response.json();
